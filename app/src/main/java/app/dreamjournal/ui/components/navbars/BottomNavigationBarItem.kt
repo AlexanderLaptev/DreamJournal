@@ -39,3 +39,11 @@ sealed class BottomNavigationBarItem(
         icon = R.drawable.settings
     )
 }
+
+val bottomNavBarItems = listOf(
+    BottomNavigationBarItem.DreamJournal,
+    BottomNavigationBarItem.Statistics,
+    BottomNavigationBarItem.Tools,
+    BottomNavigationBarItem.Wiki,
+    BottomNavigationBarItem.Settings
+)
