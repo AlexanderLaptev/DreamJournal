@@ -19,20 +19,20 @@ val DarkRed = Color(0xFF601C26)
 val Blue = Color(0xFF8AADF4)
 val DarkBlue = Color(0xFF122D65)
 
-fun Color.getDarkVersion(color: Color): Color {
-    return when (color) {
+fun Color.getDarkVersion(): Color {
+    return when (this) {
         TextColor -> DarkText
         Red -> DarkRed
         Blue -> DarkBlue
-        else -> color
+        else -> this
     }
 }
 
-fun Color.getLightVersion(color: Color): Color {
-    return when (color) {
+fun Color.getLightVersion(): Color {
+    return when (this) {
         DarkText -> TextColor
         DarkRed -> Red
         DarkBlue -> Blue
-        else -> color
+        else -> this
     }
 }
