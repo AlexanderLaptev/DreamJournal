@@ -1,0 +1,113 @@
+package app.dreamjournal.ui.calendar
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import app.dreamjournal.R
+import app.dreamjournal.ui.theme.mocha_overlay0
+import java.time.DayOfWeek
+import java.time.Month
+import java.time.YearMonth
+
+private const val DAYS_IN_WEEK = 7
+
+private val NAMES = listOf(
+    R.string.monday_short,
+    R.string.tuesday_short,
+    R.string.wednesday_short,
+    R.string.thursday_short,
+    R.string.friday_short,
+    R.string.saturday_short,
+    R.string.sunday_short,
+)
+
+@Composable
+fun Calendar(
+    yearMonth: YearMonth = YearMonth.now(),
+    levels: IntArray = intArrayOf(),
+    selectedIndex: Int = -1,
+    firstDayOfWeek: DayOfWeek = DayOfWeek.MONDAY,
+) {
+    val spacing = 8.dp
+    val totalDays = yearMonth.lengthOfMonth()
+    val shift = firstDayOfWeek.value - DayOfWeek.MONDAY.value
+
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(DAYS_IN_WEEK),
+        userScrollEnabled = false,
+        verticalArrangement = Arrangement.spacedBy(spacing),
+        horizontalArrangement = Arrangement.spacedBy(spacing),
+    ) {
+        items(DAYS_IN_WEEK) {
+            val index = (it + shift) % DAYS_IN_WEEK
+            val text = stringResource(NAMES[index]).uppercase()
+
+            Text(
+                text = text,
+                color = mocha_overlay0,
+                style = MaterialTheme.typography.labelLarge,
+                textAlign = TextAlign.Center,
+            )
+        }
+
+        val spacerCount = let {
+            val firstDay = yearMonth.atDay(1).dayOfWeek
+            val diff = firstDay.value - firstDayOfWeek.value
+            Math.floorMod(diff, DAYS_IN_WEEK)
+        }
+
+        items(spacerCount) {
+            Spacer(Modifier.size(CALENDAR_DAY_SIZE))
+        }
+
+        items(totalDays) {
+            CalendarDay(
+                day = it + 1,
+                selected = it == selectedIndex,
+                level = if (it < levels.size) levels[it] else 0,
+            )
+        }
+    }
+}
+
+private val PREVIEW_YEAR_MONTH = YearMonth.of(2025, Month.MARCH)
+private val PREVIEW_LEVELS = intArrayOf(
+    0, 0, 1, 2, 0, 1, 3,
+    0, 1, 2, 3, 1, 2, 1,
+    2, 0, 2, 3, 2, 0, 1,
+    3, 2, 3, 0, 1, 0, 2,
+    2, 0, 3
+)
+private const val PREVIEW_SELECTED_DAY = 18
+
+@Preview(showBackground = false)
+@Composable
+private fun PreviewMonday() {
+    Calendar(
+        yearMonth = PREVIEW_YEAR_MONTH,
+        levels = PREVIEW_LEVELS,
+        selectedIndex = PREVIEW_SELECTED_DAY,
+        firstDayOfWeek = DayOfWeek.MONDAY,
+    )
+}
+
+@Preview(showBackground = false)
+@Composable
+private fun PreviewSunday() {
+    Calendar(
+        yearMonth = PREVIEW_YEAR_MONTH,
+        levels = PREVIEW_LEVELS,
+        selectedIndex = PREVIEW_SELECTED_DAY,
+        firstDayOfWeek = DayOfWeek.SUNDAY,
+    )
+}

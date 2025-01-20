@@ -1,6 +1,7 @@
 package app.dreamjournal.ui.theme
 
 import androidx.compose.ui.graphics.Color
+import app.dreamjournal.ui.util.blend
 
 // Catppuccin Mocha
 val mocha_rosewater = Color(0xFFF5E0DC)
@@ -47,3 +48,12 @@ val tag_blue = mocha_blue
 val tag_blue_text = Color(0xFF26324A)
 val tag_purple = mocha_mauve
 val tag_purple_text = Color(0xFF44276A)
+
+// Calendar
+val calendar_base = mocha_crust
+val calendar_accent = mocha_mauve
+
+val calendar_level0 = calendar_base
+val calendar_level1 = calendar_base.blend(calendar_accent, 0.2f)
+val calendar_level2 = calendar_base.blend(calendar_accent, 0.4f)
+val calendar_level3 = calendar_base.blend(calendar_accent, 0.6f)
