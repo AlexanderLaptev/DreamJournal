@@ -8,7 +8,7 @@ import androidx.compose.material3.Scaffold
 import androidx.navigation.compose.rememberNavController
 import app.dreamjournal.navigation.ApplicationNavigationFlow
 import app.dreamjournal.ui.components.navbars.BottomNavigationBar
-import app.dreamjournal.ui.theme.DreamJournalTheme
+import app.dreamjournal.ui.theme.AppTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -16,7 +16,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         setContent {
-            DreamJournalTheme {
+            AppTheme {
                 val navController = rememberNavController()
 
                 Scaffold(
