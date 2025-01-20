@@ -2,6 +2,7 @@ package app.dreamjournal.ui.dream
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.defaultMinSize
@@ -58,12 +59,12 @@ fun Tag(
     val minWidth = minSize - 2 * padding
     val spacing = 4.dp
 
-    Column(
+    Box(
         modifier = Modifier
             .background(containerColor, MaterialTheme.shapes.small)
             .padding(horizontal = padding, vertical = 0.dp)
             .defaultMinSize(minWidth),
-        horizontalAlignment = Alignment.CenterHorizontally,
+        contentAlignment = Alignment.Center,
     ) {
         Row(
             horizontalArrangement = Arrangement.spacedBy(spacing),
