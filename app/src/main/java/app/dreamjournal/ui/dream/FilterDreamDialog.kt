@@ -69,7 +69,7 @@ fun FilterDreamDialog(
     val mainContentEndPadding = 16.dp
 
     // TODO: replace this state by viewmodel state in the future
-    val selectedButton = remember { mutableIntStateOf(0) }
+    val selectedButton = remember { mutableIntStateOf(1) }
 
     ModalBottomSheet(
         shape = RoundedCornerShape(
