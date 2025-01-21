@@ -12,38 +12,16 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.unit.times
-import app.dreamjournal.ui.theme.tag_blue
-import app.dreamjournal.ui.theme.tag_blue_text
-import app.dreamjournal.ui.theme.tag_green
-import app.dreamjournal.ui.theme.tag_green_text
-import app.dreamjournal.ui.theme.tag_orange
-import app.dreamjournal.ui.theme.tag_orange_text
-import app.dreamjournal.ui.theme.tag_purple
-import app.dreamjournal.ui.theme.tag_purple_text
-import app.dreamjournal.ui.theme.tag_red
-import app.dreamjournal.ui.theme.tag_red_text
-import app.dreamjournal.ui.theme.tag_teal
-import app.dreamjournal.ui.theme.tag_teal_text
-import app.dreamjournal.ui.theme.tag_white
-import app.dreamjournal.ui.theme.tag_white_text
-import app.dreamjournal.ui.theme.tag_yellow
-import app.dreamjournal.ui.theme.tag_yellow_text
+import app.dreamjournal.data.dream.Tag
 
 @Composable
-fun Tag(
-    label: String,
-    containerColor: Color,
-    textColor: Color,
-    emoji: String = "",
-) {
+fun Tag(tag: Tag) {
     val emojiTextStyle = TextStyle(
         fontSize = 18.sp,
         platformStyle = PlatformTextStyle(
@@ -56,14 +34,17 @@ fun Tag(
 
     val padding = 8.dp
     val minSize = 32.dp
-    val minWidth = minSize - 2 * padding
     val spacing = 4.dp
+
+    val tagColor = TagColor.entries[tag.colorIndex]
+    val containerColor = tagColor.body
+    val textColor = tagColor.text
 
     Box(
         modifier = Modifier
             .background(containerColor, MaterialTheme.shapes.small)
-            .padding(horizontal = padding, vertical = 0.dp)
-            .defaultMinSize(minWidth),
+            .defaultMinSize(minSize)
+            .padding(horizontal = padding, vertical = 0.dp),
         contentAlignment = Alignment.Center,
     ) {
         Row(
@@ -71,16 +52,16 @@ fun Tag(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.defaultMinSize(minHeight = minSize),
         ) {
-            if (emoji.isNotEmpty()) {
+            if (tag.emoji.isNotEmpty()) {
                 Text(
-                    text = emoji,
+                    text = tag.emoji,
                     style = emojiTextStyle,
                 )
             }
 
-            if (label.isNotEmpty()) {
+            if (tag.label.isNotEmpty()) {
                 Text(
-                    text = label,
+                    text = tag.label,
                     style = labelTextStyle,
                     color = textColor,
                     textAlign = TextAlign.Center,
@@ -91,48 +72,34 @@ fun Tag(
     }
 }
 
-private val previewColors = listOf(
-    tag_white to tag_white_text,
-    tag_red to tag_red_text,
-    tag_orange to tag_orange_text,
-    tag_yellow to tag_yellow_text,
-    tag_green to tag_green_text,
-    tag_teal to tag_teal_text,
-    tag_blue to tag_blue_text,
-    tag_purple to tag_purple_text,
-)
+private const val PREVIEW_TEXT = "lorem ipsum"
+private const val PREVIEW_TEXT_SHORT = "..."
+private const val PREVIEW_EMOJI = "😀"
 
-@Preview(showBackground = false)
+@Preview
 @Composable
 private fun PreviewNoEmoji() {
     Column(
-        verticalArrangement = Arrangement.spacedBy(4.dp),
+        verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
-        for (colors in previewColors) {
-            Tag(
-                label = "lorem ipsum",
-                containerColor = colors.first,
-                textColor = colors.second,
-            )
+        for (entry in TagColor.entries) {
+            val tag = Tag(PREVIEW_TEXT, colorIndex = entry.ordinal)
+            Tag(tag)
         }
-        Tag("...", tag_white, tag_white_text)
+        Tag(Tag(PREVIEW_TEXT_SHORT))
     }
 }
 
-@Preview(showBackground = false)
+@Preview
 @Composable
 private fun PreviewWithEmoji() {
     Column(
-        verticalArrangement = Arrangement.spacedBy(4.dp),
+        verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
-        for (colors in previewColors) {
-            Tag(
-                label = "lorem ipsum",
-                containerColor = colors.first,
-                textColor = colors.second,
-                emoji = "😀",
-            )
+        for (entry in TagColor.entries) {
+            val tag = Tag(PREVIEW_TEXT, emoji = PREVIEW_EMOJI, colorIndex = entry.ordinal)
+            Tag(tag)
         }
-        Tag("", emoji = "😀", containerColor = tag_white, textColor = tag_white_text)
+        Tag(Tag("", emoji = PREVIEW_EMOJI))
     }
 }

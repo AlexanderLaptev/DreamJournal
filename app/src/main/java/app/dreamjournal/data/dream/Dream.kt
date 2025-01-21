@@ -10,10 +10,11 @@ typealias DreamId = Int
 @Entity
 data class Dream(
     val content: String,
-    val title: String,
-    val lucidity: Int,
+    val epochMilli: Long,
+    val title: String = "",
+    val isLucid: Boolean = false,
+    val lucidity: Int? = null,
+    val isFavorite: Boolean = false,
+    val colorIndex: Int = 0,
     @PrimaryKey(autoGenerate = true) val id: DreamId = ID_NOT_SET,
-) {
-    @Ignore
-    val isLucid: Boolean = lucidity > 0
-}
+)
