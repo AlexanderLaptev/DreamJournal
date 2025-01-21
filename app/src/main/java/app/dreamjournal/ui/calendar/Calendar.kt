@@ -31,6 +31,8 @@ private val NAMES = listOf(
     R.string.sunday_short,
 )
 
+private const val FULL_COUNT = 5 * DAYS_IN_WEEK
+
 @Composable
 fun Calendar(
     yearMonth: YearMonth = YearMonth.now(),
@@ -77,10 +79,19 @@ fun Calendar(
                 level = if (it < levels.size) levels[it] else 0,
             )
         }
+
+        // Adding spacers to ensure the calendar always displays all 6 rows
+        val totalCells = spacerCount + totalDays
+        if (totalCells <= FULL_COUNT) {
+            val remaining = FULL_COUNT - totalCells + 1
+            items (remaining) {
+                Spacer(Modifier.size(CALENDAR_DAY_SIZE))
+            }
+        }
     }
 }
 
-private val PREVIEW_YEAR_MONTH = YearMonth.of(2025, Month.MARCH)
+private val PREVIEW_YEAR_MONTH = YearMonth.of(2024, Month.FEBRUARY)
 private val PREVIEW_LEVELS = intArrayOf(
     0, 0, 1, 2, 0, 1, 3,
     0, 1, 2, 3, 1, 2, 1,
