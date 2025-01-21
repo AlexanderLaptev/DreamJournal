@@ -18,7 +18,6 @@ import androidx.compose.material.icons.filled.Air
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.rounded.Brightness5
 import androidx.compose.material.icons.rounded.Brightness7
 import androidx.compose.material.icons.rounded.DarkMode
 import androidx.compose.material.icons.rounded.Star
