@@ -9,8 +9,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.vectorResource
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import app.dreamjournal.ui.theme.mocha_overlay2
@@ -41,7 +39,7 @@ fun BottomNavigationBar(
                 icon = {
                     Icon(
                         modifier = Modifier.background(color = Color.Transparent),
-                        imageVector = ImageVector.vectorResource(item.icon),
+                        imageVector = item.icon,
                         contentDescription = item.name,
                         tint = if (isSelected) { mocha_text } else { mocha_overlay2  }
                     )

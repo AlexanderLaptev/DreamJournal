@@ -1,42 +1,40 @@
 package app.dreamjournal.ui.components.navbars
 
-import androidx.annotation.DrawableRes
-import app.dreamjournal.R
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.Help
+import androidx.compose.material.icons.automirrored.rounded.ListAlt
+import androidx.compose.material.icons.rounded.InsertChart
+import androidx.compose.material.icons.rounded.Inventory2
+import androidx.compose.ui.graphics.vector.ImageVector
 import app.dreamjournal.navigation.ApplicationNavigation
 
 sealed class BottomNavigationBarItem(
     val route: String,
     val name: String,
-    @DrawableRes val icon: Int
+    val icon: ImageVector
 ) {
     data object DreamJournal : BottomNavigationBarItem(
         route = ApplicationNavigation.DreamJournal.route,
         name = "DreamJournalScreen",
-        icon = R.drawable.dream_journal
+        icon = Icons.AutoMirrored.Rounded.ListAlt
     )
 
     data object Statistics : BottomNavigationBarItem(
         route = ApplicationNavigation.Statistics.route,
         name = "StatisticsScreen",
-        icon = R.drawable.statistics
+        icon = Icons.Rounded.InsertChart
     )
 
     data object Tools : BottomNavigationBarItem(
         route = ApplicationNavigation.Tools.route,
         name = "ToolsScreen",
-        icon = R.drawable.tools
+        icon = Icons.Rounded.Inventory2
     )
 
     data object Wiki : BottomNavigationBarItem(
         route = ApplicationNavigation.Wiki.route,
         name = "WikiScreen",
-        icon = R.drawable.wiki
-    )
-
-    data object Settings : BottomNavigationBarItem(
-        route = ApplicationNavigation.Settings.route,
-        name = "SettingsScreen",
-        icon = R.drawable.settings
+        icon = Icons.AutoMirrored.Rounded.Help
     )
 }
 
@@ -45,5 +43,4 @@ val bottomNavBarItems = listOf(
     BottomNavigationBarItem.Statistics,
     BottomNavigationBarItem.Tools,
     BottomNavigationBarItem.Wiki,
-    BottomNavigationBarItem.Settings
 )
