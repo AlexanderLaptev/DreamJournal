@@ -1,20 +1,33 @@
 package app.dreamjournal.ui.calendar
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.NonRestartableComposable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import app.dreamjournal.R
+import app.dreamjournal.ui.theme.calendar_level0
+import app.dreamjournal.ui.theme.calendar_level1
+import app.dreamjournal.ui.theme.calendar_level2
+import app.dreamjournal.ui.theme.calendar_level3
 import app.dreamjournal.ui.theme.mocha_overlay0
+import app.dreamjournal.ui.theme.mocha_surface0
 import java.time.DayOfWeek
 import java.time.Month
 import java.time.YearMonth
@@ -44,50 +57,118 @@ fun Calendar(
     val totalDays = yearMonth.lengthOfMonth()
     val shift = firstDayOfWeek.value - DayOfWeek.MONDAY.value
 
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(DAYS_IN_WEEK),
-        userScrollEnabled = false,
-        verticalArrangement = Arrangement.spacedBy(spacing),
-        horizontalArrangement = Arrangement.spacedBy(spacing),
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        items(DAYS_IN_WEEK) {
-            val index = (it + shift) % DAYS_IN_WEEK
-            val text = stringResource(NAMES[index]).uppercase()
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(DAYS_IN_WEEK),
+            userScrollEnabled = false,
+            verticalArrangement = Arrangement.spacedBy(spacing),
+            horizontalArrangement = Arrangement.spacedBy(spacing),
+        ) {
+            items(DAYS_IN_WEEK) {
+                val index = (it + shift) % DAYS_IN_WEEK
+                val text = stringResource(NAMES[index]).uppercase()
 
-            Text(
-                text = text,
-                color = mocha_overlay0,
-                style = MaterialTheme.typography.labelLarge,
-                textAlign = TextAlign.Center,
-            )
-        }
+                Text(
+                    text = text,
+                    color = mocha_overlay0,
+                    style = MaterialTheme.typography.labelLarge,
+                    textAlign = TextAlign.Center,
+                )
+            }
 
-        val spacerCount = let {
-            val firstDay = yearMonth.atDay(1).dayOfWeek
-            val diff = firstDay.value - firstDayOfWeek.value
-            Math.floorMod(diff, DAYS_IN_WEEK)
-        }
+            val spacerCount = let {
+                val firstDay = yearMonth.atDay(1).dayOfWeek
+                val diff = firstDay.value - firstDayOfWeek.value
+                Math.floorMod(diff, DAYS_IN_WEEK)
+            }
 
-        items(spacerCount) {
-            Spacer(Modifier.size(CALENDAR_DAY_SIZE))
-        }
-
-        items(totalDays) {
-            CalendarDay(
-                day = it + 1,
-                selected = it == selectedIndex,
-                level = if (it < levels.size) levels[it] else 0,
-            )
-        }
-
-        // Adding spacers to ensure the calendar always displays all 6 rows
-        val totalCells = spacerCount + totalDays
-        if (totalCells <= FULL_COUNT) {
-            val remaining = FULL_COUNT - totalCells + 1
-            items (remaining) {
+            items(spacerCount) {
                 Spacer(Modifier.size(CALENDAR_DAY_SIZE))
             }
+
+            items(totalDays) {
+                CalendarDay(
+                    day = it + 1,
+                    selected = it == selectedIndex,
+                    level = if (it < levels.size) levels[it] else 0,
+                )
+            }
+
+            // Adding spacers to ensure the calendar always displays all 6 rows
+            val totalCells = spacerCount + totalDays
+            if (totalCells <= FULL_COUNT) {
+                val remaining = FULL_COUNT - totalCells + 1
+                items(remaining) {
+                    Spacer(Modifier.size(CALENDAR_DAY_SIZE))
+                }
+            }
         }
+
+        LevelsPreview()
+    }
+}
+
+@Composable
+@NonRestartableComposable
+private fun LevelsPreview() {
+    val boxSize = 20.dp
+
+    Row(
+        modifier = Modifier.padding(horizontal = 8.dp),
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
+    ) {
+        Text(
+            text = stringResource(R.string.calendar_less),
+            style = MaterialTheme.typography.labelSmall,
+            color = mocha_overlay0,
+        )
+
+        Box(
+            modifier = Modifier
+                .size(boxSize)
+                .background(
+                    color = calendar_level0,
+                    shape = MaterialTheme.shapes.extraSmall
+                )
+                .border(
+                    width = 2.dp,
+                    color = mocha_surface0,
+                    shape = MaterialTheme.shapes.extraSmall
+                )
+        )
+        Box(
+            modifier = Modifier
+                .size(boxSize)
+                .background(
+                    color = calendar_level1,
+                    shape = MaterialTheme.shapes.extraSmall
+                )
+        )
+        Box(
+            modifier = Modifier
+                .size(boxSize)
+                .background(
+                    color = calendar_level2,
+                    shape = MaterialTheme.shapes.extraSmall
+                )
+        )
+        Box(
+            modifier = Modifier
+                .size(boxSize)
+                .background(
+                    color = calendar_level3,
+                    shape = MaterialTheme.shapes.extraSmall
+                )
+        )
+
+        Text(
+            text = stringResource(R.string.calendar_more),
+            style = MaterialTheme.typography.labelSmall,
+            color = mocha_overlay0,
+        )
     }
 }
 

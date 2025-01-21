@@ -7,4 +7,6 @@
     <string name="thursday_short">Thu</string>
     <string name="friday_short">Fri</string>
     <string name="saturday_short">Sat</string>
+    <string name="calendar_less">Less</string>
+    <string name="calendar_more">More</string>
 </resources>
