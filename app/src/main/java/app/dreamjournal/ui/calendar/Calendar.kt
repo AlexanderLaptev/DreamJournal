@@ -11,10 +11,19 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material3.FilterChip
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.NonRestartableComposable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -26,6 +35,7 @@ import app.dreamjournal.ui.theme.CatppuccinColors
 import java.time.DayOfWeek
 import java.time.Month
 import java.time.YearMonth
+import java.time.format.DateTimeFormatter
 
 private const val DAYS_IN_WEEK = 7
 
@@ -41,6 +51,9 @@ private val NAMES = listOf(
 
 private const val FULL_COUNT = 5 * DAYS_IN_WEEK
 
+// TODO: localized date formatting
+private val formatter = DateTimeFormatter.ofPattern("MMMM yyyy")
+
 @Composable
 fun Calendar(
     yearMonth: YearMonth = YearMonth.now(),
@@ -52,10 +65,57 @@ fun Calendar(
     val totalDays = yearMonth.lengthOfMonth()
     val shift = firstDayOfWeek.value - DayOfWeek.MONDAY.value
 
+    var lucidFilterEnabled by remember { mutableStateOf(false) }
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Row(
+                modifier = Modifier.weight(1.0f),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text(
+                    text = formatter.format(yearMonth),
+                    style = MaterialTheme.typography.titleLarge,
+                    color = CatppuccinColors.text,
+                )
+                IconButton(onClick = {}) {
+                    Icon(
+                        imageVector = Icons.Filled.Edit,
+                        contentDescription = stringResource(R.string.calendar_button_edit_date),
+                        tint = CatppuccinColors.text,
+                    )
+                }
+            }
+
+            val labelColor = if (lucidFilterEnabled) {
+                CatppuccinColors.base
+            } else CatppuccinColors.text
+            FilterChip(
+                selected = lucidFilterEnabled,
+                onClick = { lucidFilterEnabled = !lucidFilterEnabled },
+                label = {
+                    Text(
+                        text = stringResource(R.string.calendar_filter_lucid),
+                        color = labelColor,
+                    )
+                },
+                leadingIcon = {
+                    if (lucidFilterEnabled) {
+                        Icon(
+                            imageVector = Icons.Filled.Check,
+                            contentDescription = "",
+                            tint = CatppuccinColors.base,
+                        )
+                    }
+                }
+            )
+        }
+
         LazyVerticalGrid(
             columns = GridCells.Fixed(DAYS_IN_WEEK),
             userScrollEnabled = false,
@@ -107,7 +167,6 @@ fun Calendar(
 }
 
 @Composable
-@NonRestartableComposable
 private fun LevelsPreview() {
     val boxSize = 20.dp
 
