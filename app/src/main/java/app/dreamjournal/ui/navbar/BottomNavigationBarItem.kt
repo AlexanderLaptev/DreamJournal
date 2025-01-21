@@ -15,25 +15,25 @@ sealed class BottomNavigationBarItem(
 ) {
     data object DreamJournal : BottomNavigationBarItem(
         route = ApplicationNavigation.DreamJournal.route,
-        name = "DreamJournalScreen",
+        name = "Journal",
         icon = Icons.AutoMirrored.Rounded.ListAlt
     )
 
     data object Statistics : BottomNavigationBarItem(
         route = ApplicationNavigation.Statistics.route,
-        name = "StatisticsScreen",
+        name = "Statistics",
         icon = Icons.Rounded.InsertChart
     )
 
     data object Tools : BottomNavigationBarItem(
         route = ApplicationNavigation.Tools.route,
-        name = "ToolsScreen",
+        name = "Tools",
         icon = Icons.Rounded.Inventory2
     )
 
     data object Info : BottomNavigationBarItem(
         route = ApplicationNavigation.Info.route,
-        name = "InfoScreen",
+        name = "Info",
         icon = Icons.AutoMirrored.Rounded.Help
     )
 }
