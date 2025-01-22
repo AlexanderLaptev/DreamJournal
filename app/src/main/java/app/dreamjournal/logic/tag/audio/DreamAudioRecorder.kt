@@ -13,8 +13,8 @@ class DreamAudioRecorder(private val context: Context) : AudioRecorder {
     override fun start(outputFile: File) {
         createMediaRecorder().apply {
             setAudioSource(MediaRecorder.AudioSource.MIC)
-            setOutputFormat(MediaRecorder.OutputFormat.DEFAULT)
-            setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT)
+            setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
+            setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
             setOutputFile(FileOutputStream(outputFile).fd)
 
             prepare()
