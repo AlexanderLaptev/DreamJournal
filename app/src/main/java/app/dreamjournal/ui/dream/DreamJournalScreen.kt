@@ -1,4 +1,4 @@
-package app.dreamjournal.presentation.screens
+package app.dreamjournal.ui.dream
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize

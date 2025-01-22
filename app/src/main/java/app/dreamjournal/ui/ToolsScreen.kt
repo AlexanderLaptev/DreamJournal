@@ -1,4 +1,4 @@
-package app.dreamjournal.presentation.screens
+package app.dreamjournal.ui
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,20 +10,20 @@ import androidx.compose.ui.tooling.preview.Preview
 import app.dreamjournal.ui.theme.AppTheme
 
 @Composable
-fun StatisticsScreen() {
+fun ToolsScreen() {
     // The screen is a plug
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        Text(text = "Statistics Screen")
+        Text(text = "Tools Screen")
     }
 }
 
 @Preview
 @Composable
-fun StatisticsScreenPreview() {
+fun ToolsScreenPreview() {
     AppTheme {
-        StatisticsScreen()
+        ToolsScreen()
     }
 }

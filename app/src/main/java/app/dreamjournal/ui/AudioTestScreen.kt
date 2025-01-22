@@ -1,4 +1,4 @@
-package app.dreamjournal.presentation.screens
+package app.dreamjournal.ui
 
 import android.Manifest
 import android.annotation.SuppressLint
