@@ -9,4 +9,5 @@
     <string name="saturday_short">Sat</string>
     <string name="calendar_less">Less</string>
     <string name="calendar_more">More</string>
+    <string name="journal_entry_untitled">(untitled)</string>
 </resources>

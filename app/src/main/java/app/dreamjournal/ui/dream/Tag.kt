@@ -15,13 +15,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.dreamjournal.data.dream.Tag
 
 @Composable
-fun Tag(tag: Tag) {
+fun Tag(tag: Tag, modifier: Modifier = Modifier) {
     val emojiTextStyle = TextStyle(
         fontSize = 18.sp,
         platformStyle = PlatformTextStyle(
@@ -41,7 +42,7 @@ fun Tag(tag: Tag) {
     val textColor = tagColor.text
 
     Box(
-        modifier = Modifier
+        modifier = modifier
             .background(containerColor, MaterialTheme.shapes.small)
             .defaultMinSize(minSize)
             .padding(horizontal = padding, vertical = 0.dp),
@@ -65,6 +66,8 @@ fun Tag(tag: Tag) {
                     style = labelTextStyle,
                     color = textColor,
                     textAlign = TextAlign.Center,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
                 )
             }
 
