@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import app.dreamjournal.R
 import app.dreamjournal.data.dream.Dream
 import app.dreamjournal.data.dream.Tag
+import app.dreamjournal.model.TagColor
 import app.dreamjournal.ui.theme.CatppuccinColors
 import java.time.Instant
 import java.time.LocalDateTime
@@ -71,7 +72,7 @@ fun DreamCard(
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 val dateTime = let {
-                    val instant = Instant.ofEpochMilli(dream.epochMilli)
+                    val instant = Instant.ofEpochMilli(dream.timestamp)
                     LocalDateTime.ofInstant(instant, ZoneId.systemDefault())
                 }
                 CardHeader(

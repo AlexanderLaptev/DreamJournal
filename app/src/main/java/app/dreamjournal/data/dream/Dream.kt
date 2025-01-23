@@ -1,7 +1,6 @@
 package app.dreamjournal.data.dream
 
 import androidx.room.Entity
-import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import app.dreamjournal.data.ID_NOT_SET
 
@@ -10,7 +9,7 @@ typealias DreamId = Int
 @Entity
 data class Dream(
     val content: String,
-    val epochMilli: Long,
+    val timestamp: Long,
     val title: String = "",
     val isLucid: Boolean = false,
     val lucidity: Int? = null,
