@@ -22,7 +22,6 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,8 +30,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat.checkSelfPermission
-import app.dreamjournal.ui.journal.voice.DreamAudioPlayer
-import app.dreamjournal.ui.journal.voice.DreamAudioRecorder
+import app.dreamjournal.ui.journal.voice.AudioPlayer
+import app.dreamjournal.ui.journal.voice.AudioRecorder
 import app.dreamjournal.ui.theme.ApplicationTheme
 import app.dreamjournal.ui.theme.CatppuccinColors
 import java.io.File
@@ -41,8 +40,8 @@ import java.io.File
 @Composable
 fun AudioTestScreen() {
     val context = LocalContext.current
-    val audioRecorder = remember { DreamAudioRecorder(context) }
-    val audioPlayer = remember { DreamAudioPlayer(context) }
+    val audioRecorder = remember { AudioRecorder(context) }
+    val audioPlayer = remember { AudioPlayer(context) }
 
     val externalStorageDir = context.getExternalFilesDir(null)
     val voiceMessages = remember { mutableStateListOf<File>() }
@@ -156,7 +155,7 @@ fun VoiceMessageItem(
 }
 
 private fun startRecording(
-    recorder: DreamAudioRecorder,
+    recorder: AudioRecorder,
     isRecording: MutableState<Boolean>,
     externalStorageDir: File?,
 ) {
@@ -175,7 +174,7 @@ private fun startRecording(
 }
 
 private fun stopRecording(
-    recorder: DreamAudioRecorder,
+    recorder: AudioRecorder,
     isRecording: MutableState<Boolean>,
 ) {
     recorder.stop()
