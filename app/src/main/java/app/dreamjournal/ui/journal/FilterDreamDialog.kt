@@ -44,7 +44,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import app.dreamjournal.ui.theme.AppTheme
+import app.dreamjournal.ui.theme.ApplicationTheme
 import app.dreamjournal.ui.theme.mocha_base
 import app.dreamjournal.ui.theme.mocha_blue
 import app.dreamjournal.ui.theme.mocha_mauve
@@ -197,7 +197,7 @@ fun FilterDreamDialogComponent(
 @Preview
 @Composable
 fun FilterDreamDialogScreen() {
-    AppTheme {
+    ApplicationTheme {
         val showDialog = remember { mutableStateOf(false) }
 
         Scaffold(bottomBar = { TestBottomNavigationBar() }) { innerPadding ->

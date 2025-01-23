@@ -10,13 +10,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import app.dreamjournal.ui.theme.ApplicationTheme
 
 @Composable
-fun ToolsScreen() {
-    // This screen is a plug
+fun SettingsScreen() {
+    // Plug
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        Text(text = "Tools Screen")
+        Text(text = "Settings Screen")
     }
 }
 
@@ -24,6 +24,6 @@ fun ToolsScreen() {
 @Composable
 private fun Preview() {
     ApplicationTheme {
-        ToolsScreen()
+        SettingsScreen()
     }
 }

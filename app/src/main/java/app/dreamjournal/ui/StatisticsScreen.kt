@@ -7,11 +7,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import app.dreamjournal.ui.theme.AppTheme
+import app.dreamjournal.ui.theme.ApplicationTheme
 
 @Composable
 fun StatisticsScreen() {
-    // The screen is a plug
+    // This screen is a plug
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -22,8 +22,8 @@ fun StatisticsScreen() {
 
 @Preview
 @Composable
-fun StatisticsScreenPreview() {
-    AppTheme {
+private fun Preview() {
+    ApplicationTheme {
         StatisticsScreen()
     }
 }

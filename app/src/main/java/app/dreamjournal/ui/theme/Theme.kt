@@ -9,6 +9,8 @@ private val DarkColors = darkColorScheme(
     onPrimary = mocha_base,
     secondary = mocha_mauve,
     onSecondary = mocha_base,
+    secondaryContainer = mocha_mauve,
+    onSecondaryContainer = mocha_text,
     tertiary = mocha_mauve,
     onTertiary = mocha_base,
     surface = mocha_base,
@@ -17,12 +19,13 @@ private val DarkColors = darkColorScheme(
     onSurfaceVariant = mocha_overlay2,
     background = mocha_base,
     onBackground = mocha_text,
+    surfaceContainer = mocha_surface0,
     surfaceContainerHigh = mocha_surface0,
     outline = mocha_overlay2,
 )
 
 @Composable
-fun AppTheme(
+fun ApplicationTheme(
     content: @Composable () -> Unit,
 ) {
     val colors = DarkColors

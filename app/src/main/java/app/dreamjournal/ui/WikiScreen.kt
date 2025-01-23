@@ -9,18 +9,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
-fun InfoScreen() {
-    // The screen is a plug
+fun WikiScreen() {
+    // This screen is a plug
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        Text(text = "Info Screen")
+        Text(text = "Wiki Screen")
     }
 }
 
 @Preview
 @Composable
-fun InfoScreenPreview() {
-    InfoScreen()
+private fun Preview() {
+    WikiScreen()
 }
