@@ -1,5 +1,6 @@
 package app.dreamjournal.ui.shared
 
+import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -20,6 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.dreamjournal.data.dream.Tag
+import app.dreamjournal.ui.theme.ApplicationTheme
 import app.dreamjournal.ui.theme.CatppuccinColors
 
 @Composable
@@ -40,7 +42,6 @@ fun Tag(tag: Tag, modifier: Modifier = Modifier) {
 
     val tagColor = TagColor.entries[tag.colorIndex]
     val containerColor = tagColor.getColor(CatppuccinColors)
-    val textColor = CatppuccinColors.text
 
     Box(
         modifier = modifier
@@ -65,7 +66,7 @@ fun Tag(tag: Tag, modifier: Modifier = Modifier) {
                 Text(
                     text = tag.label,
                     style = labelTextStyle,
-                    color = textColor,
+                    color = CatppuccinColors.base,
                     textAlign = TextAlign.Center,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
@@ -80,30 +81,36 @@ private const val PREVIEW_TEXT = "lorem ipsum"
 private const val PREVIEW_TEXT_SHORT = "..."
 private const val PREVIEW_EMOJI = "😀"
 
-@Preview
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_NO)
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun PreviewNoEmoji() {
-    Column(
-        verticalArrangement = Arrangement.spacedBy(4.dp)
-    ) {
-        for (entry in TagColor.entries) {
-            val tag = Tag(PREVIEW_TEXT, colorIndex = entry.ordinal)
-            Tag(tag)
+    ApplicationTheme {
+        Column(
+            verticalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            for (entry in TagColor.entries) {
+                val tag = Tag(PREVIEW_TEXT, colorIndex = entry.ordinal)
+                Tag(tag)
+            }
+            Tag(Tag(PREVIEW_TEXT_SHORT))
         }
-        Tag(Tag(PREVIEW_TEXT_SHORT))
     }
 }
 
-@Preview
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_NO)
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun PreviewWithEmoji() {
-    Column(
-        verticalArrangement = Arrangement.spacedBy(4.dp)
-    ) {
-        for (entry in TagColor.entries) {
-            val tag = Tag(PREVIEW_TEXT, emoji = PREVIEW_EMOJI, colorIndex = entry.ordinal)
-            Tag(tag)
+    ApplicationTheme {
+        Column(
+            verticalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            for (entry in TagColor.entries) {
+                val tag = Tag(PREVIEW_TEXT, emoji = PREVIEW_EMOJI, colorIndex = entry.ordinal)
+                Tag(tag)
+            }
+            Tag(Tag("", emoji = PREVIEW_EMOJI))
         }
-        Tag(Tag("", emoji = PREVIEW_EMOJI))
     }
 }
