@@ -49,24 +49,20 @@ fun AudioTestScreen() {
     val isRecording = remember { mutableStateOf(false) }
     val currentPlayingVoiceMessage = remember { mutableStateOf<File?>(null) }
 
-    val requiredPermissions = listOfNotNull(
-        Manifest.permission.RECORD_AUDIO,
-        if (Build.VERSION.SDK_INT < 29) Manifest.permission.WRITE_EXTERNAL_STORAGE else null
-    )
+    val requiredPermission = Manifest.permission.RECORD_AUDIO
 
-    val allPermissionsGranted = remember {
+    val permissionGranted = remember {
         mutableStateOf(
-            requiredPermissions.all { permission ->
-                checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED
-            }
+            checkSelfPermission(context, requiredPermission) ==
+                    PackageManager.PERMISSION_GRANTED
         )
     }
 
     LaunchedEffect(Unit) {
-        if (!allPermissionsGranted.value) {
+        if (!permissionGranted.value) {
             ActivityCompat.requestPermissions(
                 context as Activity,
-                requiredPermissions.toTypedArray(),
+                listOf(requiredPermission).toTypedArray(),
                 1
             )
         } else {
