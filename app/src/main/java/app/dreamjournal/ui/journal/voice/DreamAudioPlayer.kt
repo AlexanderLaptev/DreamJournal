@@ -1,4 +1,4 @@
-package app.dreamjournal.logic.tag.audio
+package app.dreamjournal.ui.journal.voice
 
 import android.content.Context
 import android.media.MediaPlayer
