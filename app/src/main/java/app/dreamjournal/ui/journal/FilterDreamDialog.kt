@@ -45,16 +45,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.dreamjournal.ui.theme.ApplicationTheme
-import app.dreamjournal.ui.theme.mocha_base
-import app.dreamjournal.ui.theme.mocha_blue
-import app.dreamjournal.ui.theme.mocha_mauve
-import app.dreamjournal.ui.theme.mocha_text
-import app.dreamjournal.ui.theme.mocha_yellow
+import app.dreamjournal.ui.theme.CatppuccinColors
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FilterDreamDialog(
-    onDismissRequest: () -> Unit
+    onDismissRequest: () -> Unit,
 ) {
     val roundedCornersSize = 28.dp
     val dialogHeight = 228.dp
@@ -76,7 +72,7 @@ fun FilterDreamDialog(
             topEnd = roundedCornersSize
         ),
         onDismissRequest = onDismissRequest,
-        containerColor = mocha_base,
+        containerColor = CatppuccinColors.base,
         dragHandle = null
     ) {
         Column(
@@ -97,7 +93,7 @@ fun FilterDreamDialog(
                         .width(horizontalLineWidth)
                         .clip(shape = RoundedCornerShape(dividerRoundedShape)),
                     thickness = horizontalLineThickness,
-                    color = mocha_text
+                    color = CatppuccinColors.text,
                 )
             }
 
@@ -119,7 +115,7 @@ fun FilterDreamDialog(
                 FilterDreamDialogComponent(
                     text = "Show only favorites",
                     icon = Icons.Rounded.Star,
-                    iconTint = mocha_yellow,
+                    iconTint = CatppuccinColors.yellow,
                     isActive = selectedButton.intValue == 2,
                     onClick = { selectedButton.intValue = 2 }
                 )
@@ -127,7 +123,7 @@ fun FilterDreamDialog(
                 FilterDreamDialogComponent(
                     text = "Show only normal dreams",
                     icon = Icons.Rounded.DarkMode,
-                    iconTint = mocha_blue,
+                    iconTint = CatppuccinColors.blue,
                     isActive = selectedButton.intValue == 3,
                     onClick = { selectedButton.intValue = 3 }
                 )
@@ -135,7 +131,7 @@ fun FilterDreamDialog(
                 FilterDreamDialogComponent(
                     text = "Show only lucid dreams",
                     icon = Icons.Rounded.Brightness7,
-                    iconTint = mocha_mauve,
+                    iconTint = CatppuccinColors.mauve,
                     isActive = selectedButton.intValue == 4,
                     onClick = { selectedButton.intValue = 4 }
                 )
@@ -147,10 +143,10 @@ fun FilterDreamDialog(
 @Composable
 fun FilterDreamDialogComponent(
     icon: ImageVector = Icons.Default.Air,
-    iconTint: Color = mocha_text,
+    iconTint: Color = CatppuccinColors.text,
     text: String = "",
     isActive: Boolean = false,
-    onClick: (() -> Unit)
+    onClick: (() -> Unit),
 ) {
     val rowWidth = 368.dp
     val rowHeight = 48.dp
@@ -182,7 +178,7 @@ fun FilterDreamDialogComponent(
             Text(
                 text = text,
                 fontSize = textSize,
-                color = mocha_text,
+                color = CatppuccinColors.text,
                 textAlign = TextAlign.Left
             )
         }
@@ -204,7 +200,7 @@ fun FilterDreamDialogScreen() {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(color = mocha_base)
+                    .background(color = CatppuccinColors.base)
                     .padding(innerPadding),
                 contentAlignment = Alignment.Center
             ) {
@@ -223,7 +219,7 @@ fun FilterDreamDialogScreen() {
 @Composable
 private fun TestBottomNavigationBar() {
     BottomAppBar(
-        containerColor = mocha_base,
+        containerColor = CatppuccinColors.base,
         contentColor = Color.White,
         content = {
             Row(
@@ -243,7 +239,7 @@ private fun TestBottomNavigationBar() {
 private fun TestBottomNavItem(
     icon: ImageVector,
     label: String,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     Column(
         modifier = Modifier

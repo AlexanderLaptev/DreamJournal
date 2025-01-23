@@ -20,6 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.dreamjournal.data.dream.Tag
+import app.dreamjournal.ui.theme.CatppuccinColors
 
 @Composable
 fun Tag(tag: Tag, modifier: Modifier = Modifier) {
@@ -38,8 +39,8 @@ fun Tag(tag: Tag, modifier: Modifier = Modifier) {
     val spacing = 4.dp
 
     val tagColor = TagColor.entries[tag.colorIndex]
-    val containerColor = tagColor.body
-    val textColor = tagColor.text
+    val containerColor = tagColor.getColor(CatppuccinColors)
+    val textColor = CatppuccinColors.text
 
     Box(
         modifier = modifier

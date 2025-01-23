@@ -25,7 +25,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat.checkSelfPermission
 import app.dreamjournal.logic.tag.audio.DreamAudioPlayer
 import app.dreamjournal.logic.tag.audio.DreamAudioRecorder
-import app.dreamjournal.ui.theme.mocha_base
+import app.dreamjournal.ui.theme.CatppuccinColors
 import java.io.File
 
 @SuppressLint("ContextCastToActivity")
@@ -34,8 +34,10 @@ fun AudioTestScreen() {
     val context = LocalContext.current
     val activity = LocalContext.current as Activity
     val permission = Manifest.permission.RECORD_AUDIO
-    val permissionState = remember { mutableStateOf(
-        checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED)
+    val permissionState = remember {
+        mutableStateOf(
+            checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED
+        )
     }
 
     LaunchedEffect(Unit) {
@@ -52,9 +54,9 @@ fun AudioTestScreen() {
 
     var voiceMessage: File? = null
 
-    Row (
+    Row(
         modifier = Modifier
-            .background(color = mocha_base)
+            .background(color = CatppuccinColors.base)
             .fillMaxSize(),
         horizontalArrangement = Arrangement.Absolute.Center,
         verticalAlignment = Alignment.CenterVertically

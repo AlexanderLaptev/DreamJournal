@@ -1,33 +1,42 @@
 package app.dreamjournal.ui.theme
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 
-private val DarkColors = darkColorScheme(
-    primary = mocha_mauve,
-    onPrimary = mocha_base,
-    secondary = mocha_mauve,
-    onSecondary = mocha_base,
-    secondaryContainer = mocha_mauve,
-    onSecondaryContainer = mocha_text,
-    tertiary = mocha_mauve,
-    onTertiary = mocha_base,
-    surface = mocha_base,
-    surfaceVariant = mocha_base,
-    onSurface = mocha_text,
-    onSurfaceVariant = mocha_overlay2,
-    background = mocha_base,
-    onBackground = mocha_text,
-    surfaceContainer = mocha_surface0,
-    surfaceContainerHigh = mocha_surface0,
-    outline = mocha_overlay2,
-)
 
 @Composable
 fun ApplicationTheme(
+    useDarkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit,
 ) {
-    val colors = DarkColors
-    MaterialTheme(colorScheme = colors, content = content)
+    val colors = darkColorScheme(
+        primary = CatppuccinColors.mauve,
+        onPrimary = CatppuccinColors.base,
+        secondary = CatppuccinColors.mauve,
+        onSecondary = CatppuccinColors.base,
+        secondaryContainer = CatppuccinColors.mauve,
+        onSecondaryContainer = CatppuccinColors.text,
+        tertiary = CatppuccinColors.mauve,
+        onTertiary = CatppuccinColors.base,
+        surface = CatppuccinColors.base,
+        surfaceVariant = CatppuccinColors.base,
+        onSurface = CatppuccinColors.text,
+        onSurfaceVariant = CatppuccinColors.overlay2,
+        background = CatppuccinColors.base,
+        onBackground = CatppuccinColors.text,
+        surfaceContainer = CatppuccinColors.surface0,
+        surfaceContainerHigh = CatppuccinColors.surface0,
+        outline = CatppuccinColors.overlay2,
+    )
+
+    val catppuccinColorScheme = if (useDarkTheme) MochaColorScheme else LatteColorScheme
+
+    CompositionLocalProvider(
+        LocalCatppuccinColorScheme provides catppuccinColorScheme
+    ) {
+        MaterialTheme(colorScheme = colors, content = content)
+    }
 }

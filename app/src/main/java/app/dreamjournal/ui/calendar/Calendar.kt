@@ -22,12 +22,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import app.dreamjournal.R
-import app.dreamjournal.ui.theme.calendar_level0
-import app.dreamjournal.ui.theme.calendar_level1
-import app.dreamjournal.ui.theme.calendar_level2
-import app.dreamjournal.ui.theme.calendar_level3
-import app.dreamjournal.ui.theme.mocha_overlay0
-import app.dreamjournal.ui.theme.mocha_surface0
+import app.dreamjournal.ui.theme.CatppuccinColors
 import java.time.DayOfWeek
 import java.time.Month
 import java.time.YearMonth
@@ -73,7 +68,7 @@ fun Calendar(
 
                 Text(
                     text = text,
-                    color = mocha_overlay0,
+                    color = CatppuccinColors.overlay0,
                     style = MaterialTheme.typography.labelLarge,
                     textAlign = TextAlign.Center,
                 )
@@ -123,51 +118,28 @@ private fun LevelsPreview() {
         Text(
             text = stringResource(R.string.calendar_less),
             style = MaterialTheme.typography.labelSmall,
-            color = mocha_overlay0,
+            color = CatppuccinColors.overlay0,
         )
 
-        Box(
-            modifier = Modifier
+        repeat(CALENDAR_LEVELS) { level ->
+            var modifier = Modifier
                 .size(boxSize)
                 .background(
-                    color = calendar_level0,
+                    color = getCalendarLevelColor(level, CatppuccinColors),
                     shape = MaterialTheme.shapes.extraSmall
                 )
-                .border(
-                    width = 2.dp,
-                    color = mocha_surface0,
-                    shape = MaterialTheme.shapes.extraSmall
-                )
-        )
-        Box(
-            modifier = Modifier
-                .size(boxSize)
-                .background(
-                    color = calendar_level1,
-                    shape = MaterialTheme.shapes.extraSmall
-                )
-        )
-        Box(
-            modifier = Modifier
-                .size(boxSize)
-                .background(
-                    color = calendar_level2,
-                    shape = MaterialTheme.shapes.extraSmall
-                )
-        )
-        Box(
-            modifier = Modifier
-                .size(boxSize)
-                .background(
-                    color = calendar_level3,
-                    shape = MaterialTheme.shapes.extraSmall
-                )
-        )
+            if (level == 0) modifier = modifier.border(
+                width = 2.dp,
+                color = CatppuccinColors.surface0,
+                shape = MaterialTheme.shapes.extraSmall
+            )
+            Box(modifier)
+        }
 
         Text(
             text = stringResource(R.string.calendar_more),
             style = MaterialTheme.typography.labelSmall,
-            color = mocha_overlay0,
+            color = CatppuccinColors.overlay0,
         )
     }
 }

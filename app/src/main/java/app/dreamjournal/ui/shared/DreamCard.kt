@@ -35,12 +35,7 @@ import androidx.compose.ui.unit.dp
 import app.dreamjournal.R
 import app.dreamjournal.data.dream.Dream
 import app.dreamjournal.data.dream.Tag
-import app.dreamjournal.ui.theme.mocha_crust
-import app.dreamjournal.ui.theme.mocha_mauve
-import app.dreamjournal.ui.theme.mocha_overlay0
-import app.dreamjournal.ui.theme.mocha_subtext1
-import app.dreamjournal.ui.theme.mocha_text
-import app.dreamjournal.ui.theme.mocha_yellow
+import app.dreamjournal.ui.theme.CatppuccinColors
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -56,10 +51,10 @@ fun DreamCard(
     modifier: Modifier = Modifier,
 ) {
     val cardColors = CardColors(
-        containerColor = mocha_crust,
-        contentColor = mocha_text,
-        disabledContainerColor = mocha_crust,
-        disabledContentColor = mocha_text,
+        containerColor = CatppuccinColors.crust,
+        contentColor = CatppuccinColors.text,
+        disabledContainerColor = CatppuccinColors.crust,
+        disabledContentColor = CatppuccinColors.text,
     )
 
     Card(
@@ -70,7 +65,7 @@ fun DreamCard(
             modifier = Modifier.padding(16.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            ColorStrip(TagColor.entries[dream.colorIndex].body)
+            ColorStrip(TagColor.entries[dream.colorIndex].getColor(CatppuccinColors))
 
             Column(
                 verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -89,7 +84,7 @@ fun DreamCard(
                 Text(
                     text = dream.content,
                     style = MaterialTheme.typography.bodyMedium,
-                    color = mocha_subtext1,
+                    color = CatppuccinColors.subtext1,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
                 )
@@ -132,13 +127,13 @@ private fun CardHeader(
             Text(
                 text = title.ifBlank { stringResource(R.string.journal_entry_untitled) },
                 style = titleStyle,
-                color = if (title.isBlank()) mocha_overlay0 else mocha_text,
+                color = if (title.isBlank()) CatppuccinColors.overlay0 else CatppuccinColors.text,
             )
 
             Text(
                 text = formatter.format(dateTime),
                 style = MaterialTheme.typography.titleSmall,
-                color = mocha_overlay0,
+                color = CatppuccinColors.overlay0,
             )
         }
 
@@ -152,7 +147,7 @@ private fun CardHeader(
                     imageVector = Icons.Rounded.Brightness7,
                     contentDescription = "",
                     modifier = Modifier.size(iconSize),
-                    tint = mocha_mauve,
+                    tint = CatppuccinColors.mauve,
                 )
             }
             if (favorite) {
@@ -160,7 +155,7 @@ private fun CardHeader(
                     imageVector = Icons.Rounded.Grade,
                     contentDescription = "",
                     modifier = Modifier.size(iconSize),
-                    tint = mocha_yellow,
+                    tint = CatppuccinColors.yellow,
                 )
             }
         }
