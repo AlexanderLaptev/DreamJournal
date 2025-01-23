@@ -4,18 +4,26 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.pm.PackageManager
+import android.content.res.Configuration
+import android.os.Build
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -25,6 +33,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat.checkSelfPermission
 import app.dreamjournal.logic.tag.audio.DreamAudioPlayer
 import app.dreamjournal.logic.tag.audio.DreamAudioRecorder
+import app.dreamjournal.ui.theme.ApplicationTheme
 import app.dreamjournal.ui.theme.CatppuccinColors
 import java.io.File
 
@@ -32,73 +41,168 @@ import java.io.File
 @Composable
 fun AudioTestScreen() {
     val context = LocalContext.current
-    val activity = LocalContext.current as Activity
-    val permission = Manifest.permission.RECORD_AUDIO
-    val permissionState = remember {
+    val audioRecorder = remember { DreamAudioRecorder(context) }
+    val audioPlayer = remember { DreamAudioPlayer(context) }
+
+    val externalStorageDir = context.getExternalFilesDir(null)
+    val voiceMessages = remember { mutableStateListOf<File>() }
+    val isRecording = remember { mutableStateOf(false) }
+    val currentPlayingVoiceMessage = remember { mutableStateOf<File?>(null) }
+
+    val requiredPermissions = listOfNotNull(
+        Manifest.permission.RECORD_AUDIO,
+        if (Build.VERSION.SDK_INT < 29) Manifest.permission.WRITE_EXTERNAL_STORAGE else null
+    )
+
+    val allPermissionsGranted = remember {
         mutableStateOf(
-            checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED
+            requiredPermissions.all { permission ->
+                checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED
+            }
         )
     }
 
     LaunchedEffect(Unit) {
-        if (!permissionState.value) {
-            ActivityCompat.requestPermissions(activity, arrayOf(permission), 1)
+        if (!allPermissionsGranted.value) {
+            ActivityCompat.requestPermissions(
+                context as Activity,
+                requiredPermissions.toTypedArray(),
+                1
+            )
+        } else {
+            loadVoiceMessages(
+                externalStorageDir = externalStorageDir,
+                voiceMessages = voiceMessages
+            )
         }
     }
 
-    val audioRecorder by lazy { DreamAudioRecorder(context) }
-    val audioPlayer by lazy { DreamAudioPlayer(context) }
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = CatppuccinColors.base)
+            .padding(16.dp)
+    ) {
+        LazyColumn(
+            modifier = Modifier.weight(1f),
+            contentPadding = PaddingValues(bottom = 16.dp)
+        ) {
+            items(voiceMessages) { voice ->
+                VoiceMessageItem(
+                    voice,
+                    isPlaying = currentPlayingVoiceMessage.value == voice,
+                    onPlayStop = {
+                        if (currentPlayingVoiceMessage.value == voice) {
+                            audioPlayer.stop()
+                            currentPlayingVoiceMessage.value = null
+                        } else {
+                            audioPlayer.stop()
+                            audioPlayer.play(voice)
+                            currentPlayingVoiceMessage.value = voice
+                        }
+                    }
+                )
+            }
+        }
 
-    val isRecording = remember { mutableStateOf(false) }
-    val isPlaying = remember { mutableStateOf(false) }
+        Button(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 64.dp),
+            onClick = {
+                if (isRecording.value) {
+                    stopRecording(
+                        recorder = audioRecorder,
+                        isRecording = isRecording
+                    )
+                    loadVoiceMessages(
+                        externalStorageDir = externalStorageDir,
+                        voiceMessages = voiceMessages
+                    )
+                } else {
+                    startRecording(
+                        recorder = audioRecorder,
+                        isRecording = isRecording,
+                        externalStorageDir = externalStorageDir
+                    )
+                }
+            }
+        ) {
+            Text(text = if (isRecording.value) "Stop record" else "Start record")
+        }
+    }
+}
 
-    var voiceMessage: File? = null
-
+@Composable
+fun VoiceMessageItem(
+    file: File,
+    isPlaying: Boolean,
+    onPlayStop: () -> Unit,
+) {
     Row(
         modifier = Modifier
-            .background(color = CatppuccinColors.base)
-            .fillMaxSize(),
-        horizontalArrangement = Arrangement.Absolute.Center,
+            .fillMaxWidth()
+            .padding(vertical = 8.dp)
+            .background(color = CatppuccinColors.mantle)
+            .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Button(
-            onClick = {
-                if (!isRecording.value) {
-                    File(context.cacheDir, "voice_message.mp3").also { audio ->
-                        audioRecorder.start(audio)
-                        voiceMessage = audio
-                    }
-                } else {
-                    audioRecorder.stop()
-                }
+        // TODO: replace the text with WaveForm in the future
+        Text(
+            modifier = Modifier.weight(1f),
+            text = file.name,
+            color = CatppuccinColors.text,
+        )
 
-                isRecording.value = !isRecording.value
-            }
-        ) {
-            val text = if (!isRecording.value) "Start record" else "Stop record"
-            Text(text = text)
+        Button(onClick = onPlayStop) {
+            Text(text = if (isPlaying) "Stop" else "Play")
         }
+    }
+}
 
-        Spacer(modifier = Modifier.width(32.dp))
-        Button(
-            onClick = {
-                if (!isPlaying.value) {
-                    audioPlayer.play(audioFile = voiceMessage ?: return@Button)
-                } else {
-                    audioPlayer.stop()
-                }
-
-                isPlaying.value = !isPlaying.value
-            }
-        ) {
-            val text = if (!isPlaying.value) "Play" else "Stop play"
-            Text(text = text)
+private fun startRecording(
+    recorder: DreamAudioRecorder,
+    isRecording: MutableState<Boolean>,
+    externalStorageDir: File?,
+) {
+    val voiceDir = File(externalStorageDir, "voices").apply {
+        if (!exists()) {
+            mkdirs()
         }
+    }
+
+    val fileExtension = if (Build.VERSION.SDK_INT >= 29) "ogg" else "m4a"
+    val fileName = "voice_${System.currentTimeMillis()}.$fileExtension"
+    val outputFile = File(voiceDir, fileName).apply { createNewFile() }
+
+    recorder.start(outputFile = outputFile)
+    isRecording.value = true
+}
+
+private fun stopRecording(
+    recorder: DreamAudioRecorder,
+    isRecording: MutableState<Boolean>,
+) {
+    recorder.stop()
+    isRecording.value = false
+}
+
+private fun loadVoiceMessages(
+    externalStorageDir: File?,
+    voiceMessages: SnapshotStateList<File>,
+) {
+    val voiceDir = File(externalStorageDir, "voices")
+    if (voiceDir.exists()) {
+        val files = voiceDir.listFiles()?.sortedBy { it.lastModified() } ?: emptyList()
+        voiceMessages.clear()
+        voiceMessages.addAll(files)
     }
 }
 
 @Preview
 @Composable
 fun AudioTestScreenPreview() {
-    AudioTestScreen()
+    ApplicationTheme {
+        AudioTestScreen()
+    }
 }
