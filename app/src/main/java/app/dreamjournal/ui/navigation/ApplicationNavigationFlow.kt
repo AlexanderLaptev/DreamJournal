@@ -9,8 +9,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import app.dreamjournal.ui.InfoScreen
 import app.dreamjournal.ui.ToolsScreen
-import app.dreamjournal.ui.dream.DreamJournalScreen
-import app.dreamjournal.ui.dream.StatisticsScreen
+import app.dreamjournal.ui.journal.DreamJournalScreen
+import app.dreamjournal.ui.StatisticsScreen
 
 @Composable
 fun ApplicationNavigationFlow(

@@ -1,4 +1,4 @@
-package app.dreamjournal.ui.dream
+package app.dreamjournal.ui.shared
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

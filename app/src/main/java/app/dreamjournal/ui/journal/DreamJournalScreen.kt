@@ -1,4 +1,4 @@
-package app.dreamjournal.ui.dream
+package app.dreamjournal.ui.journal
 
 import android.annotation.SuppressLint
 import android.widget.Toast

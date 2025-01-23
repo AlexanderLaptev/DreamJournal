@@ -1,4 +1,4 @@
-package app.dreamjournal.ui.dream
+package app.dreamjournal.ui.shared
 
 import androidx.compose.ui.graphics.Color
 import app.dreamjournal.ui.theme.tag_blue

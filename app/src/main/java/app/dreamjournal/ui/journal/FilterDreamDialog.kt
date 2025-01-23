@@ -1,4 +1,4 @@
-package app.dreamjournal.ui.dream
+package app.dreamjournal.ui.journal
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
