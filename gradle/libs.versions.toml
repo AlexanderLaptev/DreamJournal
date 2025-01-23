@@ -31,6 +31,8 @@ koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = 
 koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koin" }
 androidx-compose-navigation = { module = "androidx.navigation:navigation-compose", version = "2.8.5" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+audio-waveform = { group = "com.github.lincollincol", name = "compose-audiowaveform", version = "1.1.1" }
+audio-amplituda = { group = "com.github.lincollincol", name = "amplituda",  version = "2.2.2" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

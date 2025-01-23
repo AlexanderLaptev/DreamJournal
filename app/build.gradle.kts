@@ -60,6 +60,8 @@ dependencies {
     implementation(libs.androidx.compose.navigation)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.catppuccin.palette)
+    implementation(libs.audio.amplituda)
+    implementation(libs.audio.waveform)
 
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
