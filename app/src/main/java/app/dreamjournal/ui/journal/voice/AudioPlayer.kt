@@ -20,4 +20,25 @@ class AudioPlayer(private val context: Context) {
         audioPlayer?.release()
         audioPlayer = null
     }
+
+    fun isPlaying(): Boolean {
+        return audioPlayer?.isPlaying ?: false
+    }
+
+    fun getProgress(): Float {
+        audioPlayer?.let {
+            if (it.duration > 0) {
+                return it.currentPosition / it.duration.toFloat()
+            }
+        }
+
+        return 0f
+    }
+
+    fun seekProgress(progress: Float) {
+        audioPlayer?.let {
+            val pos = (progress * it.duration).toInt()
+            it.seekTo(pos)
+        }
+    }
 }
