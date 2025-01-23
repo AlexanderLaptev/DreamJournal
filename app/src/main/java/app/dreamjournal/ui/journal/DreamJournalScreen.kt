@@ -20,10 +20,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
@@ -36,10 +37,18 @@ import app.dreamjournal.ui.theme.ApplicationTheme
 @Composable
 fun DreamJournalScreen(
     navController: NavController,
+    onSearchExpandedChange: (Boolean) -> Unit = {},
 ) {
     val context = LocalContext.current
-    var query by rememberSaveable { mutableStateOf("") }
+    var query by remember { mutableStateOf("") }
+    var previousQuery by remember { mutableStateOf("") }
     var expanded by remember { mutableStateOf(false) }
+
+    val onExpandedChangeHandler = { it: Boolean ->
+        previousQuery = query
+        expanded = it
+        onSearchExpandedChange(expanded)
+    }
 
     Scaffold(
         topBar = {
@@ -47,26 +56,48 @@ fun DreamJournalScreen(
                 modifier = Modifier
                     .fillMaxWidth(),
             ) {
+                val focusRequester = remember { FocusRequester() }
+
                 SearchBar(
-                    modifier = Modifier.align(Alignment.Center),
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                        .focusRequester(focusRequester),
                     inputField = {
                         SearchBarDefaults.InputField(
                             query = query,
                             onQueryChange = { query = it },
                             placeholder = { Text("Search your dreams") },
+
                             onSearch = {
                                 Toast.makeText(
                                     context,
                                     "Searching \"$query\"",
                                     Toast.LENGTH_SHORT,
                                 ).show()
+
                                 expanded = false
+                                onSearchExpandedChange(false)
                             },
+
                             expanded = expanded,
-                            onExpandedChange = { expanded = !expanded },
+                            onExpandedChange = onExpandedChangeHandler,
+
                             leadingIcon = {
                                 IconButton(
-                                    onClick = {},
+                                    onClick = {
+                                        if (expanded) {
+                                            query = previousQuery
+                                            expanded = false
+                                            onSearchExpandedChange(false)
+                                        } else {
+                                            if (query.isNotEmpty()) {
+                                                query = ""
+                                            } else {
+                                                expanded = true
+                                                focusRequester.requestFocus()
+                                            }
+                                        }
+                                    },
                                 ) {
                                     val icon = if (expanded || query.isNotBlank()) {
                                         Icons.AutoMirrored.Rounded.ArrowBack
@@ -78,14 +109,18 @@ fun DreamJournalScreen(
                                     )
                                 }
                             },
+
                             trailingIcon = {
+                                if (query.isNotEmpty() && !expanded) return@InputField
                                 val icon = when (expanded) {
                                     true -> Icons.Rounded.Close
                                     false -> Icons.Rounded.CalendarToday
                                 }
                                 IconButton(
                                     onClick = {
-                                        if (!expanded) {
+                                        if (expanded) {
+                                            query = ""
+                                        } else {
                                             navController.navigate(ApplicationNavigation.Calendar)
                                         }
                                     },
@@ -98,8 +133,9 @@ fun DreamJournalScreen(
                             },
                         )
                     },
+
                     expanded = expanded,
-                    onExpandedChange = { expanded = !expanded },
+                    onExpandedChange = onExpandedChangeHandler,
                 ) { }
             }
         }

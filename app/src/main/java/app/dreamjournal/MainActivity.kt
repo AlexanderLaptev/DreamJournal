@@ -42,7 +42,6 @@ import app.dreamjournal.ui.theme.ApplicationTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        checkAndRequestPermissions()
         enableEdgeToEdge()
         setContent {
             ApplicationTheme {
@@ -50,9 +49,9 @@ class MainActivity : ComponentActivity() {
                 val navBackStackEntry by navController.currentBackStackEntryAsState()
                 val currentDestination = navBackStackEntry?.destination
 
-                var bottomBarVisible by rememberSaveable { mutableStateOf(true) }
+                var navigationBarVisible by rememberSaveable { mutableStateOf(true) }
                 if (currentDestination != null) {
-                    bottomBarVisible = when {
+                    navigationBarVisible = when {
                         currentDestination.hasRoute(ApplicationNavigation.Calendar::class) -> {
                             false
                         }
@@ -65,7 +64,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     bottomBar = {
                         AnimatedVisibility(
-                            visible = bottomBarVisible,
+                            visible = navigationBarVisible,
                             enter = slideInVertically(initialOffsetY = { it }),
                             exit = slideOutVertically(targetOffsetY = { it }),
                         ) {
@@ -80,7 +79,8 @@ class MainActivity : ComponentActivity() {
                     ) {
                         composable<ApplicationNavigation.DreamJournal> {
                             DreamJournalScreen(
-                                navController = navController
+                                navController = navController,
+                                onSearchExpandedChange = { navigationBarVisible = !it },
                             )
                         }
                         composable<ApplicationNavigation.Calendar> { CalendarScreen() }
