@@ -65,12 +65,11 @@ fun AudioTestScreen() {
                 listOf(requiredPermission).toTypedArray(),
                 1
             )
-        } else {
-            loadVoiceMessages(
-                externalStorageDir = externalStorageDir,
-                voiceMessages = voiceMessages
-            )
         }
+        loadVoiceMessages(
+            externalStorageDir = externalStorageDir,
+            voiceMessages = voiceMessages
+        )
     }
 
     Column(
