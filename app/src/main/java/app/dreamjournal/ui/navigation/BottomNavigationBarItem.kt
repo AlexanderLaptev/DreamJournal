@@ -1,4 +1,4 @@
-package app.dreamjournal.ui.navbar
+package app.dreamjournal.ui.navigation
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.Help
@@ -6,7 +6,6 @@ import androidx.compose.material.icons.automirrored.rounded.ListAlt
 import androidx.compose.material.icons.rounded.InsertChart
 import androidx.compose.material.icons.rounded.Inventory2
 import androidx.compose.ui.graphics.vector.ImageVector
-import app.dreamjournal.navigation.ApplicationNavigation
 
 sealed class BottomNavigationBarItem(
     val route: String,

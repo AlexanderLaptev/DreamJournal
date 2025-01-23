@@ -1,4 +1,4 @@
-package app.dreamjournal.navigation
+package app.dreamjournal.ui.navigation
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
@@ -7,10 +7,10 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import app.dreamjournal.ui.dream.DreamJournalScreen
 import app.dreamjournal.ui.InfoScreen
-import app.dreamjournal.ui.dream.StatisticsScreen
 import app.dreamjournal.ui.ToolsScreen
+import app.dreamjournal.ui.dream.DreamJournalScreen
+import app.dreamjournal.ui.dream.StatisticsScreen
 
 @Composable
 fun ApplicationNavigationFlow(

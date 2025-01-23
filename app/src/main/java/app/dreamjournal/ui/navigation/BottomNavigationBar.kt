@@ -1,4 +1,4 @@
-package app.dreamjournal.ui.navbar
+package app.dreamjournal.ui.navigation
 
 import androidx.compose.foundation.background
 import androidx.compose.material3.Icon
@@ -52,7 +52,11 @@ fun BottomNavigationBar(
                         modifier = Modifier.background(color = Color.Transparent),
                         imageVector = item.icon,
                         contentDescription = item.name,
-                        tint = if (isSelected) { mocha_base } else { mocha_text  }
+                        tint = if (isSelected) {
+                            mocha_base
+                        } else {
+                            mocha_text
+                        }
                     )
                 },
                 label = {
