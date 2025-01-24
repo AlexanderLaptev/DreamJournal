@@ -41,7 +41,7 @@ fun Tag(tag: Tag, modifier: Modifier = Modifier) {
     val minSize = 32.dp
     val spacing = 4.dp
 
-    val tagColor = TagColor.entries[tag.colorIndex]
+    val tagColor = tag.color
     val containerColor = tagColor.getColor(CatppuccinColors)
 
     Box(
@@ -91,7 +91,7 @@ private fun PreviewNoEmoji() {
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             for (entry in TagColor.entries) {
-                val tag = Tag(PREVIEW_TEXT, colorIndex = entry.ordinal)
+                val tag = Tag(PREVIEW_TEXT, color = entry)
                 Tag(tag)
             }
             Tag(Tag(PREVIEW_TEXT_SHORT))
@@ -108,7 +108,7 @@ private fun PreviewWithEmoji() {
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             for (entry in TagColor.entries) {
-                val tag = Tag(PREVIEW_TEXT, emoji = PREVIEW_EMOJI, colorIndex = entry.ordinal)
+                val tag = Tag(PREVIEW_TEXT, emoji = PREVIEW_EMOJI, color = entry)
                 Tag(tag)
             }
             Tag(Tag("", emoji = PREVIEW_EMOJI))

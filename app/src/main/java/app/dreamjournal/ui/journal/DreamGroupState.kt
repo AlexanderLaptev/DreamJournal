@@ -37,7 +37,7 @@ fun LazyListScope.dreamGroup(dreamGroupState: DreamGroupState) {
     item {
         val configuration = LocalConfiguration.current
         val primaryLocale = configuration.locales[0]
-        val pattern  = stringResource(R.string.group_date_pattern)
+        val pattern = stringResource(R.string.group_date_pattern)
         val formatter = remember { DateTimeFormatter.ofPattern(pattern, primaryLocale) }
         val dateText = formatter.format(dreamGroupState.date)
 
@@ -58,24 +58,24 @@ private val PREVIEW_DREAM_GROUP = DreamGroupState(
             Dream(
                 title = "Lorem ipsum",
                 content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-                timestamp = LocalDateTime.of(2025, 1, 15, 7, 34, 13).toEpochSecond(ZoneOffset.UTC),
-                colorIndex = TagColor.Purple.ordinal,
+                instant = LocalDateTime.of(2025, 1, 15, 7, 34, 13).toInstant(ZoneOffset.UTC),
+                color = TagColor.Purple,
             ),
             listOf(
-                Tag("lorem", colorIndex = TagColor.Red.ordinal),
-                Tag("ipsum", colorIndex = TagColor.Yellow.ordinal),
+                Tag("lorem", color = TagColor.Red),
+                Tag("ipsum", color = TagColor.Yellow),
             )
         ),
         DreamWithTags(
             Dream(
                 title = "Dolor sit",
                 content = "Mauris porta, sem vel volutpat tincidunt.",
-                timestamp = LocalDateTime.of(2025, 1, 15, 7, 28, 22).toEpochSecond(ZoneOffset.UTC),
-                colorIndex = TagColor.Green.ordinal,
+                instant = LocalDateTime.of(2025, 1, 15, 7, 28, 22).toInstant(ZoneOffset.UTC),
+                color = TagColor.Green,
             ),
             listOf(
-                Tag("dolor", colorIndex = TagColor.White.ordinal),
-                Tag("sit", colorIndex = TagColor.Blue.ordinal),
+                Tag("dolor", color = TagColor.White),
+                Tag("sit", color = TagColor.Blue),
             )
         ),
     ),

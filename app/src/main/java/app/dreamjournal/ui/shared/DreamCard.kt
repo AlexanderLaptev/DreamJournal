@@ -37,7 +37,6 @@ import app.dreamjournal.data.dream.Dream
 import app.dreamjournal.data.dream.Tag
 import app.dreamjournal.data.dream.TagColor
 import app.dreamjournal.ui.theme.CatppuccinColors
-import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.ZoneOffset
@@ -66,14 +65,13 @@ fun DreamCard(
             modifier = Modifier.padding(16.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            ColorStrip(TagColor.entries[dream.colorIndex].getColor(CatppuccinColors))
+            ColorStrip(dream.color.getColor(CatppuccinColors))
 
             Column(
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 val dateTime = let {
-                    val instant = Instant.ofEpochMilli(dream.timestamp)
-                    LocalDateTime.ofInstant(instant, ZoneId.systemDefault())
+                    LocalDateTime.ofInstant(dream.instant, ZoneId.systemDefault())
                 }
                 CardHeader(
                     title = dream.title,
@@ -184,22 +182,24 @@ private val PREVIEW_INSTANT = LocalDateTime.of(2025, 1, 15, 7, 35, 20).toInstant
 
 @Suppress("SpellCheckingInspection")
 private val PREVIEW_DREAM = Dream(
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras blandit lacus non metus gravida interdum. Duis sed congue mauris. Vivamus a magna tristique, semper diam vitae, scelerisque turpis. In efficitur purus massa, non aliquam turpis sagittis nec. Quisque sit amet dui commodo, tempor dui nec, pharetra ligula.",
-    PREVIEW_INSTANT.toEpochMilli(),
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras blandit lacus non " +
+            "metus gravida interdum. Duis sed congue mauris. Vivamus a magna tristique, semper " +
+            "diam vitae, scelerisque turpis. In efficitur purus massa, non aliquam turpis " +
+            "sagittis nec. Quisque sit amet dui commodo, tempor dui nec, pharetra ligula.",
+    PREVIEW_INSTANT,
     "Lorem ipsum dolor sit amet",
     true,
-    2,
     true,
-    1,
+    TagColor.Purple,
 )
 
 @Suppress("SpellCheckingInspection")
 private val PREVIEW_TAGS = listOf(
-    Tag("lorem ipsum", "😀", 0),
-    Tag("dolor sit", "", 2),
-    Tag("tellus non", "😁", 4),
-    Tag("auctor yelit", "😎", 3),
-    Tag("lacus metus", "😎", 1),
+    Tag("lorem ipsum", "😀", TagColor.Green),
+    Tag("dolor sit", "", TagColor.Purple),
+    Tag("tellus non", "😁", TagColor.Yellow),
+    Tag("auctor yelit", "😎", TagColor.Blue),
+    Tag("lacus metus", "😎", TagColor.White),
 )
 
 @Preview
