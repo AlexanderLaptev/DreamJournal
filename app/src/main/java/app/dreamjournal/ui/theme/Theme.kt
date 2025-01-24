@@ -6,13 +6,20 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.staticCompositionLocalOf
 
 
 @Composable
 fun ApplicationTheme(
-    useDarkTheme: Boolean = isSystemInDarkTheme(),
+    appTheme: Theme = Theme.System,
     content: @Composable () -> Unit,
 ) {
+    val useDarkTheme = when (appTheme) {
+        Theme.Light -> false
+        Theme.Dark -> true
+        Theme.System -> isSystemInDarkTheme()
+    }
+
     val catppuccinColorScheme = if (useDarkTheme) MochaColorScheme else LatteColorScheme
 
     CompositionLocalProvider(
@@ -59,4 +66,10 @@ fun ApplicationTheme(
         )
         MaterialTheme(colorScheme = colors, content = content)
     }
+}
+
+val LocalThemeProvider = staticCompositionLocalOf { Theme.System }
+
+enum class Theme {
+    Light, Dark, System
 }

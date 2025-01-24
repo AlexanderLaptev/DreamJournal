@@ -1,6 +1,7 @@
 package app.dreamjournal
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -11,6 +12,7 @@ import androidx.compose.material.icons.rounded.CalendarToday
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material.icons.rounded.Search
+import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -24,6 +26,7 @@ import androidx.compose.material3.SearchBar
 import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -50,9 +53,12 @@ import app.dreamjournal.ui.journal.calendar.navigateToCalendar
 import app.dreamjournal.ui.journal.dreamJournalDestination
 import app.dreamjournal.ui.navigation.ApplicationNavigation
 import app.dreamjournal.ui.navigation.topLevelRoutes
+import app.dreamjournal.ui.settings.navigateToSettings
 import app.dreamjournal.ui.settings.settingsDestination
 import app.dreamjournal.ui.statistics.statisticsDestination
 import app.dreamjournal.ui.theme.ApplicationTheme
+import app.dreamjournal.ui.theme.Theme
+import app.dreamjournal.ui.theme.LocalThemeProvider
 import app.dreamjournal.ui.tools.toolsDestination
 
 private enum class FabState(val icon: ImageVector? = null) {
@@ -63,72 +69,77 @@ private enum class FabState(val icon: ImageVector? = null) {
 
 @Composable
 fun DreamJournalApp() {
-    ApplicationTheme {
-        val navController = rememberNavController()
-        val navBackStackEntry by navController.currentBackStackEntryAsState()
+    var currentTheme by remember { mutableStateOf(Theme.System) }
 
-        var searchQuery by rememberSaveable { mutableStateOf("") }
-        var searchBarExpanded by rememberSaveable { mutableStateOf(false) }
+    CompositionLocalProvider(LocalThemeProvider provides currentTheme) {
+        ApplicationTheme(appTheme = currentTheme) {
+            val navController = rememberNavController()
+            val navBackStackEntry by navController.currentBackStackEntryAsState()
 
-        var navBarVisible = true
-        var searchBarVisible = false
-        var fabState = FabState.Hidden
+            var searchQuery by rememberSaveable { mutableStateOf("") }
+            var searchBarExpanded by rememberSaveable { mutableStateOf(false) }
 
-        if (navBackStackEntry != null) {
-            val entry = navBackStackEntry!!
-            if (entry.destination.hasRoute<ApplicationNavigation.DreamJournal>()) {
-                searchBarVisible = true
-                navBarVisible = true
-                if (!searchBarExpanded && searchQuery.isEmpty()) fabState = FabState.Add
+            var navBarVisible = true
+            var searchBarVisible = false
+            var fabState = FabState.Hidden
 
-                val route = entry.toRoute<ApplicationNavigation.DreamJournal>()
-                if (route.searchQuery != null) searchQuery = route.searchQuery
+            if (navBackStackEntry != null) {
+                val entry = navBackStackEntry!!
+                if (entry.destination.hasRoute<ApplicationNavigation.DreamJournal>()) {
+                    searchBarVisible = true
+                    navBarVisible = true
+                    if (!searchBarExpanded && searchQuery.isEmpty()) fabState = FabState.Add
+
+                    val route = entry.toRoute<ApplicationNavigation.DreamJournal>()
+                    if (route.searchQuery != null) searchQuery = route.searchQuery
+                }
             }
-        }
 
-        Scaffold(
-            modifier = Modifier.fillMaxSize(),
+            Scaffold(
+                modifier = Modifier.fillMaxSize(),
 
-            bottomBar = {
-                if (navBarVisible) {
-                    BottomNavigationBar(navController)
-                }
-            },
-
-            floatingActionButton = {
-                if (fabState != FabState.Hidden) {
-                    FAB(icon = fabState.icon!!)
-                }
-            },
-
-            topBar = {
-                if (searchBarVisible) {
-                    Box(
-                        modifier = Modifier.fillMaxWidth(),
-                        contentAlignment = Alignment.Center,
-                    ) {
-                        MainSearchBar(
-                            expanded = searchBarExpanded,
-                            onExpandedChange = { searchBarExpanded = it },
-                            query = searchQuery,
-                            onQueryChange = { searchQuery = it },
-                            onNavigateToCalendar = navController::navigateToCalendar,
-                        )
+                bottomBar = {
+                    if (navBarVisible) {
+                        BottomNavigationBar(navController)
                     }
+                },
+
+                floatingActionButton = {
+                    if (fabState != FabState.Hidden) {
+                        FAB(icon = fabState.icon!!)
+                    }
+                },
+
+                topBar = {
+                    if (searchBarVisible) {
+                        Box(
+                            modifier = Modifier.fillMaxWidth(),
+                            contentAlignment = Alignment.Center,
+                        ) {
+                            MainSearchBar(
+                                expanded = searchBarExpanded,
+                                onExpandedChange = { searchBarExpanded = it },
+                                query = searchQuery,
+                                onQueryChange = { searchQuery = it },
+                                onSettings = navController::navigateToSettings,
+                                onNavigateToCalendar = navController::navigateToCalendar,
+                            )
+                        }
+                    }
+                },
+            ) { innerPadding ->
+                NavHost(
+                    modifier = Modifier.padding(innerPadding),
+                    navController = navController,
+                    startDestination = ApplicationNavigation.DreamJournal(),
+                ) {
+                    dreamJournalDestination()
+                    calendarDestination()
+                    statisticsDestination()
+                    toolsDestination()
+                    faqDestination()
+                    settingsDestination(onThemeChange = { newTheme -> currentTheme = newTheme })
                 }
-            },
-        ) { innerPadding ->
-            NavHost(
-                modifier = Modifier.padding(innerPadding),
-                navController = navController,
-                startDestination = ApplicationNavigation.DreamJournal(),
-            ) {
-                dreamJournalDestination()
-                calendarDestination()
-                statisticsDestination()
-                toolsDestination()
-                faqDestination()
-                settingsDestination()
             }
         }
     }
@@ -142,6 +153,7 @@ private inline fun MainSearchBar(
     query: String,
     noinline onQueryChange: (String) -> Unit,
     crossinline onNavigateToCalendar: () -> Unit,
+    crossinline onSettings: () -> Unit
 ) {
     val focusRequester = remember { FocusRequester() }
     var previousQuery by rememberSaveable { mutableStateOf("") }
@@ -198,17 +210,25 @@ private inline fun MainSearchBar(
                         true -> Icons.Rounded.Close
                         false -> Icons.Rounded.CalendarToday
                     }
+                    Row {
+                        IconButton(
+                            onClick = {
+                                if (expanded) onQueryChange("")
+                                else onNavigateToCalendar()
+                            },
+                        ) {
+                            Icon(
+                                imageVector = icon,
+                                contentDescription = "",
+                            )
+                        }
 
-                    IconButton(
-                        onClick = {
-                            if (expanded) onQueryChange("")
-                            else onNavigateToCalendar()
-                        },
-                    ) {
-                        Icon(
-                            imageVector = icon,
-                            contentDescription = "",
-                        )
+                        IconButton(onClick = { onSettings() }) {
+                            Icon(
+                                imageVector = Icons.Rounded.Settings,
+                                contentDescription = "Settings"
+                            )
+                        }
                     }
                 },
             )
