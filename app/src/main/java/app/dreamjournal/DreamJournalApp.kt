@@ -50,7 +50,7 @@ import app.dreamjournal.ui.journal.calendar.navigateToCalendar
 import app.dreamjournal.ui.journal.dreamJournalDestination
 import app.dreamjournal.ui.navigation.ApplicationNavigation
 import app.dreamjournal.ui.navigation.topLevelRoutes
-import app.dreamjournal.ui.settingsDestination
+import app.dreamjournal.ui.settings.settingsDestination
 import app.dreamjournal.ui.statistics.statisticsDestination
 import app.dreamjournal.ui.theme.ApplicationTheme
 import app.dreamjournal.ui.tools.toolsDestination
