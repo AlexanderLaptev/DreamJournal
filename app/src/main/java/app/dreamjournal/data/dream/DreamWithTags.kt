@@ -1,8 +1,6 @@
-package app.dreamjournal.model
+package app.dreamjournal.data.dream
 
 import androidx.compose.runtime.Immutable
-import app.dreamjournal.data.dream.Dream
-import app.dreamjournal.data.dream.Tag
 
 @Immutable
 data class DreamWithTags(

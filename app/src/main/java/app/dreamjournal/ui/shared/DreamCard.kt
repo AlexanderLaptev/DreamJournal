@@ -35,7 +35,7 @@ import androidx.compose.ui.unit.dp
 import app.dreamjournal.R
 import app.dreamjournal.data.dream.Dream
 import app.dreamjournal.data.dream.Tag
-import app.dreamjournal.model.TagColor
+import app.dreamjournal.data.dream.TagColor
 import app.dreamjournal.ui.theme.CatppuccinColors
 import java.time.Instant
 import java.time.LocalDateTime
