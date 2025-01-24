@@ -1,4 +1,4 @@
-package app.dreamjournal.ui
+package app.dreamjournal.ui.journal.voice
 
 import android.Manifest
 import android.app.Activity
@@ -45,8 +45,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat.checkSelfPermission
-import app.dreamjournal.ui.journal.voice.AudioPlayer
-import app.dreamjournal.ui.journal.voice.AudioRecorder
 import app.dreamjournal.ui.theme.ApplicationTheme
 import app.dreamjournal.ui.theme.CatppuccinColors
 import com.linc.audiowaveform.AudioWaveform
