@@ -36,6 +36,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -76,13 +77,13 @@ private fun Content() {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentDestination = navBackStackEntry?.destination
 
-        var searchBarVisible by remember { mutableStateOf(false) }
+        var searchBarVisible by rememberSaveable { mutableStateOf(false) }
         searchBarVisible =
             currentDestination?.hasRoute(ApplicationNavigation.DreamJournal::class) == true
 
-        var navBarVisible by remember { mutableStateOf(true) }
+        var navBarVisible by rememberSaveable { mutableStateOf(true) }
 
-        var fabVisible by remember { mutableStateOf(true) }
+        var fabVisible by rememberSaveable { mutableStateOf(true) }
         fabVisible =
             currentDestination?.hasRoute(ApplicationNavigation.DreamJournal::class) == true
 
@@ -126,14 +127,14 @@ private fun Content() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun MainSearchBar(
+private inline fun MainSearchBar(
     navController: NavHostController,
-    onSearchExpandedChange: (Boolean) -> Unit = {},
+    crossinline onSearchExpandedChange: (Boolean) -> Unit = {},
 ) {
     val focusRequester = remember { FocusRequester() }
-    var expanded by remember { mutableStateOf(false) }
-    var query by remember { mutableStateOf("") }
-    var previousQuery by remember { mutableStateOf("") }
+    var expanded by rememberSaveable { mutableStateOf(false) }
+    var query by rememberSaveable { mutableStateOf("") }
+    var previousQuery by rememberSaveable { mutableStateOf("") }
 
     val onExpandedChange = { it: Boolean ->
         previousQuery = query
