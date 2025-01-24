@@ -9,6 +9,7 @@ import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.CalendarToday
 import androidx.compose.material.icons.rounded.Close
+import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
@@ -32,6 +33,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavDestination.Companion.hasRoute
@@ -53,17 +55,32 @@ import app.dreamjournal.ui.statistics.statisticsDestination
 import app.dreamjournal.ui.theme.ApplicationTheme
 import app.dreamjournal.ui.tools.toolsDestination
 
+private enum class FabState(val icon: ImageVector? = null) {
+    Hidden,
+    Add(Icons.Rounded.Add),
+    Edit(Icons.Rounded.Edit),
+}
+
 @Composable
 fun DreamJournalApp() {
     ApplicationTheme {
         val navController = rememberNavController()
         val navBackStackEntry by navController.currentBackStackEntryAsState()
 
-        var searchQuery by remember { mutableStateOf("") }
+        var searchQuery by rememberSaveable { mutableStateOf("") }
+        var searchBarExpanded by rememberSaveable { mutableStateOf(false) }
+
+        var navBarVisible = true
+        var searchBarVisible = false
+        var fabState = FabState.Hidden
 
         if (navBackStackEntry != null) {
             val entry = navBackStackEntry!!
             if (entry.destination.hasRoute<ApplicationNavigation.DreamJournal>()) {
+                searchBarVisible = true
+                navBarVisible = true
+                if (!searchBarExpanded) fabState = FabState.Add
+
                 val route = entry.toRoute<ApplicationNavigation.DreamJournal>()
                 if (route.searchQuery != null) searchQuery = route.searchQuery
             }
@@ -71,19 +88,33 @@ fun DreamJournalApp() {
 
         Scaffold(
             modifier = Modifier.fillMaxSize(),
-            bottomBar = { BottomNavigationBar(navController) },
-            floatingActionButton = { FAB() },
+
+            bottomBar = {
+                if (navBarVisible) {
+                    BottomNavigationBar(navController)
+                }
+            },
+
+            floatingActionButton = {
+                if (fabState != FabState.Hidden) {
+                    FAB(icon = fabState.icon!!)
+                }
+            },
 
             topBar = {
-                Box(
-                    modifier = Modifier.fillMaxWidth(),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    MainSearchBar(
-                        query = searchQuery,
-                        onQueryChange = { searchQuery = it },
-                        onCalendarButtonClicked = navController::navigateToCalendar,
-                    )
+                if (searchBarVisible) {
+                    Box(
+                        modifier = Modifier.fillMaxWidth(),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        MainSearchBar(
+                            expanded = searchBarExpanded,
+                            onExpandedChange = { searchBarExpanded = it },
+                            query = searchQuery,
+                            onQueryChange = { searchQuery = it },
+                            onNavigateToCalendar = navController::navigateToCalendar,
+                        )
+                    }
                 }
             },
         ) { innerPadding ->
@@ -106,20 +137,14 @@ fun DreamJournalApp() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private inline fun MainSearchBar(
+    expanded: Boolean,
+    noinline onExpandedChange: (Boolean) -> Unit = {},
     query: String,
     noinline onQueryChange: (String) -> Unit,
-    crossinline onCalendarButtonClicked: () -> Unit,
-    crossinline onSearchExpandedChange: (Boolean) -> Unit = {},
+    crossinline onNavigateToCalendar: () -> Unit,
 ) {
     val focusRequester = remember { FocusRequester() }
-    var expanded by rememberSaveable { mutableStateOf(false) }
     var previousQuery by rememberSaveable { mutableStateOf("") }
-
-    val onExpandedChange = { it: Boolean ->
-        previousQuery = query
-        expanded = it
-        onSearchExpandedChange(it)
-    }
 
     SearchBar(
         modifier = Modifier.focusRequester(focusRequester),
@@ -132,25 +157,25 @@ private inline fun MainSearchBar(
                 onQueryChange = onQueryChange,
                 placeholder = { Text(stringResource(R.string.journal_search_prompt)) },
                 expanded = expanded,
-                onExpandedChange = onExpandedChange,
 
-                onSearch = {
-                    expanded = false
-                    onSearchExpandedChange(false)
+                onExpandedChange = {
+                    previousQuery = query
+                    onExpandedChange(it)
                 },
+
+                onSearch = { onExpandedChange(false) },
 
                 leadingIcon = {
                     IconButton(
                         onClick = {
                             if (expanded) {
                                 onQueryChange(previousQuery)
-                                expanded = false
-                                onSearchExpandedChange(false)
+                                onExpandedChange(false)
                             } else {
                                 if (query.isNotEmpty()) {
                                     onQueryChange("")
                                 } else {
-                                    expanded = true
+                                    onExpandedChange(true)
                                     focusRequester.requestFocus()
                                 }
                             }
@@ -177,7 +202,7 @@ private inline fun MainSearchBar(
                     IconButton(
                         onClick = {
                             if (expanded) onQueryChange("")
-                            else onCalendarButtonClicked()
+                            else onNavigateToCalendar()
                         },
                     ) {
                         Icon(
@@ -228,10 +253,10 @@ private fun BottomNavigationBar(
 }
 
 @Composable
-private fun FAB() {
+private fun FAB(icon: ImageVector) {
     FloatingActionButton(
         onClick = {},
-    ) { Icon(Icons.Rounded.Add, "") }
+    ) { Icon(icon, "") }
 }
 
 @Preview
