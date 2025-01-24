@@ -41,8 +41,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import app.dreamjournal.ui.faq.faqDestination
 import app.dreamjournal.ui.journal.calendar.calendarDestination
+import app.dreamjournal.ui.journal.calendar.navigateToCalendar
 import app.dreamjournal.ui.journal.dreamJournalDestination
 import app.dreamjournal.ui.navigation.ApplicationNavigation
 import app.dreamjournal.ui.navigation.topLevelRoutes
@@ -55,6 +57,17 @@ import app.dreamjournal.ui.tools.toolsDestination
 fun DreamJournalApp() {
     ApplicationTheme {
         val navController = rememberNavController()
+        val navBackStackEntry by navController.currentBackStackEntryAsState()
+
+        var searchQuery by remember { mutableStateOf("") }
+
+        if (navBackStackEntry != null) {
+            val entry = navBackStackEntry!!
+            if (entry.destination.hasRoute<ApplicationNavigation.DreamJournal>()) {
+                val route = entry.toRoute<ApplicationNavigation.DreamJournal>()
+                if (route.searchQuery != null) searchQuery = route.searchQuery
+            }
+        }
 
         Scaffold(
             modifier = Modifier.fillMaxSize(),
@@ -65,7 +78,13 @@ fun DreamJournalApp() {
                 Box(
                     modifier = Modifier.fillMaxWidth(),
                     contentAlignment = Alignment.Center,
-                ) { MainSearchBar(navController) }
+                ) {
+                    MainSearchBar(
+                        query = searchQuery,
+                        onQueryChange = { searchQuery = it },
+                        onCalendarButtonClicked = navController::navigateToCalendar,
+                    )
+                }
             },
         ) { innerPadding ->
             NavHost(
@@ -87,12 +106,13 @@ fun DreamJournalApp() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private inline fun MainSearchBar(
-    navController: NavHostController,
+    query: String,
+    noinline onQueryChange: (String) -> Unit,
+    crossinline onCalendarButtonClicked: () -> Unit,
     crossinline onSearchExpandedChange: (Boolean) -> Unit = {},
 ) {
     val focusRequester = remember { FocusRequester() }
     var expanded by rememberSaveable { mutableStateOf(false) }
-    var query by rememberSaveable { mutableStateOf("") }
     var previousQuery by rememberSaveable { mutableStateOf("") }
 
     val onExpandedChange = { it: Boolean ->
@@ -109,7 +129,7 @@ private inline fun MainSearchBar(
         inputField = {
             SearchBarDefaults.InputField(
                 query = query,
-                onQueryChange = { query = it },
+                onQueryChange = onQueryChange,
                 placeholder = { Text(stringResource(R.string.journal_search_prompt)) },
                 expanded = expanded,
                 onExpandedChange = onExpandedChange,
@@ -123,12 +143,12 @@ private inline fun MainSearchBar(
                     IconButton(
                         onClick = {
                             if (expanded) {
-                                query = previousQuery
+                                onQueryChange(previousQuery)
                                 expanded = false
                                 onSearchExpandedChange(false)
                             } else {
                                 if (query.isNotEmpty()) {
-                                    query = ""
+                                    onQueryChange("")
                                 } else {
                                     expanded = true
                                     focusRequester.requestFocus()
@@ -156,11 +176,8 @@ private inline fun MainSearchBar(
 
                     IconButton(
                         onClick = {
-                            if (expanded) {
-                                query = ""
-                            } else {
-                                navController.navigate(ApplicationNavigation.Calendar)
-                            }
+                            if (expanded) onQueryChange("")
+                            else onCalendarButtonClicked()
                         },
                     ) {
                         Icon(
@@ -186,11 +203,16 @@ private fun BottomNavigationBar(
             NavigationBarItem(
                 icon = { Icon(route.icon, contentDescription = "") },
                 label = { Text(stringResource(route.name)) },
+
+                selected = currentDestination?.hierarchy?.any {
+                    it.hasRoute(route.route::class)
+                } == true,
+
                 colors = NavigationBarItemDefaults.colors(
                     selectedIconColor = MaterialTheme.colorScheme.surface,
                     unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
                 ),
-                selected = currentDestination?.hierarchy?.any { it.hasRoute(route.route::class) } == true,
+
                 onClick = {
                     navController.navigate(route.route) {
                         popUpTo(navController.graph.findStartDestination().id) {

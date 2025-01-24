@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 @Immutable
 sealed class ApplicationNavigation {
     @Serializable
-    data class DreamJournal(val searchQuery: String = "") : ApplicationNavigation()
+    data class DreamJournal(val searchQuery: String? = null) : ApplicationNavigation()
 
     @Serializable
     data object Calendar : ApplicationNavigation()
