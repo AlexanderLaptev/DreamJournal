@@ -12,4 +12,5 @@
     <string name="calendar_button_edit_date">Edit date</string>
     <string name="calendar_filter_lucid">Lucid</string>
     <string name="journal_entry_untitled">(untitled)</string>
+    <string name="journal_search_prompt">Search your dreams</string>
 </resources>

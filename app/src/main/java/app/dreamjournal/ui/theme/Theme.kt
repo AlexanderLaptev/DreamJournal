@@ -15,6 +15,7 @@ fun ApplicationTheme(
     val colors = darkColorScheme(
         primary = CatppuccinColors.mauve,
         onPrimary = CatppuccinColors.base,
+        primaryContainer = CatppuccinColors.mauve,
         secondary = CatppuccinColors.mauve,
         onSecondary = CatppuccinColors.base,
         secondaryContainer = CatppuccinColors.mauve,
