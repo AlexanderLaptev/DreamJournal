@@ -7,11 +7,33 @@ import java.io.File
 
 class AudioPlayer(private val context: Context) {
     private var audioPlayer: MediaPlayer? = null
+    private var isPaused = false
+    private var lastPlayedFile: File? = null
 
     fun play(audioFile: File) {
-        MediaPlayer.create(context, audioFile.toUri()).apply {
-            audioPlayer = this
-            start()
+        if (lastPlayedFile == audioFile && isPaused) {
+            audioPlayer?.start()
+            isPaused = false
+        } else {
+            stop()
+            lastPlayedFile = audioFile
+
+            audioPlayer = MediaPlayer.create(context, audioFile.toUri()).apply {
+                setOnCompletionListener {
+                    stop()
+                }
+                start()
+            }
+            isPaused = false
+        }
+    }
+
+    fun pause() {
+        audioPlayer?.let {
+            if (it.isPlaying) {
+                it.pause()
+                isPaused = true
+            }
         }
     }
 
@@ -19,10 +41,16 @@ class AudioPlayer(private val context: Context) {
         audioPlayer?.stop()
         audioPlayer?.release()
         audioPlayer = null
+        isPaused = false
+        lastPlayedFile = null
     }
 
     fun isPlaying(): Boolean {
         return audioPlayer?.isPlaying ?: false
+    }
+
+    fun isPaused(): Boolean {
+        return isPaused
     }
 
     fun getProgress(): Float {
@@ -31,7 +59,6 @@ class AudioPlayer(private val context: Context) {
                 return it.currentPosition / it.duration.toFloat()
             }
         }
-
         return 0f
     }
 
