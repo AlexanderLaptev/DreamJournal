@@ -20,6 +20,7 @@ import app.dreamjournal.data.dream.DreamWithTags
 import app.dreamjournal.data.dream.Tag
 import app.dreamjournal.data.dream.TagColor
 import app.dreamjournal.ui.shared.DreamCard
+import app.dreamjournal.ui.shared.rememberDateTimeFormatter
 import app.dreamjournal.ui.theme.ApplicationTheme
 import app.dreamjournal.ui.theme.CatppuccinColors
 import java.time.LocalDate
@@ -33,7 +34,10 @@ data class DreamGroupState(
     val dreams: List<DreamWithTags>,
 )
 
-fun LazyListScope.dreamGroup(dreamGroupState: DreamGroupState) {
+fun LazyListScope.dreamGroup(
+    dreamGroupState: DreamGroupState,
+    cardFormatter: DateTimeFormatter,
+) {
     item {
         val configuration = LocalConfiguration.current
         val primaryLocale = configuration.locales[0]
@@ -48,7 +52,7 @@ fun LazyListScope.dreamGroup(dreamGroupState: DreamGroupState) {
         )
     }
 
-    items(dreamGroupState.dreams) { DreamCard(it.dream, it.tags) }
+    items(dreamGroupState.dreams) { DreamCard(it.dream, it.tags, cardFormatter) }
 }
 
 private val PREVIEW_DREAM_GROUP = DreamGroupState(
@@ -85,11 +89,12 @@ private val PREVIEW_DREAM_GROUP = DreamGroupState(
 @Composable
 private fun Preview() {
     ApplicationTheme {
+        val formatter = rememberDateTimeFormatter()
         LazyColumn(
             horizontalAlignment = Alignment.Start,
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            dreamGroup(PREVIEW_DREAM_GROUP)
+            dreamGroup(PREVIEW_DREAM_GROUP, formatter)
         }
     }
 }
