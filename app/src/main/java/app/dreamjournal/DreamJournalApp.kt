@@ -79,7 +79,7 @@ fun DreamJournalApp() {
             if (entry.destination.hasRoute<ApplicationNavigation.DreamJournal>()) {
                 searchBarVisible = true
                 navBarVisible = true
-                if (!searchBarExpanded) fabState = FabState.Add
+                if (!searchBarExpanded && searchQuery.isEmpty()) fabState = FabState.Add
 
                 val route = entry.toRoute<ApplicationNavigation.DreamJournal>()
                 if (route.searchQuery != null) searchQuery = route.searchQuery
