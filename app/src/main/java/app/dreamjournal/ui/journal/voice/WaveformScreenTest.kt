@@ -1,9 +1,5 @@
-package app.dreamjournal.ui
+package app.dreamjournal.ui.journal.voice
 
-import android.Manifest
-import android.annotation.SuppressLint
-import android.app.Activity
-import android.content.pm.PackageManager
 import android.os.Build
 import android.util.Log
 import androidx.compose.foundation.background
@@ -25,7 +21,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -37,65 +32,35 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat.checkSelfPermission
-import app.dreamjournal.ui.journal.voice.AudioPlayer
-import app.dreamjournal.ui.journal.voice.AudioRecorder
 import app.dreamjournal.ui.theme.ApplicationTheme
 import app.dreamjournal.ui.theme.CatppuccinColors
 import com.linc.audiowaveform.AudioWaveform
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import linc.com.amplituda.Amplituda
 import java.io.File
 
-@SuppressLint("ContextCastToActivity")
 @Composable
-fun AudioTestScreen() {
+fun WaveformScreenTest() {
     val context = LocalContext.current
     val audioRecorder = remember { AudioRecorder(context) }
-    val audioPlayer = remember { AudioPlayer(context) }
-
     val externalStorageDir = context.getExternalFilesDir(null)
     val voiceMessages = remember { mutableStateListOf<File>() }
     val isRecording = remember { mutableStateOf(false) }
-    val currentPlayingVM = remember { mutableStateOf<File?>(null) }
-    val playingProgress = remember { mutableFloatStateOf(0f) }
-
-    val requiredPermission = Manifest.permission.RECORD_AUDIO
-
-    val permissionGranted = remember {
-        mutableStateOf(
-            checkSelfPermission(context, requiredPermission) ==
-                    PackageManager.PERMISSION_GRANTED
-        )
-    }
 
     LaunchedEffect(Unit) {
-        if (!permissionGranted.value) {
-            ActivityCompat.requestPermissions(
-                context as Activity,
-                listOf(requiredPermission).toTypedArray(),
-                1
+        try {
+            loadVoiceMessages(
+                externalStorageDir = externalStorageDir,
+                voiceMessages = voiceMessages
             )
+            Log.d("VoiceMessages", "Voice messages loaded successfully")
+        } catch (e: Exception) {
+            Log.e("VoiceMessages", "Error loading voice messages: ${e.message}")
         }
-        loadVoiceMessages(
-            externalStorageDir = externalStorageDir,
-            voiceMessages = voiceMessages
-        )
     }
 
-    LaunchedEffect(currentPlayingVM) {
-        if (currentPlayingVM.value != null) {
-            while (audioPlayer.isPlaying()) {
-                playingProgress.floatValue = audioPlayer.getProgress()
-                delay(50)
-            }
-        } else {
-            playingProgress.floatValue = 0F
-        }
-    }
+    voiceMessages.forEach { println(it) }
 
     Column(
         modifier = Modifier
@@ -107,25 +72,8 @@ fun AudioTestScreen() {
             modifier = Modifier.weight(1f),
             contentPadding = PaddingValues(bottom = 16.dp)
         ) {
-            items(voiceMessages.take(1)) { voice ->
-                VoiceMessageItem(
-                    file = voice,
-                    isPlaying = currentPlayingVM.value == voice,
-                    currentProgress = if (currentPlayingVM.value == voice) playingProgress.floatValue else 0F,
-                    onProgressChange = { newProgress ->
-                        audioPlayer.seekProgress(newProgress)
-                    },
-                    onPlayStop = {
-                        if (currentPlayingVM.value == voice) {
-                            audioPlayer.stop()
-                            currentPlayingVM.value = null
-                        } else {
-                            audioPlayer.stop()
-                            audioPlayer.play(voice)
-                            currentPlayingVM.value = voice
-                        }
-                    }
-                )
+            items(voiceMessages.drop(2).take(1)) { voice ->
+                VoiceMessageItem(file = voice)
             }
         }
 
@@ -135,20 +83,13 @@ fun AudioTestScreen() {
                 .padding(horizontal = 64.dp),
             onClick = {
                 if (isRecording.value) {
-                    stopRecording(
-                        recorder = audioRecorder,
-                        isRecording = isRecording
-                    )
+                    stopRecording(audioRecorder, isRecording)
                     loadVoiceMessages(
                         externalStorageDir = externalStorageDir,
                         voiceMessages = voiceMessages
                     )
                 } else {
-                    startRecording(
-                        recorder = audioRecorder,
-                        isRecording = isRecording,
-                        externalStorageDir = externalStorageDir
-                    )
+                    startRecording(audioRecorder, isRecording, externalStorageDir)
                 }
             }
         ) {
@@ -158,28 +99,38 @@ fun AudioTestScreen() {
 }
 
 @Composable
-fun VoiceMessageItem(
-    file: File,
-    isPlaying: Boolean,
-    onPlayStop: () -> Unit,
-    currentProgress: Float,
-    onProgressChange: (Float) -> Unit
-) {
+fun VoiceMessageItem(file: File) {
     val context = LocalContext.current
     val isLoading = remember { mutableStateOf(false) }
     val waveformData = remember { mutableStateOf<List<Int>?>(null) }
+    val processedFiles = remember { mutableSetOf<String>() }
 
     LaunchedEffect(file) {
+        if (processedFiles.contains(file.path)) {
+            return@LaunchedEffect
+        }
+
+        processedFiles.add(file.path)
         isLoading.value = true
         try {
             Log.d("Waveform", "Processing audio: ${file.path}")
             val amplitudes = withContext(Dispatchers.IO) {
-                Amplituda(context).processAudio(file.path).get().amplitudesAsList()
+                Log.d("Waveform", "Processing ${file.path} in IO context")
+                val result = Amplituda(context).processAudio(file.path).get()
+                Log.d("Waveform", "Result: $result")
+                result.amplitudesAsList()
             }
 
-            Log.d("Waveform", "Successfully loaded waveform data for ${file.name}")
+            if (amplitudes.isEmpty()) {
+                Log.d("Waveform", "No amplitudes found for file: ${file.name}")
+            } else {
+                Log.d("Waveform", "Successfully loaded waveform data for ${file.name} with ${amplitudes.size} amplitudes")
+            }
+
+            waveformData.value = amplitudes
         } catch (e: Exception) {
-            Log.e("Waveform", "Error processing audio file: ${e.message}")
+            Log.d("Waveform", "Error processing audio file ${file.name}: ${e.message}", e)
+            waveformData.value = emptyList()
         } finally {
             isLoading.value = false
         }
@@ -199,26 +150,47 @@ fun VoiceMessageItem(
                 color = CatppuccinColors.text
             )
         } else {
-            waveformData.value?.takeIf { it.isNotEmpty() }?.let { amplitudes ->
-                AudioWaveform(
-                    modifier = Modifier
-                        .width(150.dp)
-                        .height(48.dp)
-                        .clip(RoundedCornerShape(8.dp)),
-                    progress = currentProgress,
-                    onProgressChange = { newProgress ->
-                        onProgressChange(newProgress)
-                    },
-                    amplitudes = amplitudes,
-                    waveformBrush = SolidColor(CatppuccinColors.overlay0),
-                    progressBrush = SolidColor(CatppuccinColors.mauve),
-                )
+            waveformData.value?.let { amplitudes ->
+                if (amplitudes.isEmpty()) {
+                    Text(
+                        text = "No waveform data",
+                        color = CatppuccinColors.text
+                    )
+                } else {
+                    AudioWaveform(
+                        modifier = Modifier
+                            .width(150.dp)
+                            .height(48.dp)
+                            .clip(RoundedCornerShape(8.dp)),
+                        amplitudes = amplitudes,
+                        waveformBrush = SolidColor(CatppuccinColors.overlay0),
+                        onProgressChange = {}
+                    )
+                }
             } ?: Text(
-                modifier = Modifier.weight(1f),
                 text = "No waveform data",
                 color = CatppuccinColors.text
             )
         }
+        Button(onClick = {}) {
+            Text(text = "Play")
+        }
+    }
+}
+
+private fun loadVoiceMessages(
+    externalStorageDir: File?,
+    voiceMessages: SnapshotStateList<File>,
+) {
+    val voiceDir = File(externalStorageDir, "voices")
+    if (voiceDir.exists()) {
+        Log.d("VoiceMessages", "Found voice directory, loading files...")
+        val files = voiceDir.listFiles()?.sortedBy { it.lastModified() } ?: emptyList()
+        voiceMessages.clear()
+        voiceMessages.addAll(files)
+        Log.d("VoiceMessages", "Loaded ${files.size} files.")
+    } else {
+        Log.e("VoiceMessages", "Voice directory does not exist.")
     }
 }
 
@@ -249,22 +221,10 @@ private fun stopRecording(
     isRecording.value = false
 }
 
-private fun loadVoiceMessages(
-    externalStorageDir: File?,
-    voiceMessages: SnapshotStateList<File>,
-) {
-    val voiceDir = File(externalStorageDir, "voices")
-    if (voiceDir.exists()) {
-        val files = voiceDir.listFiles()?.sortedBy { it.lastModified() } ?: emptyList()
-        voiceMessages.clear()
-        voiceMessages.addAll(files)
-    }
-}
-
 @Preview
 @Composable
-fun AudioTestScreenPreview() {
+fun WaveformScreenTestPreview() {
     ApplicationTheme {
-        AudioTestScreen()
+        WaveformScreenTest()
     }
 }
