@@ -1,4 +1,4 @@
-package app.dreamjournal.ui.calendar
+package app.dreamjournal.ui.journal.calendar
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border

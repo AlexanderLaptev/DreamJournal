@@ -7,7 +7,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.compose.composable
+import app.dreamjournal.ui.navigation.ApplicationNavigation
 import app.dreamjournal.ui.theme.ApplicationTheme
+
+fun NavGraphBuilder.settingsDestination() {
+    composable<ApplicationNavigation.Settings> { SettingsScreen() }
+}
 
 @Composable
 fun SettingsScreen() {

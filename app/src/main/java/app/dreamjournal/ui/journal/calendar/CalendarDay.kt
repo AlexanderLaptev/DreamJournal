@@ -1,4 +1,4 @@
-package app.dreamjournal.ui.calendar
+package app.dreamjournal.ui.journal.calendar
 
 import android.content.res.Configuration
 import androidx.compose.foundation.Canvas
