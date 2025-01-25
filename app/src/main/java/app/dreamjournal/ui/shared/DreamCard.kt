@@ -97,7 +97,7 @@ fun DreamCard(
 }
 
 @Composable
-private fun ColorStrip(
+fun ColorStrip(
     color: Color,
     modifier: Modifier = Modifier,
 ) {
