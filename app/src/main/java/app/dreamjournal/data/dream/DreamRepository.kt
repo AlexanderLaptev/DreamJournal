@@ -11,7 +11,7 @@ interface DreamRepository {
     suspend fun getAllDreams(): List<Dream>
 
     @Query("SELECT * FROM Dream WHERE id = :id")
-    suspend fun getDreamById(id: Int): Dream?
+    suspend fun getDreamById(id: Long): Dream?
 
     @Query(
         """
@@ -20,14 +20,14 @@ interface DreamRepository {
                 WHERE DT.tagId = :id
         """
     )
-    suspend fun getDreamsByTagId(id: Int): List<Dream>
+    suspend fun getDreamsByTagId(id: Long): List<Dream>
 
     @Upsert
-    suspend fun saveDream(dream: Dream): Int
+    suspend fun saveDream(dream: Dream): Long
 
     @Delete
     suspend fun deleteDream(dream: Dream)
 
     @Query("DELETE FROM Dream WHERE id = :id")
-    suspend fun deleteDreamById(id: Int)
+    suspend fun deleteDreamById(id: Long)
 }

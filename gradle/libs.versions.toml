@@ -10,6 +10,8 @@ kotlinxSerializationJson = "1.7.3"
 ksp = "2.0.21-1.0.27"
 lifecycleRuntimeKtx = "2.8.7"
 room = "2.6.1"
+koinAndroidxCompose = "4.1.0-Beta5"
+koinAndroidxComposeNavigation = "4.1.0-Beta5"
 
 [libraries]
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
@@ -33,6 +35,8 @@ androidx-compose-navigation = { module = "androidx.navigation:navigation-compose
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 audio-waveform = { group = "com.github.lincollincol", name = "compose-audiowaveform", version = "1.1.1" }
 audio-amplituda = { group = "com.github.lincollincol", name = "amplituda",  version = "2.2.2" }
+koin-androidx-compose = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koinAndroidxCompose" }
+koin-androidx-compose-navigation = { group = "io.insert-koin", name = "koin-androidx-compose-navigation", version.ref = "koinAndroidxComposeNavigation" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -1,4 +1,4 @@
-package app.dreamjournal
+package app.dreamjournal.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

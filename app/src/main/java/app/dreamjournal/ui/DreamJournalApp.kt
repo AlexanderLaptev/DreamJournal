@@ -1,4 +1,4 @@
-package app.dreamjournal
+package app.dreamjournal.ui
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -47,7 +47,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import app.dreamjournal.R
 import app.dreamjournal.ui.faq.faqDestination
+import app.dreamjournal.ui.journal.DreamJournalViewModel
 import app.dreamjournal.ui.journal.calendar.calendarDestination
 import app.dreamjournal.ui.journal.calendar.navigateToCalendar
 import app.dreamjournal.ui.journal.dreamJournalDestination
@@ -57,9 +59,11 @@ import app.dreamjournal.ui.settings.navigateToSettings
 import app.dreamjournal.ui.settings.settingsDestination
 import app.dreamjournal.ui.statistics.statisticsDestination
 import app.dreamjournal.ui.theme.ApplicationTheme
-import app.dreamjournal.ui.theme.Theme
 import app.dreamjournal.ui.theme.LocalThemeProvider
+import app.dreamjournal.ui.theme.Theme
 import app.dreamjournal.ui.tools.toolsDestination
+import org.koin.androidx.compose.KoinAndroidContext
+import org.koin.androidx.compose.koinViewModel
 
 private enum class FabState(val icon: ImageVector? = null) {
     Hidden,
@@ -128,17 +132,20 @@ fun DreamJournalApp() {
                     }
                 },
             ) { innerPadding ->
-                NavHost(
-                    modifier = Modifier.padding(innerPadding),
-                    navController = navController,
-                    startDestination = ApplicationNavigation.DreamJournal(),
-                ) {
-                    dreamJournalDestination()
-                    calendarDestination()
-                    statisticsDestination()
-                    toolsDestination()
-                    faqDestination()
-                    settingsDestination(onThemeChange = { newTheme -> currentTheme = newTheme })
+                KoinAndroidContext {
+                    val dreamJournalViewModel = koinViewModel<DreamJournalViewModel>()
+                    NavHost(
+                        modifier = Modifier.padding(innerPadding),
+                        navController = navController,
+                        startDestination = ApplicationNavigation.DreamJournal(),
+                    ) {
+                        dreamJournalDestination(dreamJournalViewModel)
+                        calendarDestination()
+                        statisticsDestination()
+                        toolsDestination()
+                        faqDestination()
+                        settingsDestination(onThemeChange = { newTheme -> currentTheme = newTheme })
+                    }
                 }
             }
         }

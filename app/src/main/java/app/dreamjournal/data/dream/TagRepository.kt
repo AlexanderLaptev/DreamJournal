@@ -11,7 +11,7 @@ interface TagRepository {
     suspend fun getAllTags(): List<Tag>
 
     @Query("SELECT * FROM Tag WHERE id = :id")
-    suspend fun getTagById(id: Int): Tag?
+    suspend fun getTagById(id: Long): Tag?
 
     @Query(
         """
@@ -20,14 +20,14 @@ interface TagRepository {
                 WHERE DT.dreamId = :id
         """
     )
-    suspend fun getTagsByDreamId(id: Int): List<Tag>
+    suspend fun getTagsByDreamId(id: Long): List<Tag>
 
     @Upsert
-    suspend fun saveTag(tag: Tag): Int
+    suspend fun saveTag(tag: Tag): Long
 
     @Delete
     suspend fun deleteTag(tag: Tag)
 
     @Query("DELETE FROM Tag WHERE id = :id")
-    suspend fun deleteTagById(id: Int)
+    suspend fun deleteTagById(id: Long)
 }
