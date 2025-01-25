@@ -12,22 +12,22 @@ import androidx.compose.runtime.staticCompositionLocalOf
 
 @Composable
 fun ApplicationTheme(
-    appTheme: Theme = Theme.System,
+    appThemePreference: ThemePreference = ThemePreference.System,
     content: @Composable () -> Unit,
 ) {
-    val useDarkTheme = when (appTheme) {
-        Theme.Light -> false
-        Theme.Dark -> true
-        Theme.System -> isSystemInDarkTheme()
+    val useDarkThemePreference = when (appThemePreference) {
+        ThemePreference.Light -> false
+        ThemePreference.Dark -> true
+        ThemePreference.System -> isSystemInDarkTheme()
     }
-    Log.d(null, "appTheme = $appTheme; useDarkTheme = $useDarkTheme")
+    Log.d(null, "appTheme = $appThemePreference; useDarkTheme = $useDarkThemePreference")
 
-    val catppuccinColorScheme = if (useDarkTheme) MochaColorScheme else LatteColorScheme
+    val catppuccinColorScheme = if (useDarkThemePreference) MochaColorScheme else LatteColorScheme
 
     CompositionLocalProvider(
         LocalCatppuccinColorScheme provides catppuccinColorScheme
     ) {
-        val colors = if (useDarkTheme) darkColorScheme(
+        val colors = if (useDarkThemePreference) darkColorScheme(
             primary = CatppuccinColors.mauve,
             onPrimary = CatppuccinColors.base,
             primaryContainer = CatppuccinColors.mauve,
@@ -70,8 +70,8 @@ fun ApplicationTheme(
     }
 }
 
-val LocalThemeProvider = staticCompositionLocalOf { Theme.System }
+val LocalThemePreferenceProvider = staticCompositionLocalOf { ThemePreference.System }
 
-enum class Theme {
+enum class ThemePreference {
     Light, Dark, System
 }

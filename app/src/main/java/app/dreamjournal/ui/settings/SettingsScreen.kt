@@ -19,12 +19,12 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import app.dreamjournal.ui.navigation.ApplicationNavigation
 import app.dreamjournal.ui.theme.ApplicationTheme
-import app.dreamjournal.ui.theme.Theme
+import app.dreamjournal.ui.theme.ThemePreference
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-fun NavGraphBuilder.settingsDestination(onThemeChange: (Theme) -> Unit) {
+fun NavGraphBuilder.settingsDestination(onThemeChange: (ThemePreference) -> Unit) {
     composable<ApplicationNavigation.Settings> { SettingsScreen(onThemeChange = onThemeChange) }
 }
 
@@ -34,7 +34,7 @@ fun NavController.navigateToSettings() {
 
 @Composable
 fun SettingsScreen(
-    onThemeChange: (Theme) -> Unit
+    onThemeChange: (ThemePreference) -> Unit,
 ) {
     val context = LocalContext.current
     val buttonHeight = 48.dp
@@ -44,10 +44,10 @@ fun SettingsScreen(
         .width(buttonWidth)
         .height(buttonHeight)
 
-    fun handleThemeChanging(theme: Theme) {
-        onThemeChange(theme)
+    fun handleThemeChanging(themePreference: ThemePreference) {
+        onThemeChange(themePreference)
         CoroutineScope(Dispatchers.IO).launch {
-            saveThemeToDataStore(context, theme)
+            saveThemeToDataStore(context, themePreference)
         }
     }
 
@@ -59,7 +59,7 @@ fun SettingsScreen(
         Button(
             modifier = buttonModifier,
             onClick = {
-                handleThemeChanging(theme = Theme.Light)
+                handleThemeChanging(themePreference = ThemePreference.Light)
             }
         ) {
             Text(text = "Light Theme")
@@ -70,7 +70,7 @@ fun SettingsScreen(
         Button(
             modifier = buttonModifier,
             onClick = {
-                handleThemeChanging(theme = Theme.Dark)
+                handleThemeChanging(themePreference = ThemePreference.Dark)
             }
         ) {
             Text(text = "Dark Theme")
@@ -81,7 +81,7 @@ fun SettingsScreen(
         Button(
             modifier = buttonModifier,
             onClick = {
-                handleThemeChanging(theme = Theme.System)
+                handleThemeChanging(themePreference = ThemePreference.System)
             }
         ) {
             Text(text = "System Theme")

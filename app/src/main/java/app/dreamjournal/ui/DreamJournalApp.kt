@@ -26,8 +26,6 @@ import androidx.compose.material3.SearchBar
 import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -62,12 +60,10 @@ import app.dreamjournal.ui.settings.navigateToSettings
 import app.dreamjournal.ui.settings.settingsDestination
 import app.dreamjournal.ui.statistics.statisticsDestination
 import app.dreamjournal.ui.theme.ApplicationTheme
-import app.dreamjournal.ui.theme.LocalThemeProvider
-import app.dreamjournal.ui.theme.Theme
 import app.dreamjournal.ui.tools.toolsDestination
+import kotlinx.coroutines.runBlocking
 import org.koin.androidx.compose.KoinAndroidContext
 import org.koin.androidx.compose.koinViewModel
-import kotlinx.coroutines.runBlocking
 
 private enum class FabState(val icon: ImageVector? = null) {
     Hidden,
@@ -78,85 +74,80 @@ private enum class FabState(val icon: ImageVector? = null) {
 @Composable
 fun DreamJournalApp() {
     val context = LocalContext.current
-    val initialTheme = runBlocking { loadThemeFromDataStore(context) }
-    var currentTheme by rememberSaveable { mutableStateOf(initialTheme) }
-
-    LaunchedEffect(Unit) {
-        val savedTheme = loadThemeFromDataStore(context = context)
-        currentTheme = savedTheme
+    var themePreference by rememberSaveable {
+        val preference = runBlocking { loadThemeFromDataStore(context) }
+        mutableStateOf(preference)
     }
 
-    CompositionLocalProvider(LocalThemeProvider provides currentTheme) {
-        ApplicationTheme(appTheme = currentTheme) {
-            val navController = rememberNavController()
-            val navBackStackEntry by navController.currentBackStackEntryAsState()
+    ApplicationTheme(appThemePreference = themePreference) {
+        val navController = rememberNavController()
+        val navBackStackEntry by navController.currentBackStackEntryAsState()
 
-            var searchQuery by rememberSaveable { mutableStateOf("") }
-            var searchBarExpanded by rememberSaveable { mutableStateOf(false) }
+        var searchQuery by rememberSaveable { mutableStateOf("") }
+        var searchBarExpanded by rememberSaveable { mutableStateOf(false) }
 
-            var navBarVisible = true
-            var searchBarVisible = false
-            var fabState = FabState.Hidden
+        var navBarVisible = true
+        var searchBarVisible = false
+        var fabState = FabState.Hidden
 
-            if (navBackStackEntry != null) {
-                val entry = navBackStackEntry!!
-                if (entry.destination.hasRoute<ApplicationNavigation.DreamJournal>()) {
-                    searchBarVisible = true
-                    navBarVisible = true
-                    if (!searchBarExpanded && searchQuery.isEmpty()) fabState = FabState.Add
+        if (navBackStackEntry != null) {
+            val entry = navBackStackEntry!!
+            if (entry.destination.hasRoute<ApplicationNavigation.DreamJournal>()) {
+                searchBarVisible = true
+                navBarVisible = true
+                if (!searchBarExpanded && searchQuery.isEmpty()) fabState = FabState.Add
 
-                    val route = entry.toRoute<ApplicationNavigation.DreamJournal>()
-                    if (route.searchQuery != null) searchQuery = route.searchQuery
-                }
+                val route = entry.toRoute<ApplicationNavigation.DreamJournal>()
+                if (route.searchQuery != null) searchQuery = route.searchQuery
             }
+        }
 
-            Scaffold(
-                modifier = Modifier.fillMaxSize(),
+        Scaffold(
+            modifier = Modifier.fillMaxSize(),
 
-                bottomBar = {
-                    if (navBarVisible) {
-                        BottomNavigationBar(navController)
-                    }
-                },
+            bottomBar = {
+                if (navBarVisible) {
+                    BottomNavigationBar(navController)
+                }
+            },
 
-                floatingActionButton = {
-                    if (fabState != FabState.Hidden) {
-                        FAB(icon = fabState.icon!!)
-                    }
-                },
+            floatingActionButton = {
+                if (fabState != FabState.Hidden) {
+                    FAB(icon = fabState.icon!!)
+                }
+            },
 
-                topBar = {
-                    if (searchBarVisible) {
-                        Box(
-                            modifier = Modifier.fillMaxWidth(),
-                            contentAlignment = Alignment.Center,
-                        ) {
-                            MainSearchBar(
-                                expanded = searchBarExpanded,
-                                onExpandedChange = { searchBarExpanded = it },
-                                query = searchQuery,
-                                onQueryChange = { searchQuery = it },
-                                onNavigateToSettings = navController::navigateToSettings,
-                                onNavigateToCalendar = navController::navigateToCalendar,
-                            )
-                        }
-                    }
-                },
-            ) { innerPadding ->
-                KoinAndroidContext {
-                    val dreamJournalViewModel = koinViewModel<DreamJournalViewModel>()
-                    NavHost(
-                        modifier = Modifier.padding(innerPadding),
-                        navController = navController,
-                        startDestination = ApplicationNavigation.DreamJournal(),
+            topBar = {
+                if (searchBarVisible) {
+                    Box(
+                        modifier = Modifier.fillMaxWidth(),
+                        contentAlignment = Alignment.Center,
                     ) {
-                        dreamJournalDestination(dreamJournalViewModel)
-                        calendarDestination()
-                        statisticsDestination()
-                        toolsDestination()
-                        faqDestination()
-                        settingsDestination(onThemeChange = { newTheme -> currentTheme = newTheme })
+                        MainSearchBar(
+                            expanded = searchBarExpanded,
+                            onExpandedChange = { searchBarExpanded = it },
+                            query = searchQuery,
+                            onQueryChange = { searchQuery = it },
+                            onNavigateToSettings = navController::navigateToSettings,
+                            onNavigateToCalendar = navController::navigateToCalendar,
+                        )
                     }
+                }
+            },
+        ) { innerPadding ->
+            KoinAndroidContext {
+                val dreamJournalViewModel = koinViewModel<DreamJournalViewModel>()
+                NavHost(
+                    modifier = Modifier.padding(innerPadding),
+                    navController = navController,
+                    startDestination = ApplicationNavigation.DreamJournal(),
+                ) {
+                    dreamJournalDestination(dreamJournalViewModel)
+                    calendarDestination()
+                    statisticsDestination()
+                    toolsDestination()
+                    faqDestination()
+                    settingsDestination(onThemeChange = { newTheme -> themePreference = newTheme })
                 }
             }
         }
