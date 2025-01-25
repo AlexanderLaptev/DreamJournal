@@ -17,7 +17,7 @@
     <string name="screen_statistics">Statistics</string>
     <string name="screen_tools">Tools</string>
     <string name="screen_faq">FAQ</string>
-    <string name="group_date_pattern">MMMM dd, yyyy</string>
-    <string name="card_pattern_short" translatable="false">HH:mm</string>
-    <string name="card_pattern_long">MMMM dd, yyyy - HH:mm</string>
+    <string name="group_date_pattern">MMMM d, yyyy</string>
+    <string name="card_pattern_short">HH:mm</string>
+    <string name="card_pattern_long">MMMM d, yyyy - HH:mm</string>
 </resources>
