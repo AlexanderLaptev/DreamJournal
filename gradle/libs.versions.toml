@@ -39,6 +39,8 @@ audio-waveform = { group = "com.github.lincollincol", name = "compose-audiowavef
 audio-amplituda = { group = "com.github.lincollincol", name = "amplituda", version = "2.2.2" }
 koin-androidx-compose = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koinAndroidxCompose" }
 koin-androidx-compose-navigation = { group = "io.insert-koin", name = "koin-androidx-compose-navigation", version.ref = "koinAndroidxComposeNavigation" }
+androidx-datastore = { group = "androidx.datastore", name = "datastore", version = "1.1.2"}
+androidx-datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version = "1.1.2"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

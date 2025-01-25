@@ -66,6 +66,8 @@ dependencies {
     implementation(libs.catppuccin.palette)
     implementation(libs.audio.amplituda)
     implementation(libs.audio.waveform)
+    implementation(libs.androidx.datastore)
+    implementation(libs.androidx.datastore.preferences)
 
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
