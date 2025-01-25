@@ -1,6 +1,5 @@
 package app.dreamjournal.ui.journal
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -22,7 +21,6 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.KoinApplication
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun DreamJournalScreen(
     viewModel: DreamJournalViewModel,
@@ -31,7 +29,14 @@ fun DreamJournalScreen(
     val formatter = rememberDateTimeFormatter(useShortFormat = true)
 
     LazyColumn(
-        modifier = Modifier.padding(16.dp),
+        modifier = Modifier
+            .padding(
+                top = 16.dp,
+                bottom = 0.dp,
+                start = 16.dp,
+                end = 16.dp,
+            ),
+
         horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {

@@ -1,5 +1,6 @@
 package app.dreamjournal.ui.journal.calendar
 
+import android.content.res.Resources
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -26,6 +27,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -33,9 +35,9 @@ import androidx.compose.ui.unit.dp
 import app.dreamjournal.R
 import app.dreamjournal.ui.theme.CatppuccinColors
 import java.time.DayOfWeek
+import java.time.LocalDate
 import java.time.Month
 import java.time.YearMonth
-import java.time.format.DateTimeFormatter
 
 private const val DAYS_IN_WEEK = 7
 
@@ -50,9 +52,6 @@ private val NAMES = listOf(
 )
 
 private const val FULL_COUNT = 5 * DAYS_IN_WEEK
-
-// TODO: localized date formatting
-private val formatter = DateTimeFormatter.ofPattern("MMMM yyyy")
 
 @Composable
 fun Calendar(
@@ -79,7 +78,7 @@ fun Calendar(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
-                    text = formatter.format(yearMonth),
+                    text = currentYearMonthToString(LocalContext.current.resources),
                     style = MaterialTheme.typography.titleLarge,
                     color = CatppuccinColors.text,
                 )
@@ -202,6 +201,29 @@ private fun LevelsPreview() {
             color = CatppuccinColors.overlay0,
         )
     }
+}
+
+fun currentYearMonthToString(resources: Resources): String {
+    val now = LocalDate.now()
+    val resId = when (now.month!!) {
+        Month.JANUARY -> R.string.month_january
+        Month.FEBRUARY -> R.string.month_february
+        Month.MARCH -> R.string.month_march
+        Month.APRIL -> R.string.month_april
+        Month.MAY -> R.string.month_may
+        Month.JUNE -> R.string.month_june
+        Month.JULY -> R.string.month_july
+        Month.AUGUST -> R.string.month_august
+        Month.SEPTEMBER -> R.string.month_september
+        Month.OCTOBER -> R.string.month_october
+        Month.NOVEMBER -> R.string.month_november
+        Month.DECEMBER -> R.string.month_december
+    }
+    val month = resources.getString(resId)
+    val year = now.year.toString()
+
+    val pattern = resources.getString(R.string.calendar_pattern)
+    return pattern.format(month, year)
 }
 
 private val PREVIEW_YEAR_MONTH = YearMonth.of(2024, Month.FEBRUARY)

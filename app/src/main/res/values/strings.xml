@@ -1,12 +1,12 @@
 <resources>
     <string name="app_name" translatable="false">Dream Journal</string>
     <string name="monday_short">Mon</string>
-    <string name="sunday_short">Sun</string>
     <string name="tuesday_short">Tue</string>
     <string name="wednesday_short">Wed</string>
     <string name="thursday_short">Thu</string>
     <string name="friday_short">Fri</string>
     <string name="saturday_short">Sat</string>
+    <string name="sunday_short">Sun</string>
     <string name="calendar_less">Less</string>
     <string name="calendar_more">More</string>
     <string name="calendar_button_edit_date">Edit date</string>
@@ -20,4 +20,17 @@
     <string name="group_date_pattern">MMMM d, yyyy</string>
     <string name="card_pattern_short">HH:mm</string>
     <string name="card_pattern_long">MMMM d, yyyy - HH:mm</string>
+    <string name="month_january">January</string>
+    <string name="month_february">February</string>
+    <string name="month_march">March</string>
+    <string name="month_april">April</string>
+    <string name="month_may">May</string>
+    <string name="month_june">June</string>
+    <string name="month_july">July</string>
+    <string name="month_august">August</string>
+    <string name="month_september">September</string>
+    <string name="month_october">October</string>
+    <string name="month_november">November</string>
+    <string name="month_december">December</string>
+    <string name="calendar_pattern">%1$s %2$s</string>
 </resources>

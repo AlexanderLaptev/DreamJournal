@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="monday_short">Пн</string>
-    <string name="sunday_short">Вс</string>
     <string name="tuesday_short">Вт</string>
     <string name="wednesday_short">Ср</string>
     <string name="thursday_short">Чт</string>
     <string name="friday_short">Пт</string>
     <string name="saturday_short">Сб</string>
+    <string name="sunday_short">Вс</string>
     <string name="calendar_less">Меньше</string>
     <string name="calendar_more">Больше</string>
     <string name="calendar_button_edit_date">Выбрать дату</string>
@@ -20,4 +20,17 @@
     <string name="group_date_pattern">d MMMM yyyy \'г.\'</string>
     <string name="card_pattern_short">HH:mm</string>
     <string name="card_pattern_long">d MMMM yyyy \'г.\' - HH:mm</string>
+    <string name="month_january">Январь</string>
+    <string name="month_february">Февраль</string>
+    <string name="month_march">Март</string>
+    <string name="month_april">Апрель</string>
+    <string name="month_may">Май</string>
+    <string name="month_june">Июнь</string>
+    <string name="month_july">Июль</string>
+    <string name="month_august">Август</string>
+    <string name="month_september">Сентябрь</string>
+    <string name="month_october">Октябрь</string>
+    <string name="month_november">Ноябрь</string>
+    <string name="month_december">Декабрь</string>
+    <string name="calendar_pattern">%1$s %2$s</string>
 </resources>
