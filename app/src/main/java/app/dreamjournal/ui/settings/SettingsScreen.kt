@@ -47,7 +47,7 @@ fun SettingsScreen(
     fun handleThemeChanging(themePreference: ThemePreference) {
         onThemeChange(themePreference)
         CoroutineScope(Dispatchers.IO).launch {
-            saveThemeToDataStore(context, themePreference)
+            Settings.saveThemePreference(context, themePreference)
         }
     }
 

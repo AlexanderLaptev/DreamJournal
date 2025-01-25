@@ -55,7 +55,7 @@ import app.dreamjournal.ui.journal.calendar.navigateToCalendar
 import app.dreamjournal.ui.journal.dreamJournalDestination
 import app.dreamjournal.ui.navigation.ApplicationNavigation
 import app.dreamjournal.ui.navigation.topLevelRoutes
-import app.dreamjournal.ui.settings.loadThemeFromDataStore
+import app.dreamjournal.ui.settings.Settings
 import app.dreamjournal.ui.settings.navigateToSettings
 import app.dreamjournal.ui.settings.settingsDestination
 import app.dreamjournal.ui.statistics.statisticsDestination
@@ -75,7 +75,7 @@ private enum class FabState(val icon: ImageVector? = null) {
 fun DreamJournalApp() {
     val context = LocalContext.current
     var themePreference by rememberSaveable {
-        val preference = runBlocking { loadThemeFromDataStore(context) }
+        val preference = runBlocking { Settings.loadThemePreference(context) }
         mutableStateOf(preference)
     }
 
