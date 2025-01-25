@@ -44,3 +44,8 @@ val databaseModule = module {
     single { get<DreamJournalDatabase>().tagDao() }
     single { get<DreamJournalDatabase>().dreamTagCrossRefDao() }
 }
+
+val mockDatabaseModule = module {
+    single<DreamRepository> { MockDreamRepository() }
+    single<TagRepository> { MockTagRepository() }
+}

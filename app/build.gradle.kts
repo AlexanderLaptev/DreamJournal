@@ -12,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId = "app.dreamjournal"
-        minSdk = 26
+        minSdk = 26 // TODO: lower?
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
@@ -32,6 +32,7 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
+        isCoreLibraryDesugaringEnabled = true
     }
     kotlinOptions {
         jvmTarget = "11"
@@ -43,6 +44,7 @@ android {
 
 dependencies {
     ksp(libs.androidx.room.compiler)
+    coreLibraryDesugaring(libs.desugar.jdk.libs)
     implementation(platform(libs.androidx.compose.bom))
 
     implementation(libs.androidx.activity.compose)

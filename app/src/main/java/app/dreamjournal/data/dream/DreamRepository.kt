@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Query
 import androidx.room.Upsert
 
+// TODO: paginate everything
 @Dao
 interface DreamRepository {
     @Query("SELECT * FROM Dream")

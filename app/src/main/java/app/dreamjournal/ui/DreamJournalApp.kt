@@ -125,7 +125,7 @@ fun DreamJournalApp() {
                                 onExpandedChange = { searchBarExpanded = it },
                                 query = searchQuery,
                                 onQueryChange = { searchQuery = it },
-                                onSettings = navController::navigateToSettings,
+                                onNavigateToSettings = navController::navigateToSettings,
                                 onNavigateToCalendar = navController::navigateToCalendar,
                             )
                         }
@@ -160,7 +160,7 @@ private inline fun MainSearchBar(
     query: String,
     noinline onQueryChange: (String) -> Unit,
     crossinline onNavigateToCalendar: () -> Unit,
-    crossinline onSettings: () -> Unit
+    crossinline onNavigateToSettings: () -> Unit,
 ) {
     val focusRequester = remember { FocusRequester() }
     var previousQuery by rememberSaveable { mutableStateOf("") }
@@ -230,7 +230,7 @@ private inline fun MainSearchBar(
                             )
                         }
 
-                        IconButton(onClick = { onSettings() }) {
+                        IconButton(onClick = { onNavigateToSettings() }) {
                             Icon(
                                 imageVector = Icons.Rounded.Settings,
                                 contentDescription = "Settings"

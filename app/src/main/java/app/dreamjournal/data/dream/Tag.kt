@@ -12,7 +12,7 @@ data class Tag(
     val label: String,
     val emoji: String = "",
     val color: TagColor = TagColor.White,
-    @PrimaryKey(autoGenerate = true) val id: Int = ID_NOT_SET,
+    @PrimaryKey(autoGenerate = true) val id: Long = ID_NOT_SET,
 ) {
     @Ignore
     val isSaved = id != ID_NOT_SET

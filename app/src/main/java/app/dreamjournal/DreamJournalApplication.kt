@@ -1,7 +1,7 @@
 package app.dreamjournal
 
 import android.app.Application
-import app.dreamjournal.data.di.databaseModule
+import app.dreamjournal.data.di.mockDatabaseModule
 import app.dreamjournal.ui.di.uiModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -21,5 +21,5 @@ class DreamJournalApplication : Application() {
 }
 
 internal fun KoinApplication.appModules() {
-    modules(databaseModule, uiModule)
+    modules(mockDatabaseModule, uiModule)
 }
