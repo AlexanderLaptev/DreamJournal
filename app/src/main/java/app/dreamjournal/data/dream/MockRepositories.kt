@@ -1,10 +1,6 @@
-package app.dreamjournal.data.di
+package app.dreamjournal.data.dream
 
-import app.dreamjournal.data.dream.Dream
-import app.dreamjournal.data.dream.DreamRepository
-import app.dreamjournal.data.dream.Tag
-import app.dreamjournal.data.dream.TagColor
-import app.dreamjournal.data.dream.TagRepository
+import kotlinx.coroutines.delay
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
@@ -42,7 +38,10 @@ class MockDreamRepository : DreamRepository {
         result
     }
 
-    override suspend fun getAllDreams(): List<Dream> = mockDreams
+    override suspend fun getAllDreams(): List<Dream> {
+        delay(1000) // Simulate IO
+        return mockDreams
+    }
 
     override suspend fun getDreamById(id: Long): Dream = mockDreams[id.toInt()]
 

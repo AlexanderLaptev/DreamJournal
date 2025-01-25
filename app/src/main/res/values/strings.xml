@@ -33,4 +33,6 @@
     <string name="month_november">November</string>
     <string name="month_december">December</string>
     <string name="calendar_pattern">%1$s %2$s</string>
+    <string name="journal_empty_message">You haven\'t recorded any dreams yet.</string>
+    <string name="journal_loading_message">Loading…</string>
 </resources>

@@ -33,4 +33,6 @@
     <string name="month_november">Ноябрь</string>
     <string name="month_december">Декабрь</string>
     <string name="calendar_pattern">%1$s %2$s</string>
+    <string name="journal_empty_message">У вас ещё нет записанных снов.</string>
+    <string name="journal_loading_message">Загрузка…</string>
 </resources>

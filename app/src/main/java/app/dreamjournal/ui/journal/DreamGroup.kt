@@ -7,7 +7,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.platform.LocalConfiguration
@@ -28,14 +27,8 @@ import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 
-@Immutable
-data class DreamGroupState(
-    val date: LocalDate,
-    val dreams: List<DreamWithTags>,
-)
-
 fun LazyListScope.dreamGroup(
-    dreamGroupState: DreamGroupState,
+    dreamGroupUiState: DreamGroupUiState,
     cardFormatter: DateTimeFormatter,
 ) {
     item {
@@ -43,7 +36,7 @@ fun LazyListScope.dreamGroup(
         val primaryLocale = configuration.locales[0]
         val pattern = stringResource(R.string.group_date_pattern)
         val formatter = remember { DateTimeFormatter.ofPattern(pattern, primaryLocale) }
-        val dateText = formatter.format(dreamGroupState.date)
+        val dateText = formatter.format(dreamGroupUiState.date)
 
         Text(
             text = dateText,
@@ -52,10 +45,10 @@ fun LazyListScope.dreamGroup(
         )
     }
 
-    items(dreamGroupState.dreams) { DreamCard(it.dream, it.tags, cardFormatter) }
+    items(dreamGroupUiState.dreamsWithTags) { DreamCard(it.dream, it.tags, cardFormatter) }
 }
 
-private val PREVIEW_DREAM_GROUP = DreamGroupState(
+private val PREVIEW_DREAM_GROUP = DreamGroupUiState(
     LocalDate.of(2025, 1, 15),
     listOf(
         DreamWithTags(

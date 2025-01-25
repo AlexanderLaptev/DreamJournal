@@ -10,6 +10,8 @@ import app.dreamjournal.data.dream.Dream
 import app.dreamjournal.data.dream.DreamRepository
 import app.dreamjournal.data.dream.DreamTagCrossRef
 import app.dreamjournal.data.dream.DreamTagCrossRefRepository
+import app.dreamjournal.data.dream.MockDreamRepository
+import app.dreamjournal.data.dream.MockTagRepository
 import app.dreamjournal.data.dream.Tag
 import app.dreamjournal.data.dream.TagRepository
 import org.koin.core.module.dsl.singleOf
