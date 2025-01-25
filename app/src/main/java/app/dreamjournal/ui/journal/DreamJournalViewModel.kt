@@ -1,6 +1,5 @@
 package app.dreamjournal.ui.journal
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.dreamjournal.data.dream.DreamRepository
@@ -28,12 +27,10 @@ class DreamJournalViewModel(
 
     private fun reloadDreams() {
         viewModelScope.launch {
-            Log.d(null, "begin fetching dreams")
             val dreams = async(Dispatchers.IO) {
                 dreamRepository.getAllDreams()
             }.await()
 
-            Log.d(null, "begin processing dreams")
             val result = async {
                 dreams
                     .groupBy { dream ->
@@ -56,7 +53,6 @@ class DreamJournalViewModel(
             }.await()
             result.sortByDescending { it.date }
             _dreamGroups.update { result }
-            Log.d(null, "dreams reloaded")
         }
     }
 }
