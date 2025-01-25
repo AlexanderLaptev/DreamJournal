@@ -44,6 +44,13 @@ fun SettingsScreen(
         .width(buttonWidth)
         .height(buttonHeight)
 
+    fun handleThemeChanging(theme: Theme) {
+        onThemeChange(theme)
+        CoroutineScope(Dispatchers.IO).launch {
+            saveThemeToDataStore(context, theme)
+        }
+    }
+
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -52,11 +59,7 @@ fun SettingsScreen(
         Button(
             modifier = buttonModifier,
             onClick = {
-                val theme = Theme.Light
-                onThemeChange(theme)
-                CoroutineScope(Dispatchers.IO).launch {
-                    saveThemeToDataStore(context, theme)
-                }
+                handleThemeChanging(theme = Theme.Light)
             }
         ) {
             Text(text = "Light Theme")
@@ -67,11 +70,7 @@ fun SettingsScreen(
         Button(
             modifier = buttonModifier,
             onClick = {
-                val theme = Theme.Dark
-                onThemeChange(theme)
-                CoroutineScope(Dispatchers.IO).launch {
-                    saveThemeToDataStore(context, theme)
-                }
+                handleThemeChanging(theme = Theme.Dark)
             }
         ) {
             Text(text = "Dark Theme")
@@ -82,11 +81,7 @@ fun SettingsScreen(
         Button(
             modifier = buttonModifier,
             onClick = {
-                val theme = Theme.System
-                onThemeChange(theme)
-                CoroutineScope(Dispatchers.IO).launch {
-                    saveThemeToDataStore(context, theme)
-                }
+                handleThemeChanging(theme = Theme.System)
             }
         ) {
             Text(text = "System Theme")
