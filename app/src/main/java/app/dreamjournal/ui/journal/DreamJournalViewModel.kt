@@ -38,7 +38,7 @@ class DreamJournalViewModel(
                 dreams
                     .groupBy { dream ->
                         LocalDateTime.ofInstant(
-                            dream.instant,
+                            dream.created,
                             ZoneOffset.UTC
                         ).toLocalDate()
                     }
@@ -49,7 +49,7 @@ class DreamJournalViewModel(
                             }.await()
                             DreamWithTags(dream, tags)
                         }.toMutableList()
-                        withTags.sortByDescending { it.dream.instant }
+                        withTags.sortByDescending { it.dream.created }
                         DreamGroupUiState(entry.key, withTags)
                     }
                     .toMutableList()

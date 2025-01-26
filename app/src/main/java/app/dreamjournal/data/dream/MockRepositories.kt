@@ -1,49 +1,69 @@
 package app.dreamjournal.data.dream
 
 import kotlinx.coroutines.delay
-import java.time.LocalDate
 import java.time.LocalDateTime
-import java.time.LocalTime
 import java.time.ZoneOffset
+import kotlin.random.Random
 
-class MockDreamRepository : DreamRepository {
-    private val mockDreams = let {
-        val startDate = LocalDate.of(2025, 1, 1)
-        val endDate = LocalDate.of(2025, 1, 8)
-        val dreamsPerDay = 3
-        val startTime = LocalTime.of(7, 10)
-        val increment = 10L
+object MockDreamRepository : DreamRepository {
+    private val random = Random(5765)
 
+    val DREAM_CONTENT =
+        """
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec id elit
+            viverra, dictum mi a, iaculis erat. Duis laoreet vel libero sit amet
+            tristique. Etiam a rutrum ex, non accumsan nisl. Maecenas ac lorem
+            hendrerit, tincidunt odio nec, suscipit orci.
+        """.trimIndent().replace("\n", " ")
+
+    val MOCK_DREAMS = let {
         val result = mutableListOf<Dream>()
-        var count = 1
-        for (day in startDate.datesUntil(endDate)) {
-            repeat(dreamsPerDay) {
-                val time = startTime.plusMinutes(it * increment)
-                result += Dream(
-                    title = "Lorem ipsum #$count",
-                    content = """
+        repeat(random.nextInt(2, 5)) {
+            result += getRandomDream(random)
+        }
+        result
+    }
+
+    fun getRandomDream(random: Random = Random): Dream {
+        val year = random.nextInt(2020, 2025)
+        val month = random.nextInt(1, 13)
+        val day = random.nextInt(1, 29)
+        val hour = random.nextInt(6, 12)
+        val minute = random.nextInt(20, 51)
+        val second = random.nextInt(0, 60)
+        val title = if (random.nextBoolean()) {
+            "Lorem ipsum #${random.nextInt(1, 1000)}"
+        } else ""
+
+        return Dream(
+            title = title,
+            content = """
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec id elit
                         viverra, dictum mi a, iaculis erat. Duis laoreet vel libero sit amet
                         tristique. Etiam a rutrum ex, non accumsan nisl. Maecenas ac lorem
                         hendrerit, tincidunt odio nec, suscipit orci.
                     """.trimIndent().replace("\n", ""),
-                    instant = LocalDateTime.of(day, time).toInstant(ZoneOffset.UTC),
-                    color = TagColor.entries[count % TagColor.entries.size],
-                    id = count.toLong(),
-                )
-                count++
-            }
-        }
-
-        result
+            created = LocalDateTime.of(year, month, day, hour, minute, second)
+                .toInstant(ZoneOffset.UTC),
+            bedtime = null,
+            wakeUpTime = null,
+            isLucid = random.nextBoolean(),
+            isFavorite = random.nextBoolean(),
+            lucidity = random.nextInt(0, 6),
+            vividness = random.nextInt(0, 6),
+            clarity = random.nextInt(0, 6),
+            realism = random.nextInt(0, 6),
+            color = TagColor.entries.random(random),
+            id = random.nextLong(),
+        )
     }
 
     override suspend fun getAllDreams(): List<Dream> {
-        delay(1000) // Simulate IO
-        return mockDreams
+        delay(2000) // Simulate IO
+        return MOCK_DREAMS
     }
 
-    override suspend fun getDreamById(id: Long): Dream = mockDreams[id.toInt()]
+    override suspend fun getDreamById(id: Long): Dream = MOCK_DREAMS[id.toInt()]
 
     override suspend fun getDreamsByTagId(id: Long): List<Dream> = emptyList()
 
@@ -54,7 +74,7 @@ class MockDreamRepository : DreamRepository {
     override suspend fun deleteDreamById(id: Long) = Unit
 }
 
-class MockTagRepository : TagRepository {
+object MockTagRepository : TagRepository {
     private val MOCK_TAGS = listOf(
         Tag("lorem", "😁", TagColor.White, 1),
         Tag("ipsum", "", TagColor.Red, 2),

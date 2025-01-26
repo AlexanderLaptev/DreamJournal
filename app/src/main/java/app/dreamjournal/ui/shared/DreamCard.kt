@@ -36,6 +36,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import app.dreamjournal.R
 import app.dreamjournal.data.dream.Dream
+import app.dreamjournal.data.dream.MockDreamRepository
 import app.dreamjournal.data.dream.Tag
 import app.dreamjournal.data.dream.TagColor
 import app.dreamjournal.ui.theme.CatppuccinColors
@@ -43,6 +44,7 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
+import kotlin.random.Random
 
 @Composable
 fun DreamCard(
@@ -72,7 +74,7 @@ fun DreamCard(
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 val dateTime = let {
-                    LocalDateTime.ofInstant(dream.instant, ZoneId.systemDefault())
+                    LocalDateTime.ofInstant(dream.created, ZoneId.systemDefault())
                 }
                 CardHeader(
                     title = dream.title,
@@ -172,6 +174,12 @@ fun rememberDateTimeFormatter(useShortFormat: Boolean = true): DateTimeFormatter
     return remember { DateTimeFormatter.ofPattern(pattern, locale) }
 }
 
+@Composable
+fun rememberDateTimeFormatter(pattern: String): DateTimeFormatter {
+    val locale = LocalConfiguration.current.locales[0]
+    return remember { DateTimeFormatter.ofPattern(pattern, locale) }
+}
+
 private val OVERFLOW_TAG = Tag("...")
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -191,18 +199,8 @@ private fun CardTags(tags: List<Tag>) {
 
 private val PREVIEW_INSTANT = LocalDateTime.of(2025, 1, 15, 7, 35, 20).toInstant(ZoneOffset.UTC)
 
-@Suppress("SpellCheckingInspection")
-private val PREVIEW_DREAM = Dream(
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras blandit lacus non " +
-            "metus gravida interdum. Duis sed congue mauris. Vivamus a magna tristique, semper " +
-            "diam vitae, scelerisque turpis. In efficitur purus massa, non aliquam turpis " +
-            "sagittis nec. Quisque sit amet dui commodo, tempor dui nec, pharetra ligula.",
-    PREVIEW_INSTANT,
-    "Lorem ipsum dolor sit amet",
-    true,
-    true,
-    TagColor.Purple,
-)
+private val random = Random(5971)
+private val PREVIEW_DREAM = MockDreamRepository.getRandomDream(random)
 
 @Suppress("SpellCheckingInspection")
 private val PREVIEW_TAGS = listOf(

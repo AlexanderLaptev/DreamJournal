@@ -48,6 +48,6 @@ val databaseModule = module {
 }
 
 val mockDatabaseModule = module {
-    single<DreamRepository> { MockDreamRepository() }
-    single<TagRepository> { MockTagRepository() }
+    single<DreamRepository> { MockDreamRepository }
+    single<TagRepository> { MockTagRepository }
 }

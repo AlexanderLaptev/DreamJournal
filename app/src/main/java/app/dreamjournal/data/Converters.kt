@@ -3,8 +3,9 @@ package app.dreamjournal.data
 import androidx.room.TypeConverter
 import app.dreamjournal.data.dream.TagColor
 import java.time.Instant
+import java.time.LocalTime
 
-class Converters {
+object Converters {
     @TypeConverter
     fun instantToLong(instant: Instant): Long = instant.epochSecond
 
@@ -16,4 +17,10 @@ class Converters {
 
     @TypeConverter
     fun indexToTagColor(index: Int): TagColor = TagColor.entries[index]
+
+    @TypeConverter
+    fun localTimeToInt(localTime: LocalTime): Int = localTime.toSecondOfDay()
+
+    @TypeConverter
+    fun intToLocalTime(value: Int): LocalTime = LocalTime.ofSecondOfDay(value.toLong())
 }
