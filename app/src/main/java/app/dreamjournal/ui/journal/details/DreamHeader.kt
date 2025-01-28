@@ -1,5 +1,6 @@
 package app.dreamjournal.ui.journal.details
 
+import android.content.res.Configuration
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -39,14 +40,15 @@ fun DreamHeader(
     createdDate: String,
     createdTime: String,
     isLucid: Boolean,
-    stripColor: Color
+    stripColor: Color,
+    modifier: Modifier = Modifier
 ) {
-    var titleStyle = MaterialTheme.typography.titleMedium
+    var titleStyle = MaterialTheme.typography.titleLarge
     if (title.isBlank()) titleStyle = titleStyle.copy(fontStyle = FontStyle.Italic)
     val textColor = CatppuccinColors.text
 
     Row(
-        modifier = Modifier
+        modifier = modifier
             .background(color = CatppuccinColors.base)
             .height(IntrinsicSize.Max)
             .fillMaxWidth(),
@@ -55,14 +57,13 @@ fun DreamHeader(
         ColorStrip(color = stripColor)
 
         Column(
-            modifier = Modifier
+            modifier = modifier
                 .weight(1f)
                 .padding(horizontal = 8.dp)
         ) {
             Text(
                 text = title.ifBlank { stringResource(R.string.journal_entry_untitled) },
                 style = titleStyle,
-                fontSize = 24.sp,
                 color = textColor
             )
 
@@ -74,7 +75,7 @@ fun DreamHeader(
         }
 
         Icon(
-            modifier = Modifier.size(36.dp),
+            modifier = modifier.size(36.dp),
             imageVector = Icons.Rounded.Brightness7,
             contentDescription = "Lucid",
             tint = if (isLucid) CatppuccinColors.mauve else Color.Transparent
@@ -106,7 +107,7 @@ fun DateText(
     )
 }
 
-@Preview
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun DreamHeaderPreview() {
     val now = LocalDateTime.now()
