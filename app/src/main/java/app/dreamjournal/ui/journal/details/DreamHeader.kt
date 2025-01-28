@@ -32,6 +32,7 @@ import app.dreamjournal.R
 import app.dreamjournal.ui.shared.ColorStrip
 import app.dreamjournal.ui.theme.ApplicationTheme
 import app.dreamjournal.ui.theme.CatppuccinColors
+import app.dreamjournal.ui.theme.LucidColor
 import java.time.LocalDateTime
 
 @Composable
@@ -78,7 +79,7 @@ fun DreamHeader(
             modifier = modifier.size(36.dp),
             imageVector = Icons.Rounded.Brightness7,
             contentDescription = "Lucid",
-            tint = if (isLucid) CatppuccinColors.mauve else Color.Transparent
+            tint = if (isLucid) LucidColor else Color.Transparent
         )
     }
 }
