@@ -40,4 +40,5 @@
     <string name="button_edit_desc">Edit</string>
     <string name="button_favorite_desc">Favorite</string>
     <string name="button_delete_desc">Delete</string>
+    <string name="tag_list">Tags</string>
 </resources>
