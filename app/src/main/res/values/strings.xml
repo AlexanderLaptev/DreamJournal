@@ -35,4 +35,9 @@
     <string name="calendar_pattern">%1$s %2$s</string>
     <string name="journal_empty_message">You haven\'t recorded any dreams yet.</string>
     <string name="journal_loading_message">Loading…</string>
+    <string name="screen_details">Details</string>
+    <string name="button_back_desc">Go back</string>
+    <string name="button_edit_desc">Edit</string>
+    <string name="button_favorite_desc">Favorite</string>
+    <string name="button_delete_desc">Delete</string>
 </resources>
