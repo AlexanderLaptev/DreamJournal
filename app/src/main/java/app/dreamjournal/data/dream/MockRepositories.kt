@@ -86,16 +86,14 @@ object MockTagRepository : TagRepository {
         Tag("libero", "", TagColor.Purple, 8),
     )
 
+    private val random = Random(1365)
+
     override suspend fun getAllTags(): List<Tag> = MOCK_TAGS
 
     override suspend fun getTagById(id: Long): Tag = MOCK_TAGS[id.toInt()]
 
     override suspend fun getTagsByDreamId(id: Long): List<Tag> {
-        val result = mutableListOf<Tag>()
-        for (i in (id + 1)..(id + 4)) {
-            result += MOCK_TAGS[i.toInt() % MOCK_TAGS.size]
-        }
-        return result
+        return MOCK_TAGS.shuffled(random).subList(0, random.nextInt(5))
     }
 
     override suspend fun saveTag(tag: Tag): Long = 0
