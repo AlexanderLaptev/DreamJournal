@@ -30,8 +30,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.dreamjournal.R
 import app.dreamjournal.ui.shared.ColorStrip
-import app.dreamjournal.ui.theme.ApplicationTheme
 import app.dreamjournal.ui.theme.CatppuccinColors
+import app.dreamjournal.ui.theme.DreamJournalTheme
 import app.dreamjournal.ui.theme.LucidColor
 import java.time.LocalDateTime
 
@@ -42,7 +42,7 @@ fun DreamHeader(
     createdTime: String,
     isLucid: Boolean,
     stripColor: Color,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     var titleStyle = MaterialTheme.typography.titleLarge
     if (title.isBlank()) titleStyle = titleStyle.copy(fontStyle = FontStyle.Italic)
@@ -68,9 +68,13 @@ fun DreamHeader(
                 color = textColor
             )
 
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                val circleColor = CatppuccinColors.overlay0
                 DateText(text = createdDate)
-                Ellipse(circleColor = CatppuccinColors.overlay0)
+                Canvas(Modifier.size(4.dp)) { drawCircle(circleColor) }
                 DateText(text = createdTime)
             }
         }
@@ -86,7 +90,7 @@ fun DreamHeader(
 
 @Composable
 fun Ellipse(
-    circleColor: Color
+    circleColor: Color,
 ) {
     Box(modifier = Modifier.fillMaxHeight(), contentAlignment = Alignment.Center) {
         Canvas(contentDescription = "Ellipse", modifier = Modifier.size(4.dp)) {
@@ -99,7 +103,7 @@ fun Ellipse(
 fun DateText(
     text: String,
     dateColor: Color = CatppuccinColors.overlay0,
-    dateSize: TextUnit = 16.sp
+    dateSize: TextUnit = 16.sp,
 ) {
     Text(
         text = text,
@@ -108,15 +112,16 @@ fun DateText(
     )
 }
 
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_NO)
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-fun DreamHeaderPreview() {
+private fun Preview() {
     val now = LocalDateTime.now()
 
     val createdDate = now.month.toString() + " " + now.dayOfMonth + ", " + now.year
     val createdTime = now.hour.toString() + ":" + now.minute
 
-    ApplicationTheme {
+    DreamJournalTheme {
         Box(
             modifier = Modifier
                 .fillMaxWidth()

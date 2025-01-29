@@ -7,14 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.compose.composable
-import app.dreamjournal.ui.navigation.ApplicationNavigation
-import app.dreamjournal.ui.theme.ApplicationTheme
-
-fun NavGraphBuilder.toolsDestination() {
-    composable<ApplicationNavigation.Tools> { ToolsScreen() }
-}
+import app.dreamjournal.ui.theme.DreamJournalTheme
 
 @Composable
 fun ToolsScreen() {
@@ -30,7 +23,7 @@ fun ToolsScreen() {
 @Preview
 @Composable
 private fun Preview() {
-    ApplicationTheme {
+    DreamJournalTheme {
         ToolsScreen()
     }
 }

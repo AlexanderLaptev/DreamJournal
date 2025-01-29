@@ -17,20 +17,11 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import app.dreamjournal.ui.navigation.ApplicationNavigation
-import app.dreamjournal.ui.theme.ApplicationTheme
+import app.dreamjournal.ui.theme.DreamJournalTheme
 import app.dreamjournal.ui.theme.ThemePreference
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-
-fun NavGraphBuilder.settingsDestination(onThemeChange: (ThemePreference) -> Unit) {
-    composable<ApplicationNavigation.Settings> { SettingsScreen(onThemeChange = onThemeChange) }
-}
-
-fun NavController.navigateToSettings() {
-    navigate(ApplicationNavigation.Settings)
-}
 
 @Composable
 fun SettingsScreen(
@@ -97,7 +88,7 @@ fun SpacerBetweenButtons() {
 @Preview
 @Composable
 private fun Preview() {
-    ApplicationTheme {
+    DreamJournalTheme {
         SettingsScreen { }
     }
 }

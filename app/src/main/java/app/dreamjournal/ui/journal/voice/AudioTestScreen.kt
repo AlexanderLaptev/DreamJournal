@@ -45,7 +45,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat.checkSelfPermission
-import app.dreamjournal.ui.theme.ApplicationTheme
+import app.dreamjournal.ui.theme.DreamJournalTheme
 import app.dreamjournal.ui.theme.CatppuccinColors
 import com.linc.audiowaveform.AudioWaveform
 import kotlinx.coroutines.delay
@@ -317,7 +317,7 @@ private fun loadVoiceMessages(
 @Preview
 @Composable
 fun AudioTestScreenPreview() {
-    ApplicationTheme {
+    DreamJournalTheme {
         AudioTestScreen()
     }
 }

@@ -16,7 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import app.dreamjournal.R
-import app.dreamjournal.ui.theme.ApplicationTheme
+import app.dreamjournal.ui.theme.DreamJournalTheme
 import app.dreamjournal.ui.theme.FavoriteColor
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -73,8 +73,8 @@ fun DetailsTopBar(
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_NO)
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-fun Preview() {
-    ApplicationTheme {
+private fun Preview() {
+    DreamJournalTheme {
         DetailsTopBar(
             isFavorite = true,
         )

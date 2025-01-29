@@ -44,13 +44,13 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
-import kotlin.random.Random
 
 @Composable
 fun DreamCard(
     dream: Dream,
     tags: List<Tag>,
     formatter: DateTimeFormatter,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val cardColors = CardColors(
@@ -62,6 +62,7 @@ fun DreamCard(
 
     Card(
         modifier = modifier.height(IntrinsicSize.Max),
+        onClick = onClick,
         colors = cardColors,
     ) {
         Row(
@@ -199,8 +200,7 @@ private fun CardTags(tags: List<Tag>) {
 
 private val PREVIEW_INSTANT = LocalDateTime.of(2025, 1, 15, 7, 35, 20).toInstant(ZoneOffset.UTC)
 
-private val random = Random(5971)
-private val PREVIEW_DREAM = MockDreamRepository.getRandomDream(random)
+private val PREVIEW_DREAM = MockDreamRepository.MOCK_DREAMS[0]
 
 @Suppress("SpellCheckingInspection")
 private val PREVIEW_TAGS = listOf(
@@ -214,13 +214,13 @@ private val PREVIEW_TAGS = listOf(
 @Preview
 @Composable
 private fun PreviewWithTitle() {
-    DreamCard(PREVIEW_DREAM, PREVIEW_TAGS.subList(0, 3), rememberDateTimeFormatter())
+    DreamCard(PREVIEW_DREAM, PREVIEW_TAGS.subList(0, 3), rememberDateTimeFormatter(), {})
 }
 
 @Preview
 @Composable
 private fun PreviewTagOverflow() {
-    DreamCard(PREVIEW_DREAM, PREVIEW_TAGS, rememberDateTimeFormatter())
+    DreamCard(PREVIEW_DREAM, PREVIEW_TAGS, rememberDateTimeFormatter(), {})
 }
 
 @Preview
@@ -229,6 +229,7 @@ private fun PreviewNoTitle() {
     DreamCard(
         PREVIEW_DREAM.copy(title = ""),
         PREVIEW_TAGS.subList(0, 3),
-        rememberDateTimeFormatter()
+        rememberDateTimeFormatter(),
+        {},
     )
 }

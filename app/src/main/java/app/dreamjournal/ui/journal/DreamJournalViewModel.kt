@@ -28,6 +28,7 @@ class DreamJournalViewModel(
     }
 
     private fun reloadDreams() {
+        // TODO: optimize?
         _uiState.update { DreamJournalScreenUiState.Loading }
         viewModelScope.launch(Dispatchers.Default) {
             val dreams = async(Dispatchers.IO) {

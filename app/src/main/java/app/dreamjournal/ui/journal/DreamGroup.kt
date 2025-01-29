@@ -18,15 +18,15 @@ import app.dreamjournal.data.dream.Tag
 import app.dreamjournal.data.dream.TagColor
 import app.dreamjournal.ui.shared.DreamCard
 import app.dreamjournal.ui.shared.rememberDateTimeFormatter
-import app.dreamjournal.ui.theme.ApplicationTheme
 import app.dreamjournal.ui.theme.CatppuccinColors
+import app.dreamjournal.ui.theme.DreamJournalTheme
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import kotlin.random.Random
 
 fun LazyListScope.dreamGroup(
     dreamGroupUiState: DreamGroupUiState,
     cardFormatter: DateTimeFormatter,
+    onDreamClick: (DreamWithTags) -> Unit,
 ) {
     item {
         val pattern = stringResource(R.string.group_date_pattern)
@@ -39,23 +39,29 @@ fun LazyListScope.dreamGroup(
         )
     }
 
-    items(dreamGroupUiState.dreamsWithTags) { DreamCard(it.dream, it.tags, cardFormatter) }
+    items(dreamGroupUiState.dreamsWithTags) { withTags ->
+        DreamCard(
+            dream = withTags.dream,
+            tags = withTags.tags,
+            formatter = cardFormatter,
+            onClick = { onDreamClick(withTags) }
+        )
+    }
 }
 
 private val PREVIEW_DREAM_GROUP = run {
-    val random = Random(8974)
     DreamGroupUiState(
         LocalDate.of(2025, 1, 15),
         listOf(
             DreamWithTags(
-                MockDreamRepository.getRandomDream(random),
+                MockDreamRepository.MOCK_DREAMS[0],
                 listOf(
                     Tag("lorem", color = TagColor.Red),
                     Tag("ipsum", color = TagColor.Yellow),
                 )
             ),
             DreamWithTags(
-                MockDreamRepository.getRandomDream(random),
+                MockDreamRepository.MOCK_DREAMS[1],
                 listOf(
                     Tag("dolor", color = TagColor.White),
                     Tag("sit", color = TagColor.Blue),
@@ -68,13 +74,13 @@ private val PREVIEW_DREAM_GROUP = run {
 @Preview
 @Composable
 private fun Preview() {
-    ApplicationTheme {
+    DreamJournalTheme {
         val formatter = rememberDateTimeFormatter()
         LazyColumn(
             horizontalAlignment = Alignment.Start,
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            dreamGroup(PREVIEW_DREAM_GROUP, formatter)
+            dreamGroup(PREVIEW_DREAM_GROUP, formatter, {})
         }
     }
 }

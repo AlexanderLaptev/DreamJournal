@@ -1,12 +1,13 @@
 package app.dreamjournal.data.dream
 
-import kotlinx.coroutines.delay
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 import kotlin.random.Random
 
 object MockDreamRepository : DreamRepository {
     private val random = Random(5765)
+
+    private var id = 1L
 
     val DREAM_CONTENT =
         """
@@ -18,22 +19,22 @@ object MockDreamRepository : DreamRepository {
 
     val MOCK_DREAMS = let {
         val result = mutableListOf<Dream>()
-        repeat(random.nextInt(2, 5)) {
-            result += getRandomDream(random)
+        repeat(14) {
+            repeat(random.nextInt(2, 5)) {
+                result += getRandomDream()
+            }
         }
         result
     }
 
-    fun getRandomDream(random: Random = Random): Dream {
+    private fun getRandomDream(): Dream {
         val year = random.nextInt(2020, 2025)
         val month = random.nextInt(1, 13)
         val day = random.nextInt(1, 29)
         val hour = random.nextInt(6, 12)
         val minute = random.nextInt(20, 51)
         val second = random.nextInt(0, 60)
-        val title = if (random.nextBoolean()) {
-            "Lorem ipsum #${random.nextInt(1, 1000)}"
-        } else ""
+        val title = "Dream@$id"
 
         return Dream(
             title = title,
@@ -54,16 +55,15 @@ object MockDreamRepository : DreamRepository {
             clarity = random.nextInt(0, 6),
             realism = random.nextInt(0, 6),
             color = TagColor.entries.random(random),
-            id = random.nextLong(),
+            id = id++,
         )
     }
 
     override suspend fun getAllDreams(): List<Dream> {
-        delay(2000) // Simulate IO
         return MOCK_DREAMS
     }
 
-    override suspend fun getDreamById(id: Long): Dream = MOCK_DREAMS[id.toInt()]
+    override suspend fun getDreamById(id: Long): Dream = MOCK_DREAMS[id.toInt() - 1]
 
     override suspend fun getDreamsByTagId(id: Long): List<Dream> = emptyList()
 
@@ -75,7 +75,7 @@ object MockDreamRepository : DreamRepository {
 }
 
 object MockTagRepository : TagRepository {
-    private val MOCK_TAGS = listOf(
+    val MOCK_TAGS = listOf(
         Tag("lorem", "😁", TagColor.White, 1),
         Tag("ipsum", "", TagColor.Red, 2),
         Tag("dolor", "💃", TagColor.Orange, 3),
@@ -90,7 +90,7 @@ object MockTagRepository : TagRepository {
 
     override suspend fun getAllTags(): List<Tag> = MOCK_TAGS
 
-    override suspend fun getTagById(id: Long): Tag = MOCK_TAGS[id.toInt()]
+    override suspend fun getTagById(id: Long): Tag = MOCK_TAGS[id.toInt() - 1]
 
     override suspend fun getTagsByDreamId(id: Long): List<Tag> {
         return MOCK_TAGS.shuffled(random).subList(0, random.nextInt(5))

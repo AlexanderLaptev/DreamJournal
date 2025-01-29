@@ -18,12 +18,9 @@ object Settings {
         }
     }
 
-    suspend fun loadThemePreference(context: Context): ThemePreference {
-        val themePreferences = context.settingsDataStore.data.first()
-        return when (themePreferences[KEY_THEME]) {
-            ThemePreference.Light.name -> ThemePreference.Light
-            ThemePreference.Dark.name -> ThemePreference.Dark
-            else -> ThemePreference.System
-        }
+    suspend fun loadThemePreference(context: Context): ThemePreference? {
+        val preferences = context.settingsDataStore.data.first()
+        val themePreference = preferences[KEY_THEME]
+        return if (themePreference != null) ThemePreference.valueOf(themePreference) else null
     }
 }

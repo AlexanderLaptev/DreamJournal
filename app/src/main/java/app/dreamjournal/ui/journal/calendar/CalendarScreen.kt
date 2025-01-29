@@ -9,18 +9,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import app.dreamjournal.ui.navigation.ApplicationNavigation
-import app.dreamjournal.ui.theme.ApplicationTheme
-
-fun NavGraphBuilder.calendarDestination() {
-    composable<ApplicationNavigation.Calendar> {
-        CalendarScreen()
-    }
-}
-
-fun NavController.navigateToCalendar() {
-    navigate(ApplicationNavigation.Calendar)
-}
+import app.dreamjournal.ui.theme.DreamJournalTheme
 
 @Composable
 fun CalendarScreen() {
@@ -36,7 +25,7 @@ fun CalendarScreen() {
 @Preview
 @Composable
 private fun Preview() {
-    ApplicationTheme {
+    DreamJournalTheme {
         CalendarScreen()
     }
 }

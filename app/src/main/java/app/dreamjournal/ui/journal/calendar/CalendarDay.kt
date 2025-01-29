@@ -18,7 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.math.MathUtils.clamp
-import app.dreamjournal.ui.theme.ApplicationTheme
+import app.dreamjournal.ui.theme.DreamJournalTheme
 import app.dreamjournal.ui.theme.CatppuccinColorScheme
 import app.dreamjournal.ui.theme.CatppuccinColors
 import app.dreamjournal.ui.util.blend
@@ -85,7 +85,7 @@ fun CalendarDay(
 @Composable
 private fun PreviewNormal() {
     val day = 18
-    ApplicationTheme {
+    DreamJournalTheme {
         Column {
             Row(
                 horizontalArrangement = Arrangement.spacedBy(4.dp),
@@ -103,7 +103,7 @@ private fun PreviewNormal() {
 @Composable
 private fun PreviewSelected() {
     val day = 18
-    ApplicationTheme {
+    DreamJournalTheme {
         Column {
             Row(
                 horizontalArrangement = Arrangement.spacedBy(4.dp),

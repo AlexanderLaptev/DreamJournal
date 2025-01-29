@@ -9,11 +9,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import app.dreamjournal.ui.navigation.ApplicationNavigation
-
-fun NavGraphBuilder.faqDestination() {
-    composable<ApplicationNavigation.Faq> { FaqScreen() }
-}
 
 @Composable
 fun FaqScreen() {

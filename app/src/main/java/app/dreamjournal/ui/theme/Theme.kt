@@ -11,7 +11,7 @@ import androidx.compose.runtime.staticCompositionLocalOf
 
 
 @Composable
-fun ApplicationTheme(
+fun DreamJournalTheme(
     appThemePreference: ThemePreference = ThemePreference.System,
     content: @Composable () -> Unit,
 ) {
@@ -34,7 +34,7 @@ fun ApplicationTheme(
             secondary = CatppuccinColors.mauve,
             onSecondary = CatppuccinColors.base,
             secondaryContainer = CatppuccinColors.mauve,
-            onSecondaryContainer = CatppuccinColors.text,
+            onSecondaryContainer = CatppuccinColors.base,
             tertiary = CatppuccinColors.mauve,
             onTertiary = CatppuccinColors.base,
             surface = CatppuccinColors.base,
@@ -53,7 +53,7 @@ fun ApplicationTheme(
             secondary = CatppuccinColors.mauve,
             onSecondary = CatppuccinColors.base,
             secondaryContainer = CatppuccinColors.mauve,
-            onSecondaryContainer = CatppuccinColors.text,
+            onSecondaryContainer = CatppuccinColors.base,
             tertiary = CatppuccinColors.mauve,
             onTertiary = CatppuccinColors.base,
             surface = CatppuccinColors.base,

@@ -74,7 +74,7 @@ fun TagList(
             }) {
                 Icon(
                     imageVector = if (isExpanded.value) Icons.Rounded.KeyboardArrowUp
-                                  else Icons.Rounded.KeyboardArrowDown,
+                    else Icons.Rounded.KeyboardArrowDown,
                     contentDescription = "Expand tag list",
                     tint = CatppuccinColors.text
                 )
@@ -97,7 +97,7 @@ fun TagList(
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_NO)
 @Composable
-fun TagListPreview() {
+private fun Preview() {
     val ocean = Tag(label = "ocean", emoji = "\uD83D\uDCA7")
     val forest = Tag(label = "forest", emoji = "\uD83C\uDF32")
     val home = Tag(label = "home", emoji = "\uD83C\uDFE0")

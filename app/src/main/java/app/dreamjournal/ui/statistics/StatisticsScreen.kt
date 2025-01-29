@@ -9,12 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import app.dreamjournal.ui.navigation.ApplicationNavigation
-import app.dreamjournal.ui.theme.ApplicationTheme
-
-fun NavGraphBuilder.statisticsDestination() {
-    composable<ApplicationNavigation.Statistics> { StatisticsScreen() }
-}
+import app.dreamjournal.ui.theme.DreamJournalTheme
 
 @Composable
 fun StatisticsScreen() {
@@ -30,7 +25,7 @@ fun StatisticsScreen() {
 @Preview
 @Composable
 private fun Preview() {
-    ApplicationTheme {
+    DreamJournalTheme {
         StatisticsScreen()
     }
 }

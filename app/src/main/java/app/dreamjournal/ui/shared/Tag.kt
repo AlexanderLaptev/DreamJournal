@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.dreamjournal.data.dream.Tag
 import app.dreamjournal.data.dream.TagColor
-import app.dreamjournal.ui.theme.ApplicationTheme
+import app.dreamjournal.ui.theme.DreamJournalTheme
 import app.dreamjournal.ui.theme.CatppuccinColors
 
 @Composable
@@ -86,7 +86,7 @@ private const val PREVIEW_EMOJI = "😀"
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun PreviewNoEmoji() {
-    ApplicationTheme {
+    DreamJournalTheme {
         Column(
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
@@ -103,7 +103,7 @@ private fun PreviewNoEmoji() {
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun PreviewWithEmoji() {
-    ApplicationTheme {
+    DreamJournalTheme {
         Column(
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
