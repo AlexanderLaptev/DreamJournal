@@ -1,5 +1,6 @@
 package app.dreamjournal.data.dream
 
+import androidx.collection.mutableLongObjectMapOf
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 import kotlin.random.Random
@@ -83,8 +84,10 @@ object MockTagRepository : TagRepository {
         Tag("rutrum", "🎨", TagColor.Green, 5),
         Tag("libero", "", TagColor.Teal, 6),
         Tag("tellus", "🥩", TagColor.Blue, 7),
-        Tag("libero", "", TagColor.Purple, 8),
+        Tag("viverra", "", TagColor.Purple, 8),
     )
+
+    private val cache = mutableLongObjectMapOf<List<Tag>>()
 
     private val random = Random(1365)
 
@@ -93,7 +96,9 @@ object MockTagRepository : TagRepository {
     override suspend fun getTagById(id: Long): Tag = MOCK_TAGS[id.toInt() - 1]
 
     override suspend fun getTagsByDreamId(id: Long): List<Tag> {
-        return MOCK_TAGS.shuffled(random).subList(0, random.nextInt(5))
+        return cache.getOrPut(id) {
+            MOCK_TAGS.shuffled(random).subList(0, random.nextInt(0, MOCK_TAGS.size))
+        }
     }
 
     override suspend fun saveTag(tag: Tag): Long = 0
