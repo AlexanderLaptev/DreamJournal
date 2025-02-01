@@ -22,8 +22,10 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -41,7 +43,7 @@ private val OVERFLOW_TAG = Tag("...")
 fun TagList(
     tags: List<Tag>,
 ) {
-    val isExpanded = remember { mutableStateOf(false) }
+    var expanded by remember { mutableStateOf(false) }
     val padding = PaddingValues(
         top = 8.dp,
         start = 16.dp,
@@ -70,12 +72,19 @@ fun TagList(
             )
 
             IconButton(onClick = {
-                isExpanded.value = !isExpanded.value
+                expanded = !expanded
             }) {
                 Icon(
-                    imageVector = if (isExpanded.value) Icons.Rounded.KeyboardArrowUp
-                    else Icons.Rounded.KeyboardArrowDown,
-                    contentDescription = "Expand tag list",
+                    imageVector = if (expanded) {
+                        Icons.Rounded.KeyboardArrowUp
+                    } else Icons.Rounded.KeyboardArrowDown,
+
+                    contentDescription = stringResource(
+                        if (expanded) {
+                            R.string.tag_list_expand
+                        } else R.string.tag_list_collapse
+                    ),
+
                     tint = CatppuccinColors.text
                 )
             }
@@ -85,7 +94,7 @@ fun TagList(
             modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(8.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
-            maxLines = if (isExpanded.value) Int.MAX_VALUE else 2,
+            maxLines = if (expanded) Int.MAX_VALUE else 2,
             // FIXME: a bug in FlowRow with a composable overflow element
             overflow = FlowRowOverflow.expandIndicator { OVERFLOW_TAG }
         ) {

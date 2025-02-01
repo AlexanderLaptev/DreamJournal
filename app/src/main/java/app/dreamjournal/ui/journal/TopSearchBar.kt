@@ -22,6 +22,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import app.dreamjournal.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -55,7 +57,7 @@ fun TopSearchBar(
 
                     placeholder = {
                         Text(
-                            text = "Search the dream journal",
+                            text = stringResource(R.string.journal_search_prompt),
                         )
                     },
 
@@ -75,12 +77,12 @@ fun TopSearchBar(
                                 if (it) {
                                     Icon(
                                         imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                                        contentDescription = "Back",
+                                        contentDescription = stringResource(R.string.button_back_desc),
                                     )
                                 } else {
                                     Icon(
                                         imageVector = Icons.Rounded.Search,
-                                        contentDescription = "Search",
+                                        contentDescription = stringResource(R.string.button_search_desc),
                                     )
                                 }
                             }
@@ -98,7 +100,7 @@ fun TopSearchBar(
                                 IconButton(onClick = onCalendar) {
                                     Icon(
                                         imageVector = Icons.Rounded.CalendarToday,
-                                        contentDescription = "Calendar",
+                                        contentDescription = stringResource(R.string.button_calendar_desc),
                                     )
                                 }
                             }
@@ -122,12 +124,12 @@ fun TopSearchBar(
                                         if (it) {
                                             Icon(
                                                 imageVector = Icons.Rounded.Clear,
-                                                contentDescription = "Clear",
+                                                contentDescription = stringResource(R.string.button_clear_desc),
                                             )
                                         } else {
                                             Icon(
                                                 imageVector = Icons.Rounded.Settings,
-                                                contentDescription = "Settings",
+                                                contentDescription = stringResource(R.string.button_settings_desc),
                                             )
                                         }
                                     }

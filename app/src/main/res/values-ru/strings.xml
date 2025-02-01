@@ -35,10 +35,17 @@
     <string name="calendar_pattern">%1$s %2$s</string>
     <string name="journal_empty_message">У вас ещё нет записанных снов.</string>
     <string name="journal_loading_message">Загрузка…</string>
-    <string name="screen_details">Подробнее</string>
+    <string name="screen_details">Подробности</string>
     <string name="button_back_desc">Назад</string>
     <string name="button_edit_desc">Изменить</string>
-    <string name="button_favorite_desc">Избранное</string>
+    <string name="button_favorite_desc">Избранный</string>
     <string name="button_delete_desc">Удалить</string>
     <string name="tag_list">Теги</string>
+    <string name="label_lucid">Осознанный</string>
+    <string name="tag_list_expand">Развернуть список тегов</string>
+    <string name="tag_list_collapse">Свернуть список тегов</string>
+    <string name="button_search_desc">Поиск</string>
+    <string name="button_calendar_desc">Календарь</string>
+    <string name="button_clear_desc">Очистить</string>
+    <string name="button_settings_desc">Настройки</string>
 </resources>

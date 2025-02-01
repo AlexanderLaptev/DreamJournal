@@ -39,7 +39,7 @@ fun MinStatistic(
         ) {
             Icon(
                 imageVector = Icons.Rounded.Edit,
-                contentDescription = "Count words",
+                contentDescription = "",
                 tint = contentColor
             )
 
@@ -58,7 +58,7 @@ fun MinStatistic(
         ) {
             Icon(
                 imageVector = Icons.Rounded.Hotel,
-                contentDescription = "Dream time",
+                contentDescription = "",
                 tint = contentColor
             )
 

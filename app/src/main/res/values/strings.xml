@@ -41,4 +41,11 @@
     <string name="button_favorite_desc">Favorite</string>
     <string name="button_delete_desc">Delete</string>
     <string name="tag_list">Tags</string>
+    <string name="label_lucid">Lucid</string>
+    <string name="tag_list_expand">Expand tag list</string>
+    <string name="tag_list_collapse">Collapse tag list</string>
+    <string name="button_search_desc">Search</string>
+    <string name="button_calendar_desc">Calendar</string>
+    <string name="button_clear_desc">Clear</string>
+    <string name="button_settings_desc">Settings</string>
 </resources>

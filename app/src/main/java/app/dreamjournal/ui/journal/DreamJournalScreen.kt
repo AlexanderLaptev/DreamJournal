@@ -17,12 +17,14 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import app.dreamjournal.R
 import app.dreamjournal.data.di.mockDatabaseModule
 import app.dreamjournal.data.dream.DreamWithTags
 import app.dreamjournal.ui.AppNavigationBar
@@ -96,7 +98,7 @@ fun DreamJournalScreen(
 
                 DreamJournalScreenUiState.Loading -> {
                     Text(
-                        text = "Loading...",
+                        text = stringResource(R.string.journal_loading_message),
                         modifier = Modifier.fillMaxWidth(),
                         textAlign = TextAlign.Center,
                     )
@@ -104,7 +106,7 @@ fun DreamJournalScreen(
 
                 DreamJournalScreenUiState.NoEntries -> {
                     Text(
-                        text = "No entries",
+                        text = stringResource(R.string.journal_empty_message),
                         modifier = Modifier.fillMaxWidth(),
                         textAlign = TextAlign.Center,
                     )
