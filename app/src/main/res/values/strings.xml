@@ -17,9 +17,6 @@
     <string name="screen_statistics">Statistics</string>
     <string name="screen_tools">Tools</string>
     <string name="screen_faq">FAQ</string>
-    <string name="group_date_pattern">MMMM d, yyyy</string>
-    <string name="card_pattern_short">HH:mm</string>
-    <string name="card_pattern_long">MMMM d, yyyy - HH:mm</string>
     <string name="month_january">January</string>
     <string name="month_february">February</string>
     <string name="month_march">March</string>
@@ -32,7 +29,7 @@
     <string name="month_october">October</string>
     <string name="month_november">November</string>
     <string name="month_december">December</string>
-    <string name="calendar_pattern">%1$s %2$s</string>
+    <string name="calendar_pattern" translatable="false">%1$s %2$s</string>
     <string name="journal_empty_message">You haven\'t recorded any dreams yet.</string>
     <string name="journal_loading_message">Loading…</string>
     <string name="screen_details">Details</string>
@@ -48,4 +45,9 @@
     <string name="button_calendar_desc">Calendar</string>
     <string name="button_clear_desc">Clear</string>
     <string name="button_settings_desc">Settings</string>
+    <string name="pattern_date_short">MMM d, yyyy</string>
+    <string name="pattern_date_long">MMMM d, yyyy</string>
+    <string name="pattern_time_short" translatable="false">HH:mm</string>
+    <string name="label_not_available">n/a</string>
+    <string name="label_word_count">%1$s words</string>
 </resources>

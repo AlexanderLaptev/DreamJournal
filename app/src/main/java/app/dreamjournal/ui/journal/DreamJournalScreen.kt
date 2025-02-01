@@ -28,7 +28,6 @@ import app.dreamjournal.R
 import app.dreamjournal.data.di.mockDatabaseModule
 import app.dreamjournal.data.dream.DreamWithTags
 import app.dreamjournal.ui.AppNavigationBar
-import app.dreamjournal.ui.shared.rememberDateTimeFormatter
 import app.dreamjournal.ui.theme.DreamJournalTheme
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -72,7 +71,6 @@ fun DreamJournalScreen(
         Box(Modifier.padding(padding)) {
             when (uiState) {
                 is DreamJournalScreenUiState.Loaded -> {
-                    val formatter = rememberDateTimeFormatter()
                     LazyColumn(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -89,7 +87,6 @@ fun DreamJournalScreen(
                             .forEach {
                                 dreamGroup(
                                     dreamGroupUiState = it,
-                                    cardFormatter = formatter,
                                     onDreamClick = onDreamClick,
                                 )
                             }

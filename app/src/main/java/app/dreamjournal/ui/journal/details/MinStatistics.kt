@@ -15,19 +15,19 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import app.dreamjournal.ui.shared.rememberDateTimeFormatter
+import app.dreamjournal.R
 import app.dreamjournal.ui.theme.CatppuccinColors
+import app.dreamjournal.ui.util.toText
 import java.time.LocalTime
-import java.time.format.DateTimeFormatter
 
 @Composable
 fun MinStatistic(
     wordCount: Int,
     bedtime: LocalTime?,
     wakeUpTime: LocalTime?,
-    formatter: DateTimeFormatter = rememberDateTimeFormatter("HH:mm"),
 ) {
     val textStyle = MaterialTheme.typography.titleSmall
     val contentColor = CatppuccinColors.subtext0
@@ -40,11 +40,11 @@ fun MinStatistic(
             Icon(
                 imageVector = Icons.Rounded.Edit,
                 contentDescription = "",
-                tint = contentColor
+                tint = contentColor,
             )
 
             Text(
-                text = "$wordCount words",
+                text = stringResource(R.string.label_word_count, wordCount),
                 style = textStyle,
                 color = contentColor,
             )
@@ -52,6 +52,7 @@ fun MinStatistic(
 
         Spacer(modifier = Modifier.height(4.dp))
 
+        if (bedtime == null && wakeUpTime == null) return
         Row(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalAlignment = Alignment.CenterVertically
@@ -63,9 +64,9 @@ fun MinStatistic(
             )
 
             val sleepTimeText = run {
-                val unknown = "?"
-                val first = if (bedtime == null) unknown else formatter.format(bedtime)
-                val second = if (wakeUpTime == null) unknown else formatter.format(wakeUpTime)
+                val unknown = stringResource(R.string.label_not_available)
+                val first = bedtime?.toText() ?: unknown
+                val second = wakeUpTime?.toText() ?: unknown
                 "$first – $second"
             }
             Text(

@@ -1,6 +1,5 @@
 package app.dreamjournal.ui.journal.calendar
 
-import android.content.res.Resources
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -27,7 +26,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -78,7 +76,7 @@ fun Calendar(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
-                    text = currentYearMonthToString(LocalContext.current.resources),
+                    text = currentYearMonthToString(),
                     style = MaterialTheme.typography.titleLarge,
                     color = CatppuccinColors.text,
                 )
@@ -203,9 +201,10 @@ private fun LevelsPreview() {
     }
 }
 
-fun currentYearMonthToString(resources: Resources): String {
+@Composable
+fun currentYearMonthToString(): String {
     val now = LocalDate.now()
-    val resId = when (now.month!!) {
+    val monthResId = when (now.month!!) {
         Month.JANUARY -> R.string.month_january
         Month.FEBRUARY -> R.string.month_february
         Month.MARCH -> R.string.month_march
@@ -219,11 +218,7 @@ fun currentYearMonthToString(resources: Resources): String {
         Month.NOVEMBER -> R.string.month_november
         Month.DECEMBER -> R.string.month_december
     }
-    val month = resources.getString(resId)
-    val year = now.year.toString()
-
-    val pattern = resources.getString(R.string.calendar_pattern)
-    return pattern.format(month, year)
+    return stringResource(R.string.calendar_pattern, stringResource(monthResId), now.year)
 }
 
 private val PREVIEW_YEAR_MONTH = YearMonth.of(2024, Month.FEBRUARY)

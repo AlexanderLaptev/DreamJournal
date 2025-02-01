@@ -8,32 +8,25 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import app.dreamjournal.R
 import app.dreamjournal.data.dream.DreamWithTags
 import app.dreamjournal.data.dream.MockDreamRepository
 import app.dreamjournal.data.dream.Tag
 import app.dreamjournal.data.dream.TagColor
 import app.dreamjournal.ui.shared.DreamCard
-import app.dreamjournal.ui.shared.rememberDateTimeFormatter
 import app.dreamjournal.ui.theme.CatppuccinColors
 import app.dreamjournal.ui.theme.DreamJournalTheme
+import app.dreamjournal.ui.util.toLongText
 import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 
 fun LazyListScope.dreamGroup(
     dreamGroupUiState: DreamGroupUiState,
-    cardFormatter: DateTimeFormatter,
     onDreamClick: (DreamWithTags) -> Unit,
 ) {
     item {
-        val pattern = stringResource(R.string.group_date_pattern)
-        val formatter = rememberDateTimeFormatter(pattern)
-        val dateText = formatter.format(dreamGroupUiState.date)
         Text(
-            text = dateText,
+            text = dreamGroupUiState.date.toLongText(),
             style = MaterialTheme.typography.titleLarge,
             color = CatppuccinColors.subtext0,
         )
@@ -43,8 +36,7 @@ fun LazyListScope.dreamGroup(
         DreamCard(
             dream = withTags.dream,
             tags = withTags.tags,
-            formatter = cardFormatter,
-            onClick = { onDreamClick(withTags) }
+            onClick = { onDreamClick(withTags) },
         )
     }
 }
@@ -75,12 +67,14 @@ private val PREVIEW_DREAM_GROUP = run {
 @Composable
 private fun Preview() {
     DreamJournalTheme {
-        val formatter = rememberDateTimeFormatter()
         LazyColumn(
             horizontalAlignment = Alignment.Start,
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            dreamGroup(PREVIEW_DREAM_GROUP, formatter, {})
+            dreamGroup(
+                dreamGroupUiState = PREVIEW_DREAM_GROUP,
+                onDreamClick = {},
+            )
         }
     }
 }

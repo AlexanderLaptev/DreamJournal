@@ -25,10 +25,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextOverflow
@@ -40,16 +38,16 @@ import app.dreamjournal.data.dream.MockDreamRepository
 import app.dreamjournal.data.dream.Tag
 import app.dreamjournal.data.dream.TagColor
 import app.dreamjournal.ui.theme.CatppuccinColors
+import app.dreamjournal.ui.util.toShortText
+import app.dreamjournal.ui.util.toText
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.ZoneOffset
-import java.time.format.DateTimeFormatter
 
 @Composable
 fun DreamCard(
     dream: Dream,
     tags: List<Tag>,
-    formatter: DateTimeFormatter,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -82,7 +80,6 @@ fun DreamCard(
                     dateTime = dateTime,
                     lucid = dream.isLucid,
                     favorite = dream.isFavorite,
-                    formatter = formatter,
                 )
 
                 Text(
@@ -118,7 +115,6 @@ private fun CardHeader(
     dateTime: LocalDateTime,
     lucid: Boolean,
     favorite: Boolean,
-    formatter: DateTimeFormatter,
     modifier: Modifier = Modifier,
 ) {
     Row(
@@ -135,9 +131,10 @@ private fun CardHeader(
                 color = if (title.isBlank()) CatppuccinColors.overlay0 else CatppuccinColors.text,
             )
 
-            Text(
-                text = formatter.format(dateTime),
-                style = MaterialTheme.typography.titleSmall,
+            DotSeparatedString(
+                dateTime.toLocalDate().toShortText(),
+                dateTime.toLocalTime().toText(),
+                style = MaterialTheme.typography.titleMedium,
                 color = CatppuccinColors.overlay0,
             )
         }
@@ -165,20 +162,6 @@ private fun CardHeader(
             }
         }
     }
-}
-
-@Composable
-fun rememberDateTimeFormatter(useShortFormat: Boolean = true): DateTimeFormatter {
-    val id = if (useShortFormat) R.string.card_pattern_short else R.string.card_pattern_long
-    val pattern = stringResource(id)
-    val locale = LocalConfiguration.current.locales[0]
-    return remember { DateTimeFormatter.ofPattern(pattern, locale) }
-}
-
-@Composable
-fun rememberDateTimeFormatter(pattern: String): DateTimeFormatter {
-    val locale = LocalConfiguration.current.locales[0]
-    return remember { DateTimeFormatter.ofPattern(pattern, locale) }
 }
 
 private val OVERFLOW_TAG = Tag("...")
@@ -214,22 +197,29 @@ private val PREVIEW_TAGS = listOf(
 @Preview
 @Composable
 private fun PreviewWithTitle() {
-    DreamCard(PREVIEW_DREAM, PREVIEW_TAGS.subList(0, 3), rememberDateTimeFormatter(), {})
+    DreamCard(
+        dream = PREVIEW_DREAM,
+        tags = PREVIEW_TAGS.subList(0, 3),
+        onClick = {}
+    )
 }
 
 @Preview
 @Composable
 private fun PreviewTagOverflow() {
-    DreamCard(PREVIEW_DREAM, PREVIEW_TAGS, rememberDateTimeFormatter(), {})
+    DreamCard(
+        dream = PREVIEW_DREAM,
+        tags = PREVIEW_TAGS,
+        onClick = {}
+    )
 }
 
 @Preview
 @Composable
 private fun PreviewNoTitle() {
     DreamCard(
-        PREVIEW_DREAM.copy(title = ""),
-        PREVIEW_TAGS.subList(0, 3),
-        rememberDateTimeFormatter(),
-        {},
+        dream = PREVIEW_DREAM.copy(title = ""),
+        tags = PREVIEW_TAGS.subList(0, 3),
+        onClick = {},
     )
 }

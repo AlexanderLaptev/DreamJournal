@@ -17,9 +17,6 @@
     <string name="screen_statistics">Статистика</string>
     <string name="screen_tools">Инструменты</string>
     <string name="screen_faq">ЧаВо</string>
-    <string name="group_date_pattern">d MMMM yyyy \'г.\'</string>
-    <string name="card_pattern_short">HH:mm</string>
-    <string name="card_pattern_long">d MMMM yyyy \'г.\' - HH:mm</string>
     <string name="month_january">Январь</string>
     <string name="month_february">Февраль</string>
     <string name="month_march">Март</string>
@@ -32,7 +29,6 @@
     <string name="month_october">Октябрь</string>
     <string name="month_november">Ноябрь</string>
     <string name="month_december">Декабрь</string>
-    <string name="calendar_pattern">%1$s %2$s</string>
     <string name="journal_empty_message">У вас ещё нет записанных снов.</string>
     <string name="journal_loading_message">Загрузка…</string>
     <string name="screen_details">Подробности</string>
@@ -48,4 +44,8 @@
     <string name="button_calendar_desc">Календарь</string>
     <string name="button_clear_desc">Очистить</string>
     <string name="button_settings_desc">Настройки</string>
+    <string name="pattern_date_short">d MMM yyyy</string>
+    <string name="pattern_date_long">d MMMM yyyy</string>
+    <string name="label_not_available">н/д</string>
+    <string name="label_word_count">%1$s слов</string>
 </resources>
