@@ -91,7 +91,7 @@ fun TopSearchBar(
                         Row {
                             // Calendar Button
                             AnimatedVisibility(
-                                visible = !expanded,
+                                visible = !searching,
                                 enter = fadeIn(),
                                 exit = fadeOut(),
                             ) {
@@ -106,23 +106,30 @@ fun TopSearchBar(
                             // Settings/Clear Button
                             IconButton(
                                 onClick = {
-                                    // TODO: figure it out
-                                    // expanded -> clear
-                                    // !expanded && !searching -> settings
-                                    // !expanded && searching -> nothing
+                                    if (expanded) {
+                                        onQueryChange("")
+                                    } else {
+                                        if (!searching) onSettings()
+                                    }
                                 }
                             ) {
-                                Crossfade(targetState = searching) {
-                                    if (it) {
-                                        Icon(
-                                            imageVector = Icons.Rounded.Clear,
-                                            contentDescription = "Clear",
-                                        )
-                                    } else {
-                                        Icon(
-                                            imageVector = Icons.Rounded.Settings,
-                                            contentDescription = "Settings",
-                                        )
+                                AnimatedVisibility(
+                                    visible = !(!expanded && query.isNotEmpty()),
+                                    enter = fadeIn(),
+                                    exit = fadeOut(),
+                                ) {
+                                    Crossfade(targetState = searching) {
+                                        if (it) {
+                                            Icon(
+                                                imageVector = Icons.Rounded.Clear,
+                                                contentDescription = "Clear",
+                                            )
+                                        } else {
+                                            Icon(
+                                                imageVector = Icons.Rounded.Settings,
+                                                contentDescription = "Settings",
+                                            )
+                                        }
                                     }
                                 }
                             }
