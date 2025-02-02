@@ -14,5 +14,7 @@ fun NavGraphBuilder.statisticsDestination(
 }
 
 fun NavController.navigateToStatistics() {
-    navigate(DreamJournalNavigation.StatisticsRoute)
+    navigate(DreamJournalNavigation.StatisticsRoute) {
+        launchSingleTop = true
+    }
 }

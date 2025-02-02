@@ -13,8 +13,8 @@ fun NavGraphBuilder.toolsDestination(
     }
 }
 
-fun NavController.navigateToTools(
-    onBack: () -> Unit,
-) {
-    navigate(DreamJournalNavigation.ToolsRoute)
+fun NavController.navigateToTools() {
+    navigate(DreamJournalNavigation.ToolsRoute) {
+        launchSingleTop = true
+    }
 }

@@ -14,5 +14,7 @@ fun NavGraphBuilder.settingsDestination(
 }
 
 fun NavController.navigateToSettings() {
-    navigate(DreamJournalNavigation.SettingsRoute)
+    navigate(DreamJournalNavigation.SettingsRoute) {
+        launchSingleTop = true
+    }
 }

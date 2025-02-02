@@ -20,5 +20,7 @@ fun NavGraphBuilder.dreamDetailsDestination(
 }
 
 fun NavController.navigateToDreamDetails(dreamId: Long) {
-    navigate(DreamJournalNavigation.DreamDetailsRoute(dreamId))
+    navigate(DreamJournalNavigation.DreamDetailsRoute(dreamId)) {
+        launchSingleTop = true
+    }
 }

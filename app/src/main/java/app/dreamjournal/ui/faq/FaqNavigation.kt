@@ -14,5 +14,7 @@ fun NavGraphBuilder.faqDestination(
 }
 
 fun NavController.navigateToFaq() {
-    navigate(DreamJournalNavigation.FaqRoute)
+    navigate(DreamJournalNavigation.FaqRoute) {
+        launchSingleTop = true
+    }
 }
