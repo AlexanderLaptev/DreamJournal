@@ -21,17 +21,21 @@ object MockDreamRepository : DreamRepository {
     val MOCK_DREAMS = let {
         val result = mutableListOf<Dream>()
         repeat(14) {
+            val year = random.nextInt(2020, 2025)
+            val month = random.nextInt(1, 13)
+            val day = random.nextInt(1, 29)
             repeat(random.nextInt(2, 5)) {
-                result += getRandomDream()
+                result += getRandomDream(year, month, day)
             }
         }
         result
     }
 
-    private fun getRandomDream(): Dream {
-        val year = random.nextInt(2020, 2025)
-        val month = random.nextInt(1, 13)
-        val day = random.nextInt(1, 29)
+    private fun getRandomDream(
+        year: Int = random.nextInt(2020, 2025),
+        month: Int = random.nextInt(1, 13),
+        day: Int = random.nextInt(1, 29),
+    ): Dream {
         val hour = random.nextInt(6, 12)
         val minute = random.nextInt(20, 51)
         val second = random.nextInt(0, 60)
