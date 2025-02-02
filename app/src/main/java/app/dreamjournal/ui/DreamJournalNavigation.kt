@@ -2,7 +2,10 @@ package app.dreamjournal.ui
 
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.HelpOutline
 import androidx.compose.material.icons.automirrored.rounded.ListAlt
+import androidx.compose.material.icons.outlined.Inventory2
+import androidx.compose.material.icons.rounded.InsertChartOutlined
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.NavigationBar
@@ -48,21 +51,21 @@ val topLevelDestinations = listOf(
         Icons.AutoMirrored.Rounded.ListAlt,
         DreamJournalNavigation.DreamJournalRoute(),
     ),
-//    TopLevelDestination(
-//        R.string.screen_statistics,
-//        Icons.Rounded.InsertChartOutlined,
-//        DreamJournalNavigation.StatisticsRoute,
-//    ),
-//    TopLevelDestination(
-//        R.string.screen_tools,
-//        Icons.Outlined.Inventory2,
-//        DreamJournalNavigation.ToolsRoute,
-//    ),
-//    TopLevelDestination(
-//        R.string.screen_faq,
-//        Icons.AutoMirrored.Rounded.HelpOutline,
-//        DreamJournalNavigation.FaqRoute,
-//    ),
+    TopLevelDestination(
+        R.string.screen_statistics,
+        Icons.Rounded.InsertChartOutlined,
+        DreamJournalNavigation.StatisticsRoute,
+    ),
+    TopLevelDestination(
+        R.string.screen_tools,
+        Icons.Outlined.Inventory2,
+        DreamJournalNavigation.ToolsRoute,
+    ),
+    TopLevelDestination(
+        R.string.screen_faq,
+        Icons.AutoMirrored.Rounded.HelpOutline,
+        DreamJournalNavigation.FaqRoute,
+    ),
 )
 
 @Composable

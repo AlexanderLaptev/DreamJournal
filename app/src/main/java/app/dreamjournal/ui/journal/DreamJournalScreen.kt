@@ -28,6 +28,7 @@ import app.dreamjournal.R
 import app.dreamjournal.data.di.mockDatabaseModule
 import app.dreamjournal.data.dream.DreamWithTags
 import app.dreamjournal.ui.AppNavigationBar
+import app.dreamjournal.ui.settings.navigateToSettings
 import app.dreamjournal.ui.theme.DreamJournalTheme
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -56,7 +57,7 @@ fun DreamJournalScreen(
                 onExpandedChange = { expanded = it },
                 onSearch = {},
                 onCalendar = {},
-                onSettings = {},
+                onSettings = { navController.navigateToSettings() },
             )
         },
 
