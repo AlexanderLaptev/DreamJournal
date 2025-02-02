@@ -47,8 +47,7 @@ fun DreamDetailsScreen(
             item {
                 DreamHeader(
                     title = dream.title,
-                    createdDate = "Date",
-                    createdTime = "Time",
+                    created = dream.created,
                     isLucid = dream.isLucid,
                     stripColor = dream.color.getColor(CatppuccinColors),
                 )

@@ -72,12 +72,9 @@ fun DreamCard(
             Column(
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                val dateTime = let {
-                    LocalDateTime.ofInstant(dream.created, ZoneId.systemDefault())
-                }
                 CardHeader(
                     title = dream.title,
-                    dateTime = dateTime,
+                    dateTime = LocalDateTime.ofInstant(dream.created, ZoneId.systemDefault()),
                     lucid = dream.isLucid,
                     favorite = dream.isFavorite,
                 )
@@ -131,10 +128,11 @@ private fun CardHeader(
                 color = if (title.isBlank()) CatppuccinColors.overlay0 else CatppuccinColors.text,
             )
 
+            // TODO: add an option to toggle the date
             DotSeparatedString(
                 dateTime.toLocalDate().toShortText(),
                 dateTime.toLocalTime().toText(),
-                style = MaterialTheme.typography.titleMedium,
+                style = MaterialTheme.typography.titleSmall,
                 color = CatppuccinColors.overlay0,
             )
         }

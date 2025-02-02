@@ -1,10 +1,7 @@
 package app.dreamjournal.ui.journal.details
 
 import android.content.res.Configuration
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
@@ -24,21 +21,26 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import app.dreamjournal.R
+import app.dreamjournal.data.dream.TagColor
 import app.dreamjournal.ui.shared.ColorStrip
+import app.dreamjournal.ui.shared.DotSeparatedString
+import app.dreamjournal.ui.shared.getColor
 import app.dreamjournal.ui.theme.CatppuccinColors
 import app.dreamjournal.ui.theme.DreamJournalTheme
 import app.dreamjournal.ui.theme.LucidColor
+import app.dreamjournal.ui.util.toShortText
+import app.dreamjournal.ui.util.toText
+import java.time.Instant
 import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.ZoneOffset
 
 @Composable
 fun DreamHeader(
     title: String,
-    createdDate: String,
-    createdTime: String,
+    created: Instant,
     isLucid: Boolean,
     stripColor: Color,
     modifier: Modifier = Modifier,
@@ -67,15 +69,13 @@ fun DreamHeader(
                 color = textColor
             )
 
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-            ) {
-                val circleColor = CatppuccinColors.overlay0
-                DateText(text = createdDate)
-                Canvas(Modifier.size(4.dp)) { drawCircle(circleColor) }
-                DateText(text = createdTime)
-            }
+            val dateTime = LocalDateTime.ofInstant(created, ZoneId.systemDefault())
+            DotSeparatedString(
+                dateTime.toLocalDate().toShortText(),
+                dateTime.toLocalTime().toText(),
+                style = MaterialTheme.typography.titleMedium,
+                color = CatppuccinColors.overlay0,
+            )
         }
 
         Icon(
@@ -87,42 +87,17 @@ fun DreamHeader(
     }
 }
 
-@Composable
-fun DateText(
-    text: String,
-    dateColor: Color = CatppuccinColors.overlay0,
-    dateSize: TextUnit = 16.sp,
-) {
-    Text(
-        text = text,
-        fontSize = dateSize,
-        color = dateColor
-    )
-}
-
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_NO)
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun Preview() {
-    val now = LocalDateTime.now()
-
-    val createdDate = now.month.toString() + " " + now.dayOfMonth + ", " + now.year
-    val createdTime = now.hour.toString() + ":" + now.minute
-
+    val now = LocalDateTime.of(2025, 1, 15, 13, 35, 20)
     DreamJournalTheme {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp)
-                .background(color = CatppuccinColors.base)
-        ) {
-            DreamHeader(
-                title = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-                createdDate = createdDate.lowercase().replaceFirstChar { it.uppercase() },
-                createdTime = createdTime,
-                isLucid = true,
-                stripColor = CatppuccinColors.yellow
-            )
-        }
+        DreamHeader(
+            title = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+            created = now.toInstant(ZoneOffset.UTC),
+            isLucid = true,
+            stripColor = TagColor.Yellow.getColor(CatppuccinColors),
+        )
     }
 }
