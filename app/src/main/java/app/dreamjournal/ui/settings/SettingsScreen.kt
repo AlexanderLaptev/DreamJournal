@@ -1,5 +1,6 @@
 package app.dreamjournal.ui.settings
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -14,9 +15,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.compose.composable
 import app.dreamjournal.ui.theme.DreamJournalTheme
 import app.dreamjournal.ui.theme.ThemePreference
 import kotlinx.coroutines.CoroutineScope
@@ -25,8 +23,11 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun SettingsScreen(
-    onThemeChange: (ThemePreference) -> Unit,
+    onBack: () -> Unit = {},
+    onThemeChange: (ThemePreference) -> Unit = {}
 ) {
+    BackHandler(onBack = onBack)
+
     val context = LocalContext.current
     val buttonHeight = 48.dp
     val buttonWidth = 160.dp
@@ -89,6 +90,6 @@ fun SpacerBetweenButtons() {
 @Composable
 private fun Preview() {
     DreamJournalTheme {
-        SettingsScreen { }
+        SettingsScreen()
     }
 }

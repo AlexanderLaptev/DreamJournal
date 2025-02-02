@@ -9,7 +9,7 @@ fun NavGraphBuilder.toolsDestination(
     onBack: () -> Unit,
 ) {
     composable<DreamJournalNavigation.ToolsRoute> {
-        ToolsScreen()
+        ToolsScreen(onBack = onBack)
     }
 }
 

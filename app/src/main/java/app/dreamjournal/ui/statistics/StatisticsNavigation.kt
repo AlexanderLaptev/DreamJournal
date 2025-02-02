@@ -9,7 +9,7 @@ fun NavGraphBuilder.statisticsDestination(
     onBack: () -> Unit,
 ) {
     composable<DreamJournalNavigation.StatisticsRoute> {
-        StatisticsScreen()
+        StatisticsScreen(onBack = onBack)
     }
 }
 

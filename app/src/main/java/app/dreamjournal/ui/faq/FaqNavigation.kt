@@ -9,7 +9,7 @@ fun NavGraphBuilder.faqDestination(
     onBack: () -> Unit,
 ) {
     composable<DreamJournalNavigation.FaqRoute> {
-        FaqScreen()
+        FaqScreen(onBack = onBack)
     }
 }
 

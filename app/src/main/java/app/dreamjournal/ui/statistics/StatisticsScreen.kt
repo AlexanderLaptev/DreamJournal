@@ -1,5 +1,6 @@
 package app.dreamjournal.ui.statistics
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
@@ -10,7 +11,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import app.dreamjournal.ui.theme.DreamJournalTheme
 
 @Composable
-fun StatisticsScreen() {
+fun StatisticsScreen(
+    onBack: () -> Unit = {}
+) {
+    BackHandler(onBack = onBack)
+
     // This screen is a plug
     Box(
         modifier = Modifier.fillMaxSize(),

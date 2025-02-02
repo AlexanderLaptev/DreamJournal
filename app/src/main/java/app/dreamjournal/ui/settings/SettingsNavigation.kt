@@ -9,7 +9,7 @@ fun NavGraphBuilder.settingsDestination(
     onBack: () -> Unit,
 ) {
     composable<DreamJournalNavigation.SettingsRoute> {
-        SettingsScreen { }
+        SettingsScreen(onBack = onBack)
     }
 }
 
