@@ -1,5 +1,7 @@
 package app.dreamjournal.ui
 
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -25,6 +27,8 @@ fun DreamJournalNavGraph(
         modifier = modifier,
         navController = navController,
         startDestination = DreamJournalNavigation.DreamJournalRoute(),
+        enterTransition = { EnterTransition.None },
+        exitTransition = { ExitTransition.None }
     ) {
         dreamJournalDestination(
             navController = navController,
