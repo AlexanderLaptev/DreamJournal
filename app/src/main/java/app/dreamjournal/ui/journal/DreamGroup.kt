@@ -32,7 +32,10 @@ fun LazyListScope.dreamGroup(
         )
     }
 
-    items(dreamGroupUiState.dreamsWithTags) { withTags ->
+    items(
+        items = dreamGroupUiState.dreamsWithTags,
+        key = { it.dream.id }
+    ) { withTags ->
         DreamCard(
             dream = withTags.dream,
             tags = withTags.tags,
