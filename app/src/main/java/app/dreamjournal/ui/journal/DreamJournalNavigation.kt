@@ -21,5 +21,6 @@ fun NavGraphBuilder.dreamJournalDestination(
 fun NavController.navigateToDreamJournal() {
     navigate(DreamJournalNavigation.DreamJournalRoute()) {
         launchSingleTop = true
+        popUpTo(0)
     }
 }
