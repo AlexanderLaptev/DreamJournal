@@ -96,8 +96,7 @@ fun TagList(
             verticalArrangement = Arrangement.spacedBy(8.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             maxLines = if (expanded) Int.MAX_VALUE else 2,
-            // FIXME: a bug in FlowRow with a composable overflow element
-            overflow = FlowRowOverflow.expandIndicator { OVERFLOW_TAG }
+            overflow = FlowRowOverflow.expandIndicator { Tag(OVERFLOW_TAG) }
         ) {
             tags.forEach { tag -> Tag(tag = tag) }
         }
@@ -110,7 +109,7 @@ fun TagList(
 private fun Preview() {
     Box(
         modifier = Modifier
-            .fillMaxSize()
+            .fillMaxWidth()
             .background(color = CatppuccinColors.base)
             .padding(16.dp)
     ) {
