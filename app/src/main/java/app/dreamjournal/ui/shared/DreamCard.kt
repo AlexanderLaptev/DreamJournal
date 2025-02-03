@@ -38,6 +38,8 @@ import app.dreamjournal.data.dream.MockDreamRepository
 import app.dreamjournal.data.dream.Tag
 import app.dreamjournal.data.dream.TagColor
 import app.dreamjournal.ui.theme.CatppuccinColors
+import app.dreamjournal.ui.theme.FavoriteColor
+import app.dreamjournal.ui.theme.LucidColor
 import app.dreamjournal.ui.util.toShortText
 import app.dreamjournal.ui.util.toText
 import java.time.LocalDateTime
@@ -147,7 +149,7 @@ private fun CardHeader(
                     imageVector = Icons.Rounded.Brightness7,
                     contentDescription = "",
                     modifier = Modifier.size(iconSize),
-                    tint = CatppuccinColors.mauve,
+                    tint = LucidColor,
                 )
             }
             if (favorite) {
@@ -155,7 +157,7 @@ private fun CardHeader(
                     imageVector = Icons.Rounded.Grade,
                     contentDescription = "",
                     modifier = Modifier.size(iconSize),
-                    tint = CatppuccinColors.yellow,
+                    tint = FavoriteColor,
                 )
             }
         }
