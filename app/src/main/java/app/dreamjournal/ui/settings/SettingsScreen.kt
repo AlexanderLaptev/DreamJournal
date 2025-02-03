@@ -32,10 +32,6 @@ fun SettingsScreen(
         .width(buttonWidth)
         .height(buttonHeight)
 
-    fun handleThemeChanging(themePreference: ThemePreference) {
-        onThemeChange(themePreference)
-    }
-
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -43,9 +39,7 @@ fun SettingsScreen(
     ) {
         Button(
             modifier = buttonModifier,
-            onClick = {
-                handleThemeChanging(themePreference = ThemePreference.Light)
-            }
+            onClick = { onThemeChange(ThemePreference.Light) }
         ) {
             Text(text = "Light Theme")
         }
@@ -54,9 +48,7 @@ fun SettingsScreen(
 
         Button(
             modifier = buttonModifier,
-            onClick = {
-                handleThemeChanging(themePreference = ThemePreference.Dark)
-            }
+            onClick = { onThemeChange(ThemePreference.Dark) }
         ) {
             Text(text = "Dark Theme")
         }
@@ -65,9 +57,7 @@ fun SettingsScreen(
 
         Button(
             modifier = buttonModifier,
-            onClick = {
-                handleThemeChanging(themePreference = ThemePreference.System)
-            }
+            onClick = { onThemeChange(ThemePreference.System) }
         ) {
             Text(text = "System Theme")
         }
