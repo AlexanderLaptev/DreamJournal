@@ -32,6 +32,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import app.dreamjournal.R
+import app.dreamjournal.data.dream.MockTagRepository
 import app.dreamjournal.data.dream.Tag
 import app.dreamjournal.ui.shared.Tag
 import app.dreamjournal.ui.theme.CatppuccinColors
@@ -107,23 +108,12 @@ fun TagList(
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_NO)
 @Composable
 private fun Preview() {
-    val ocean = Tag(label = "ocean", emoji = "\uD83D\uDCA7")
-    val forest = Tag(label = "forest", emoji = "\uD83C\uDF32")
-    val home = Tag(label = "home", emoji = "\uD83C\uDFE0")
-    val work = Tag(label = "work", emoji = "\uD83C\uDFE2")
-    val sad = Tag(label = "sad", emoji = "\uD83D\uDE22")
-    val falseAwakening = Tag(label = "false awakening")
-    val nightmare = Tag(label = "nightmare")
-    val ghosts = Tag(label = "ghosts", emoji = "\uD83D\uDC7B")
-
-    val tags = listOf(ocean, forest, home, work, sad, nightmare, falseAwakening, ghosts)
-
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(color = CatppuccinColors.base)
             .padding(16.dp)
     ) {
-        TagList(tags = tags)
+        TagList(tags = MockTagRepository.MOCK_TAGS)
     }
 }

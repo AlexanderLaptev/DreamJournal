@@ -35,8 +35,8 @@ import androidx.compose.ui.unit.dp
 import app.dreamjournal.R
 import app.dreamjournal.data.dream.Dream
 import app.dreamjournal.data.dream.MockDreamRepository
+import app.dreamjournal.data.dream.MockTagRepository
 import app.dreamjournal.data.dream.Tag
-import app.dreamjournal.data.dream.TagColor
 import app.dreamjournal.ui.theme.CatppuccinColors
 import app.dreamjournal.ui.theme.FavoriteColor
 import app.dreamjournal.ui.theme.LucidColor
@@ -185,14 +185,7 @@ private val PREVIEW_INSTANT = LocalDateTime.of(2025, 1, 15, 7, 35, 20).toInstant
 
 private val PREVIEW_DREAM = MockDreamRepository.MOCK_DREAMS[0]
 
-@Suppress("SpellCheckingInspection")
-private val PREVIEW_TAGS = listOf(
-    Tag("lorem ipsum", "😀", TagColor.Green),
-    Tag("dolor sit", "", TagColor.Purple),
-    Tag("tellus non", "😁", TagColor.Yellow),
-    Tag("auctor yelit", "😎", TagColor.Blue),
-    Tag("lacus metus", "😎", TagColor.White),
-)
+private val PREVIEW_TAGS = MockTagRepository.MOCK_TAGS
 
 @Preview
 @Composable

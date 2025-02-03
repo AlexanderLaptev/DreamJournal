@@ -12,8 +12,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import app.dreamjournal.data.dream.DreamWithTags
 import app.dreamjournal.data.dream.MockDreamRepository
-import app.dreamjournal.data.dream.Tag
-import app.dreamjournal.data.dream.TagColor
+import app.dreamjournal.data.dream.MockTagRepository
 import app.dreamjournal.ui.shared.DreamCard
 import app.dreamjournal.ui.theme.CatppuccinColors
 import app.dreamjournal.ui.theme.DreamJournalTheme
@@ -50,17 +49,11 @@ private val PREVIEW_DREAM_GROUP = run {
         listOf(
             DreamWithTags(
                 MockDreamRepository.MOCK_DREAMS[0],
-                listOf(
-                    Tag("lorem", color = TagColor.Red),
-                    Tag("ipsum", color = TagColor.Yellow),
-                )
+                MockTagRepository.MOCK_TAGS.take(5)
             ),
             DreamWithTags(
                 MockDreamRepository.MOCK_DREAMS[1],
-                listOf(
-                    Tag("dolor", color = TagColor.White),
-                    Tag("sit", color = TagColor.Blue),
-                )
+                MockTagRepository.MOCK_TAGS.reversed().take(2)
             ),
         ),
     )
