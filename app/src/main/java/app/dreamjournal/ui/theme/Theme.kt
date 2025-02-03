@@ -1,6 +1,5 @@
 package app.dreamjournal.ui.theme
 
-import android.util.Log
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
@@ -8,7 +7,6 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.staticCompositionLocalOf
-
 
 @Composable
 fun DreamJournalTheme(
@@ -69,6 +67,9 @@ fun DreamJournalTheme(
 }
 
 val LocalThemePreferenceProvider = staticCompositionLocalOf { ThemePreference.System }
+val LocalThemeChangeProvider = staticCompositionLocalOf<(ThemePreference) -> Unit> {
+    error("onThemeChange is not provided")
+}
 
 enum class ThemePreference {
     Light, Dark, System

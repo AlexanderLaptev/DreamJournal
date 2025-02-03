@@ -16,8 +16,12 @@ import app.dreamjournal.ui.journal.DreamJournalViewModel
 import app.dreamjournal.ui.journal.details.DreamDetailsViewModel
 import app.dreamjournal.ui.settings.Settings
 import app.dreamjournal.ui.theme.DreamJournalTheme
+import app.dreamjournal.ui.theme.LocalThemeChangeProvider
 import app.dreamjournal.ui.theme.LocalThemePreferenceProvider
 import app.dreamjournal.ui.theme.ThemePreference
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -48,8 +52,11 @@ class MainActivity : ComponentActivity() {
                     mutableStateOf(initial)
                 }
 
-                val onThemeChange: (ThemePreference) -> Unit = {
-                    newTheme -> currentTheme = newTheme
+                val onThemeChange: (ThemePreference) -> Unit = { newTheme ->
+                    currentTheme = newTheme
+                    CoroutineScope(Dispatchers.IO).launch {
+                        Settings.saveThemePreference(this@MainActivity, newTheme)
+                    }
                 }
 
                 LaunchedEffect(Unit) {
@@ -57,9 +64,12 @@ class MainActivity : ComponentActivity() {
                     currentTheme = savedTheme ?: ThemePreference.System
                 }
 
-                CompositionLocalProvider(LocalThemePreferenceProvider provides currentTheme) {
+                CompositionLocalProvider(
+                    LocalThemePreferenceProvider provides currentTheme,
+                    LocalThemeChangeProvider provides onThemeChange
+                    ) {
                     DreamJournalTheme(currentTheme) {
-                        DreamJournalNavGraph(onThemeChange = onThemeChange)
+                        DreamJournalNavGraph()
                     }
                 }
             }

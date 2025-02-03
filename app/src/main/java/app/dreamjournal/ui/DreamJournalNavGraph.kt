@@ -14,14 +14,12 @@ import app.dreamjournal.ui.journal.dreamJournalDestination
 import app.dreamjournal.ui.journal.navigateToDreamJournal
 import app.dreamjournal.ui.settings.settingsDestination
 import app.dreamjournal.ui.statistics.statisticsDestination
-import app.dreamjournal.ui.theme.ThemePreference
 import app.dreamjournal.ui.tools.toolsDestination
 
 @Composable
 fun DreamJournalNavGraph(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
-    onThemeChange: (ThemePreference) -> Unit = {}
 ) {
     val onBackPressed = fun() { navController.navigateToDreamJournal() }
 
@@ -42,6 +40,6 @@ fun DreamJournalNavGraph(
         statisticsDestination (onBack = onBackPressed)
         toolsDestination(onBack = onBackPressed)
         faqDestination(onBack = onBackPressed)
-        settingsDestination(onBack = onBackPressed, onThemeChange = onThemeChange)
+        settingsDestination(onBack = onBackPressed)
     }
 }
