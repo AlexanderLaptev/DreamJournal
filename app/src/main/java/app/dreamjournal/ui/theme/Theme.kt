@@ -20,8 +20,6 @@ fun DreamJournalTheme(
         ThemePreference.Dark -> true
         ThemePreference.System -> isSystemInDarkTheme()
     }
-    Log.d(null, "appTheme = $appThemePreference; useDarkTheme = $useDarkThemePreference")
-
     val catppuccinColorScheme = if (useDarkThemePreference) MochaColorScheme else LatteColorScheme
 
     CompositionLocalProvider(
