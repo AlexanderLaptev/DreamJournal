@@ -4,15 +4,19 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import app.dreamjournal.data.di.mockDatabaseModule
 import app.dreamjournal.domain.GetDreamWithTagsUseCase
 import app.dreamjournal.ui.journal.DreamJournalViewModel
 import app.dreamjournal.ui.journal.details.DreamDetailsViewModel
 import app.dreamjournal.ui.settings.Settings
 import app.dreamjournal.ui.theme.DreamJournalTheme
+import app.dreamjournal.ui.theme.LocalThemePreferenceProvider
 import app.dreamjournal.ui.theme.ThemePreference
 import kotlinx.coroutines.runBlocking
 import org.koin.android.ext.koin.androidContext
@@ -38,14 +42,25 @@ class MainActivity : ComponentActivity() {
                     viewModelOf(::DreamDetailsViewModel)
                 })
             }) {
-                val themePreference by rememberSaveable {
+                var currentTheme: ThemePreference by rememberSaveable {
                     val initial = runBlocking { Settings.loadThemePreference(this@MainActivity) }
                         ?: ThemePreference.System
                     mutableStateOf(initial)
                 }
 
-                DreamJournalTheme(themePreference) {
-                    DreamJournalNavGraph()
+                val onThemeChange: (ThemePreference) -> Unit = {
+                    newTheme -> currentTheme = newTheme
+                }
+
+                LaunchedEffect(Unit) {
+                    val savedTheme = Settings.loadThemePreference(this@MainActivity)
+                    currentTheme = savedTheme ?: ThemePreference.System
+                }
+
+                CompositionLocalProvider(LocalThemePreferenceProvider provides currentTheme) {
+                    DreamJournalTheme(currentTheme) {
+                        DreamJournalNavGraph(onThemeChange = onThemeChange)
+                    }
                 }
             }
         }
